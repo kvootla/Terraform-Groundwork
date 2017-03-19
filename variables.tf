@@ -8,6 +8,8 @@ variable "availability_zones" {
   description = "A list of availability zones inside the VPC"
 }
 
+variable "vpc_id" {}
+
 variable "enable_dns_hostnames" {
   description = "True to use private DNS within the VPC"
   default     = true
