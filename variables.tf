@@ -23,15 +23,6 @@ variable "map_public_ip_on_launch" {
   default     = true
 }
 
-variable "private_propagating_vgws" {
-  description = "A list of VGWs the private route table should propagate."
-  default     = []
-}
-
-variable "private_subnets" {
-  default = []
-}
-
 variable "public_propagating_vgws" {
   description = "A list of VGWs the public route table should propagate."
   default     = []
