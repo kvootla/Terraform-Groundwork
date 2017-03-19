@@ -7,5 +7,5 @@ output "public_subnet_ids" {
 }
 
 output "vpc_cidr" {
-  value = "${aws_vpc.vpc.cidr}"
+  value = "${aws_vpc.vpc_cidr}"
 }
