@@ -2,8 +2,6 @@ variable "aws_region" {}
 
 variable "vpc_cidr" {}
 
-variable "vpc_name" {}
-
 variable "availability_zones" {
   description = "A list of availability zones inside the VPC"
 }
