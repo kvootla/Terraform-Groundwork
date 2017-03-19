@@ -20,7 +20,7 @@ provider "aws" {
 // Create Public Subnet
 resource "aws_subnet" "public_subnet" {
   vpc_name                = "${var.vpc_name}"
-  cidr_block              = "${var.public_subnets[count.index]}"
+  cidr_block              = "${var.public_subnets}"
   availability_zones       = "${var.availability_zones}"
   map_public_ip_on_launch = "${var.map_public_ip_on_launch}"
 }
