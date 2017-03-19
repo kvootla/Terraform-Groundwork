@@ -6,7 +6,6 @@ variable "vpc_name" {}
 
 variable "availability_zones" {
   description = "A list of availability zones inside the VPC"
-  default = []
 }
 
 variable "enable_dns_hostnames" {
@@ -31,7 +30,6 @@ variable "public_propagating_vgws" {
 
 variable "public_subnets" {
   description = "A list of public subnets inside the VPC"
-  default = []
 }
 
 variable "aws_access_key" {}
