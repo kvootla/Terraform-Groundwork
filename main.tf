@@ -1,8 +1,8 @@
 // Create Private Subnet
 resource "aws_subnet" "private_subnet" {
-  vpc_id                  = "${var.vpc.id}"
-  cidr_block              = "${var.private_subnets[count.index]}"
-  availability_zone       = "${var.availability_zones[count.index]}"
+  vpc_id                  = "${var.vpc_id}"
+  cidr_block              = "${var.private_subnets}"
+  availability_zone       = "${var.availability_zones}"
   map_public_ip_on_launch = false
   }
 
