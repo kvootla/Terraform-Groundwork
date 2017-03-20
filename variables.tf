@@ -18,6 +18,15 @@ variable "enable_dns_support" {
   default     = true
 }
 
+variable "private_propagating_vgws" {
+  description = "A list of VGWs the private route table should propagate."
+  default     = []
+}
+
+variable "private_subnets" {
+  default = "A list of public subnets inside the VPC"
+}
+
 variable "map_public_ip_on_launch" {
   description = "True to auto-assign public IP on launch"
   default     = true
