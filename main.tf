@@ -1,3 +1,9 @@
+provider "aws" {
+    access_key = "${var.aws_access_key}"
+    secret_key = "${var.aws_secret_key}"
+    region = "${var.aws_region}"
+}
+
 ### ALB resources with a switch - logging enabled/disabled
 
 resource "aws_alb" "alb_loging" {
