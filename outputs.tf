@@ -1,9 +1,3 @@
-# this approach is not working just yet
-output "arn" {
-  value = "${coalesce(var.alb_loging.arn, var.alb_nologing.arn) }"
-
-  /*value = "${var.alb_loging.arn}"*/
-}
 
 output "dns_name" {
   value = "${var.alb_loging.dns_name}"
