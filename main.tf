@@ -8,8 +8,8 @@ provider "aws" {
 
 resource "aws_alb" "alb_loging" {
   name            = "${var.alb_name}"
-  subnets         = ["${split(",", var.subnets)}"]
-  security_groups = ["${split(",", var.alb_security_groups)}"]
+  subnets         = "${var.subnets}"
+  security_groups = "${var.alb_security_groups}"
   internal        = "${var.alb_is_internal}"
 
   access_logs {
@@ -22,8 +22,8 @@ resource "aws_alb" "alb_loging" {
 
 resource "aws_alb" "alb_nologing" {
   name            = "${var.alb_name}"
-  subnets         = ["${split(",", var.subnets)}"]
-  security_groups = ["${split(",", var.alb_security_groups)}"]
+  subnets         = "${var.subnets}"
+  security_groups = "${var.alb_security_groups}"
   internal        = "${var.alb_is_internal}"
 
   count = "${(var.log_bucket == "" || var.log_prefix == "") ? 1 : 0}"
