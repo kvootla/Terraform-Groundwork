@@ -36,27 +36,35 @@ resource "aws_security_group" "main_security_group" {
     vpc_id = "${var.vpc_id}"
 
 
-    // allow traffic for TCP 80
+    // allow traffic for TCP 5671
     ingress {
-        from_port = 80
-        to_port = 80
+        from_port = 5671
+        to_port = 5671
         protocol = "tcp"
         cidr_blocks = ["${var.source_cidr_block}"]
     }
 
-    // allow traffic for TCP 443
+    // allow traffic for TCP 5672
     ingress {
-        from_port = 443
-        to_port = 443
+        from_port = 5672
+        to_port = 5672
+        protocol = "tcp"
+        cidr_blocks = ["${var.source_cidr_block}"]
+    }
+    
+    // allow traffic for TCP 15671
+    ingress {
+        from_port = 15671
+        to_port = 125671
         protocol = "tcp"
         cidr_blocks = ["${var.source_cidr_block}"]
     }
 
-    // allow traffic for TCP 22
+    // allow traffic for TCP 15672
     ingress {
-        from_port       = 22
-        to_port         = 22
-        protocol        = "tcp"                
+        from_port = 15672
+        to_port = 15672
+        protocol = "tcp"
         cidr_blocks = ["${var.source_cidr_block}"]
     }
     
