@@ -51,7 +51,8 @@ resource "aws_security_group" "main_security_group" {
         protocol = "tcp"
         cidr_blocks = ["${var.source_cidr_block}"]
     }
-
+}
+      
 
 /**
  * Outputs
