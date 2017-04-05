@@ -55,7 +55,7 @@ resource "aws_security_group" "main_security_group" {
     // allow traffic for TCP 15671
     ingress {
         from_port = 15671
-        to_port = 125671
+        to_port = 15671
         protocol = "tcp"
         cidr_blocks = ["${var.source_cidr_block}"]
     }
