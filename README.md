@@ -6,11 +6,7 @@ you can use with your service Terraform template.
 
 Ports
 -----
-- TCP 22 (SSH)
-- TCP 80 (HTTP)
-- TCP 443 (HTTPS)
-- TCP 1099 (JMX)
-- TCP 8080 (HTTP/S)
+- UDP 123
 
 Module Input Variables
 ----------------------
@@ -42,4 +38,5 @@ module "sg" {
 
 Outputs
 -------
+
 security_group_id - SG ID
