@@ -36,7 +36,7 @@ resource "aws_security_group" "main_security_group" {
     vpc_id = "${var.vpc_id}"
 
 
-    // allow traffic for TCP 1521
+    // allow traffic for TCP 27017
     ingress {
         from_port = 27017
         to_port = 27017
