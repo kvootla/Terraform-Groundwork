@@ -1,16 +1,12 @@
-Module: AWS/Security Groups
-===========================
+Module: AWS/Security Groups/Oracle
+==================================
 
 A terraform module with contains rules for a common web application deployment, which 
 you can use with your service Terraform template.
 
 Ports
 -----
-- TCP 22 (SSH)
-- TCP 80 (HTTP)
-- TCP 443 (HTTPS)
-- TCP 1099 (JMX)
-- TCP 8080 (HTTP/S)
+- TCP 1521
 
 Module Input Variables
 ----------------------
@@ -42,4 +38,5 @@ module "sg" {
 
 Outputs
 -------
+
 security_group_id - SG ID
