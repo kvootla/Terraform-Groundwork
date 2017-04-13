@@ -21,7 +21,7 @@ variable "aws_region" {}
 
 
 /**
- * Security Groups
+ * Security Groups/Web
  */
 
  // Configuration for the Providers :
