@@ -10,7 +10,7 @@ variable "aws_region" {}
 
 
 /**
- * Resource for Elastic IP
+ * Elastic IP
  */
 
 provider "aws" {
@@ -19,7 +19,6 @@ provider "aws" {
     region = "${var.aws_region}"
 }
 
-# Assign AWS EIP to AWS EC2
 resource "aws_eip" "eip" {
   instance = "${element(split(",", var.instance_ids), count.index)}"
   vpc      = "${var.vpc}"
