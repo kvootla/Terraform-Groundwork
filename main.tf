@@ -1,14 +1,55 @@
-//
-// Module: aws_asg
-//
+/**
+ * Input Variables
+ */
 
-// This template creates the following resources
-// - A launch configuration
-// - A auto-scaling group
-// - It's meant to be used for ASGs that *don't*
-//   need an ELB associated with them.
+variable "lc_name" {}
+variable "ami_id" {}
+variable "instance_type" {}
+variable "iam_instance_profile" {}
+variable "key_name" {}
+variable "security_group" {
+  description = "The security group the instances to use"
+}
 
-// Provider specific configs
+variable "user_data" {
+  description = "The path to a file with user_data for the instances"
+}
+
+variable "asg_name" {}
+variable "asg_number_of_instances" {
+  description = "The number of instances we want in the ASG"
+}
+
+variable "asg_minimum_number_of_instances" {
+  description = "The minimum number of instances the ASG should maintain"
+  default = 1
+}
+
+variable "health_check_grace_period" {
+  description = "Number of seconds for a health check to time out"
+  default = 300
+}
+variable "health_check_type" {
+  default = "EC2"
+}
+
+variable "subnet_azs" {
+  description = "The VPC subnet IDs"
+}
+
+variable "azs" {
+  description = "Availability Zones"
+}
+
+variable "aws_access_key" {}
+variable "aws_secret_key" {}
+variable "aws_region" {}
+
+
+/**
+ * Autoscaling Groups
+ */
+    
 provider "aws" {
     access_key = "${var.aws_access_key}"
     secret_key = "${var.aws_secret_key}"
@@ -26,18 +67,11 @@ resource "aws_launch_configuration" "launch_config" {
 }
 
 resource "aws_autoscaling_group" "main_asg" {
-  //We want this to explicitly depend on the launch config above
   depends_on = ["aws_launch_configuration.launch_config"]
   name = "${var.asg_name}"
-
-  // Split out the AZs string into an array
-  // The chosen availability zones *must* match
-  // the AZs the VPC subnets are tied to.
   availability_zones = ["${split(",", var.azs)}"]
-  // Split out the subnets string into an array
   vpc_zone_identifier = ["${split(",", var.subnet_azs)}"]
 
-  // Uses the ID from the launch config created above
   launch_configuration = "${aws_launch_configuration.launch_config.id}"
 
   max_size = "${var.asg_number_of_instances}"
@@ -45,4 +79,18 @@ resource "aws_autoscaling_group" "main_asg" {
   desired_capacity = "${var.asg_number_of_instances}"
   health_check_grace_period = "${var.health_check_grace_period}"
   health_check_type = "${var.health_check_type}"
+}
+
+
+
+/**
+ * Outputs Varibales
+ */
+
+output "launch_config_id" {
+    value = "${aws_launch_configuration.launch_config.id}"
+}
+
+output "asg_id" {
+    value = "${aws_autoscaling_group.main_asg.id}"
 }
