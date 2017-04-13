@@ -14,17 +14,15 @@ variable "source_cidr_block" {
   description = "The source CIDR block to allow traffic from"
 }
 
-// Providers used in this module
 variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "aws_region" {}
 
 
 /**
- * Security Groups
+ * Security Groups/Oracle
  */
 
- // Configuration for the Providers :
 provider "aws" {
     access_key = "${var.aws_access_key}"
     secret_key = "${var.aws_secret_key}"
