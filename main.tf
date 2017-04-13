@@ -21,17 +21,15 @@ variable "enable_dns_support" {
   default     = false
 }
 
-// Providers used in this module
 variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "aws_region" {}
 
-//------------------------------------------------------------------------------------------------------------------------------
+
 /**
- * Resource for EC2 Instance
+ * VPC
  */
 
-// Configuration for the Providers :
 provider "aws" {
     access_key = "${var.aws_access_key}"
     secret_key = "${var.aws_secret_key}"
@@ -46,12 +44,11 @@ resource "aws_vpc" "mod" {
   tags                 = "${merge(var.tags, map("Name", format("%s", var.name)))}"
   }
 
-//------------------------------------------------------------------------------------------------------------------------------
+
 /**
  * Outputs Varibales
  */
 
-// Output for the VPC
 output "vpc_id" {
   value = "${aws_vpc.mod.id}"
 }
