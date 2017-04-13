@@ -6,8 +6,6 @@ variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "aws_region" {}
 
-# RDS Instance Variables
-
 variable "rds_instance_identifier" {
     description = "Custom name of the instance"
 }
@@ -34,21 +32,14 @@ variable "rds_engine_type" {
     # - postgres
     # - oracle-*
     # - sqlserver-*
-    # See http://docs.aws.amazon.com/cli/latest/reference/rds/create-db-instance.html
-    # --engine
 }
 
 variable "rds_engine_version" {
     description = "Database engine version, depends on engine type"
-    # For valid engine versions, see:
-    # See http://docs.aws.amazon.com/cli/latest/reference/rds/create-db-instance.html
-    # --engine-version
 }
 
 variable "rds_instance_class" {
     description = "Class of RDS instance"
-    # Valid values
-    # https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html
 }
 
 variable "auto_minor_version_upgrade" {
@@ -65,13 +56,10 @@ variable "database_name" {
     description = "The name of the database to create"
 }
 
-# Self-explainatory variables
 variable "database_user" {}
 variable "database_password" {}
 variable "database_port" {}
 
-# This is for a custom parameter to be passed to the DB
-# We're "cloning" default ones, but we need to specify which should be copied
 variable "db_parameter_group" {
     description = "Parameter group, depends on DB engine used"
     # default = "mysql5.6"
@@ -83,7 +71,6 @@ variable "publicly_accessible" {
     default = false
 }
 
-# RDS Subnet Group Variables
 variable "subnets" {
     description = "List of subnets DB should be available at. It might be one subnet."
     type = "list"
@@ -101,7 +88,7 @@ variable "rds_vpc_id" {
 
 
 /**
- * Resource for RDS
+ * RDS
  */
 
 provider "aws" {
@@ -109,11 +96,6 @@ provider "aws" {
     secret_key = "${var.aws_secret_key}"
     region = "${var.aws_region}"
 }
-
-// This template creates the following resources
-// - An RDS instance
-// - A database subnet group
-// - You should want your RDS instance in a VPC
 
 resource "aws_db_instance" "main_rds_instance" {
     identifier = "${var.rds_instance_identifier}"
@@ -146,17 +128,6 @@ resource "aws_db_instance" "main_rds_instance" {
 resource "aws_db_parameter_group" "main_rds_instance" {
     name = "${var.rds_instance_identifier}-${replace(var.db_parameter_group, ".", "")}-custom-params"
     family = "${var.db_parameter_group}"
-
-    # Example for MySQL
-    # parameter {
-    #   name = "character_set_server"
-    #   value = "utf8"
-    # }
-
-    # parameter {
-    #   name = "character_set_client"
-    #   value = "utf8"
-    # }
 }
 
 resource "aws_db_subnet_group" "main_db_subnet_group" {
