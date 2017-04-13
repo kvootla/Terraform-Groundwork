@@ -46,7 +46,7 @@ variable "aws_region" {}
 
 
 /**
- * Resource for ELB/Http
+ * Elstic Load Balancer/http
  */
 
 provider "aws" {
