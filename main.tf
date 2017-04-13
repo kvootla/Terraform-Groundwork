@@ -21,10 +21,9 @@ variable "aws_region" {}
 
 
 /**
- * Security Groups
+ * Security Groups/Mongodb
  */
 
- // Configuration for the Providers :
 provider "aws" {
     access_key = "${var.aws_access_key}"
     secret_key = "${var.aws_secret_key}"
