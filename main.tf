@@ -33,7 +33,7 @@ variable "subnets" {
 
 
 /**
- * Resource for EC2 Instance
+ * Application Load Balancer
  */
 
 provider "aws" {
