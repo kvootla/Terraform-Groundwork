@@ -11,7 +11,7 @@ variable "aws_region" {}
 
 
 /**
- * Resource for Internet Gateway
+ * Internet Gateway
  */
 
 provider "aws" {
