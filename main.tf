@@ -7,8 +7,7 @@ variable "aws_secret_key" {}
 variable "aws_region" {}
 
 variable "cidrs" {
-  type        = "map"
-  description = "A map with key being the availability zone and value the CIDR range."
+  description = "A list with key being the availability zone and value the CIDR range."
 }
 
 variable "vpc_id" {
