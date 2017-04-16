@@ -34,15 +34,6 @@ variable "map_public_ip_on_launch" {
   default = false
 }
 
-variable "public_propagating_vgws" {
-  description = "A list of VGWs the public route table should propagate."
-  default     = []
-}
-
-variable "public_subnets" {
-  description = "A list of public subnets inside the VPC"
-}
-
 variable "organization" {}
 
 variable "environment" {}
