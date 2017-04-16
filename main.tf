@@ -3,6 +3,10 @@
  * Inputs
  */
 
+variable "aws_access_key" {}
+variable "aws_secret_key" {}
+variable "aws_region" {}
+
 variable "instance_name" {
   description = "Used to populate the Name tag. This is done in main.tf"
 }
@@ -39,6 +43,12 @@ variable "tags" {
 /**
  * EC2 Instances
  */
+
+provider "aws" {
+    access_key = "${var.aws_access_key}"
+    secret_key = "${var.aws_secret_key}"
+    region = "${var.aws_region}"
+}
 
 resource "aws_instance" "main" {
     ami		         = "${var.ami_id}"
