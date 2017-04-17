@@ -28,6 +28,9 @@ variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "aws_region" {}
 
+
+variable "igw_id" {}
+
   
 /**
  * Subnets
@@ -48,6 +51,43 @@ resource "aws_subnet" "public_subnet" {
 
 
 /**
+ * Routes
+ */
+
+resource "aws_route_table" "main" {
+  vpc_id = "${var.vpc_id}"
+  count  = 1
+
+}
+
+resource "aws_route_table_association" "main" {
+  subnet_id      = "${element(aws_subnet.main.*.id, count.index)}"
+  route_table_id = "${element(aws_route_table.main.*.id, count.index)}"
+  count          = "${length(keys(var.vpc_cidr))}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_route" "igw" {
+  route_table_id         = "${element(aws_route_table.main.*.id, count.index)}"
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = "${var.igw_id}"
+  count                  = "${length(keys(var.vpc_cidr))}"
+
+  depends_on = [
+    "aws_route_table.main",
+  ]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+
+
+/**
  * Outputs Varibales
  */
 
@@ -58,4 +98,10 @@ output "public_subnet_cidr_blocks" {
 
 output "public_subnet_ids" {
   value = ["${aws_subnet.public_subnet.*.id}"]
+}
+
+output "route_table_ids" {
+  value = [
+    "${aws_route_table.main.*.id}"
+  ]
 }
