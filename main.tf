@@ -93,11 +93,11 @@ resource "aws_route" "igw" {
 
 
 output "public_subnet_cidr_blocks" {
-  value = ["${aws_subnet.public_subnet.*.cidr_block}"]
+  value = ["${aws_subnet.main.*.cidr_block}"]
 }
 
 output "public_subnet_ids" {
-  value = ["${aws_subnet.public_subnet.*.id}"]
+  value = ["${aws_subnet.main.*.id}"]
 }
 
 output "route_table_ids" {
