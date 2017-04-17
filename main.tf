@@ -28,15 +28,6 @@ variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "aws_region" {}
 
-variable "organization" {
-  description = "Organization the VPC is for."
-}
-
-variable "environment" {
-  description = "Environment the VPC is for."
-  default     = ""
-}
-
   
 /**
  * Subnets
@@ -54,12 +45,6 @@ resource "aws_subnet" "public_subnet" {
   availability_zone       = "${var.availability_zones}"
   map_public_ip_on_launch = "${var.map_public_ip_on_launch}"
 }
-
-tags {
-    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-subnet"
-    Organization = "${var.organization}"
-    Terraform    = "true"
-  }
 
 
 /**
