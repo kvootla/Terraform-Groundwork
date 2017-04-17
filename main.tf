@@ -14,10 +14,6 @@ variable "subnet_id" {
 
 variable "key_name" {}
 
-variable "vpc_id" {
-  description = "VPC ID"
-}
-
 variable "ami_id" {
   description = "The AMI to use"
 }
@@ -57,7 +53,6 @@ resource "aws_instance" "ec2_instance" {
     count 			 = "${var.number_of_instances}"
     subnet_id 		 = "${var.subnet_id}"
     instance_type    = "${var.instance_type}"
-    vpc_id           = "${var.vpc_id}"
     user_data 		 = "${file(var.user_data)}"
     key_name 		 = "${var.key_name}"
     
