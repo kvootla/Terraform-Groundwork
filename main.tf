@@ -77,5 +77,5 @@ resource "aws_instance" "main" {
  */
 
 output "ec2_instance_id" {
-  value = "${aws_instance.ec2_instance.id}"
+  value = "${aws_instance.main.id}"
 }
