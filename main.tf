@@ -2,7 +2,7 @@
  * Input Variables
  */
 
-variable "vpc_cidr" {}
+variable "cidrs" {}
 
 variable "vpc_id" {}
 
@@ -18,6 +18,15 @@ variable "enable_dns_hostnames" {
 variable "enable_dns_support" {
   description = "True to use private DNS within the VPC"
   default     = true
+}
+
+variable "private_propagating_vgws" {
+  description = "A list of VGWs the private route table should propagate."
+  default     = []
+}
+
+variable "private_subnets" {
+  default = "A list of public subnets inside the VPC"
 }
 
 variable "map_public_ip_on_launch" {
@@ -55,7 +64,7 @@ provider "aws" {
 
 resource "aws_subnet" "public_subnet" {
   vpc_id                  = "${var.vpc_id}"
-  cidr_block              = "${var.public_subnets}"
+  cidrs                   = "${var.public_subnets}"
   availability_zone       = "${var.availability_zones}"
   map_public_ip_on_launch = "${var.map_public_ip_on_launch}"
 
@@ -64,7 +73,7 @@ resource "aws_subnet" "public_subnet" {
   }
 
 tags {
-    Name         = "${format("%s-%s-%s-%s", var.organization, var.environment, "pub", substr(element(keys(cidr_block), count.index), -2, -1))}-subnet"
+    Name         = "${format("%s-%s-%s-%s", var.organization, var.environment, "pub", substr(element(keys(var.cidrs), count.index), -2, -1))}-subnet"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
@@ -77,8 +86,8 @@ tags {
  */
 
 
-output "public_subnet_cidr_blocks" {
-  value = ["${aws_subnet.public_subnet.*.cidr_block}"]
+output "public_subnet_cidrs" {
+  value = ["${aws_subnet.public_subnet.*.cidrs}"]
 }
 
 output "public_subnet_ids" {
