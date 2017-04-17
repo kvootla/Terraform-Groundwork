@@ -1,18 +1,16 @@
-
 /**
  * Inputs
  */
-
-variable "aws_access_key" {}
-variable "aws_secret_key" {}
-variable "aws_region" {}
-
-variable "instance_name" {
-  description = "Used to populate the Name tag. This is done in main.tf"
+  
+variable "ami_id" {
+  description = "AMI to serve as base of server build"
 }
 
-variable "ami_id" {
-  description = "The AMI to use"
+variable "instance_type" {
+  description = "Instance type"
+}
+variable "instance_name" {
+  description = "Used to populate the Name tag"
 }
 
 variable "number_of_instances" {
@@ -20,12 +18,18 @@ variable "number_of_instances" {
   default = 1
 }
 
+variable "aws_access_key" {}
+variable "aws_secret_key" {}
+variable "aws_region" {}
+
+
 variable "subnet_id" {
   description = "The VPC subnet the instance(s) will go in"
 }
 
-variable "instance_type" {}
-
+variable "vpc_id" {
+  description = "VPC ID"
+}
 
 variable "user_data" {
    description = "The path to a file with user_data for the instances"
@@ -47,16 +51,20 @@ variable "tags" {
 provider "aws" {
     access_key = "${var.aws_access_key}"
     secret_key = "${var.aws_secret_key}"
-    region = "${var.aws_region}"
+    region     = "${var.aws_region}"
 }
 
 resource "aws_instance" "main" {
     ami		         = "${var.ami_id}"
+    instance_type    = "${var.instance_type}"
+    instance_name    = "${var.instance_name}"
     count	         = "${var.number_of_instances}"
     subnet_id	     = "${var.subnet_id}"
-    instance_type  = "${var.instance_type}"
+    vpc_id           = "${var.vpc_id}"
     user_data	     = "${file(var.user_data)}"
     key_name 	     = "${var.key_name}"
+    
+
     tags {
         created_by = "${lookup(var.tags,"created_by")}"
         Name	     = "${var.instance_name}-${count.index}"
