@@ -42,7 +42,7 @@ provider "aws" {
     region = "${var.aws_region}"
 }
 
-resource "aws_subnet" "public_subnet" {
+resource "aws_subnet" "main" {
   vpc_id                  = "${var.vpc_id}"
   cidr_block              = "${var.public_subnets}"
   availability_zone       = "${var.availability_zones}"
