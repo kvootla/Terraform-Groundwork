@@ -38,14 +38,6 @@ variable "aws_secret_key" {}
 variable "aws_region" {}
 
 
-variable "security_group_id" {
-  description = "The name for the security group"
-}
-
-variable "vpc_id" {
-  description = "The VPC ID"
-  }
-
 /**
  * EC2 Instance
  */
@@ -63,8 +55,6 @@ resource "aws_instance" "ec2_instance" {
     instance_type    = "${var.instance_type}"
     user_data 		   = "${file(var.user_data)}"
     key_name 		     = "${var.key_name}"
-    security_group_id   = "${var.security_group_id}"  
-    vpc_id              = "${var.vpc_id}"
 
     tags {
         created_by = "${lookup(var.tags,"created_by")}"
