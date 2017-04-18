@@ -17,10 +17,6 @@ variable "map_public_ip_on_launch" {
   default = false
 }
 
-variable "availability_zone" {
-  description = "A list of availability zones inside the VPC"
-}
-
 variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "aws_region" {}
