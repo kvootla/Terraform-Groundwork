@@ -21,6 +21,10 @@ variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "aws_region" {}
 
+variable "organization" {}
+
+variable "environment" {}
+
 
 /**
  * Subnets
@@ -42,6 +46,12 @@ resource "aws_subnet" "main" {
   lifecycle {
     create_before_destroy = true
   }
+  
+  tags {
+    Name         = "${format("%s-%s-%s-%s", var.organization, var.environment, "pub", substr(element(keys(var.cidrs), count.index), -2, -1))}-subnet"
+    Organization = "${var.organization}"
+    Terraform    = "true"
+  }
 }
 
 
@@ -52,6 +62,12 @@ resource "aws_subnet" "main" {
 resource "aws_route_table" "main" {
   vpc_id = "${var.vpc_id}"
   count  = 1
+
+tags {
+    Name         = "${format("%s-%s-%s", var.organization, var.environment, "pub")}-rtb"
+    Organization = "${var.organization}"
+    Terraform    = "true"
+  }
 }
 
 resource "aws_route_table_association" "main" {
