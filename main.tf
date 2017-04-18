@@ -73,7 +73,7 @@ resource "aws_instance" "main" {
 
 
 /**
- * Outputs Varibales
+ * Outputs Variables
  */
 
 output "main_id" {
