@@ -15,8 +15,8 @@ variable "security_groups" {
   description = "a comma separated lists of security group IDs"
 }
 
-variable "vpc_id" {
-  description = "VPC ID"
+variable "user_data" {
+   description = "The path to a file with user_data for the instances"
 }
 
 variable "key_name" {
