@@ -48,7 +48,7 @@ resource "aws_subnet" "main" {
   }
   
   tags {
-    Name         = "${format("%s-%s-%s-%s", var.organization, var.environment, "pub", subnet(element(keys(var.cidrs), count.index), -2, -1))}-subnet"
+    Name         = "${format("%s-%s-%s-%s", var.organization, var.environment, "pub", substr(element(keys(var.cidrs), count.index), -2, -1))}-subnet"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
