@@ -5,7 +5,7 @@
 variable "cidrs" {
   type        = "map"
   default     = {
-    us-east-1a = "10.0.1.0/16"
+    "us-east-1a" = "10.0.1.0/16"
     }
   
   description = "A map with key being the availability zone and value the CIDR range."
