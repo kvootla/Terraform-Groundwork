@@ -56,12 +56,6 @@ resource "aws_subnet" "main" {
 resource "aws_route_table" "main" {
   vpc_id = "${var.vpc_id}"
   count  = 1
-
-  tags {
-    Name         = "${format("%s-%s-%s", var.organization, var.environment, "pub")}-rtb"
-    Organization = "${var.organization}"
-    Terraform    = "true"
-  }
 }
 
 resource "aws_route_table_association" "main" {
