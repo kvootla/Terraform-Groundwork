@@ -2,40 +2,41 @@
  * Input Variables
  */
 
-variable "instance_name" {
-  description = "Used to populate the Name tag. This is done in main.tf"
+variable "ami_id" {
+  description = "AMI to serve as base of server build"
 }
 
-variable "instance_type" {}
-
-variable "subnet_id" {
-  description = "The VPC subnet the instance(s) will go in"
+variable "instance_type" {
+  default     = "t2.micro"
+  description = "Instance type, see a list at: https://aws.amazon.com/ec2/instance-types/"
 }
-
-variable "key_name" {}
-
 
 variable "security_groups" {
   description = "a comma separated lists of security group IDs"
 }
 
-variable "ami_id" {
-  description = "The AMI to use"
+variable "vpc_id" {
+  description = "VPC ID"
 }
 
-variable "number_of_instances" {
-  description = "number of instances to make"
-  default = 1
+variable "key_name" {
+  description = "The SSH key pair, key name"
 }
 
-variable "user_data" {
-   description = "The path to a file with user_data for the instances"
+variable "subnet_id" {
+  description = "A external subnet id"
 }
 
-variable "tags" {
-  default = {
-    created_by = "terraform"
- }
+variable "environment" {
+  description = "Environment tag, e.g prod"
+}
+
+variable "organization" {
+  description = "Organization tag e.g. dchbx"
+}
+
+variable "application" {
+  description = "Application tag e.g. dchbx"
 }
 
 variable "aws_access_key" {}
@@ -53,23 +54,22 @@ provider "aws" {
     region     = "${var.aws_region}"
 }
 
-resource "aws_instance" "ec2_instance" {
-    ami 			       = "${var.ami_id}"
-    count 			     = "${var.number_of_instances}"
-    subnet_id 		   = "${var.subnet_id}"
-    instance_type    = "${var.instance_type}"
-    user_data 		   = "${file(var.user_data)}"
-    key_name 		     = "${var.key_name}"
+resource "aws_instance" "main" {
+  ami                    = "${var.ami_id}"
+  source_dest_check      = true
+  instance_type          = "${var.instance_type}"
+  subnet_id              = "${var.subnet_id}"
+  key_name               = "${var.key_name}"
+  vpc_security_group_ids = ["${split(",",var.security_groups)}"]
+  monitoring             = true
+  user_data              = "${file(format("%s/user_data.sh", path.module))}"
 
-    tags {
-        created_by = "${lookup(var.tags,"created_by")}"
-        // Takes the instance_name input variable and adds
-        //  the count.index to the name., e.g.
-        //  "example-host-web-1"
-        Name = "${var.instance_name}-${count.index}"
-    }
+  tags {
+    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-i"
+    Organization = "${var.organization}"
+    Terraform    = "true"
+  }
 }
-
 
 
 /**
