@@ -60,7 +60,6 @@ resource "aws_instance" "ec2_instance" {
     instance_type    = "${var.instance_type}"
     user_data 		   = "${file(var.user_data)}"
     key_name 		     = "${var.key_name}"
-    vpc_security_group_ids = ["${split(",",var.security_groups)}"]
 
     tags {
         created_by = "${lookup(var.tags,"created_by")}"
