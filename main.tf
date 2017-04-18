@@ -3,9 +3,6 @@
  */
 
 variable "cidrs" { }
-  
-  description = "A map with key being the availability zone and value the CIDR range."
-}
 
 variable "vpc_id" {
   description = "The VPC ID."
