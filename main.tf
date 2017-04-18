@@ -17,13 +17,14 @@ variable "map_public_ip_on_launch" {
   default = false
 }
 
+variable "availability_zone" {
+  description = "A list of availability zones inside the VPC"
+}
+
 variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "aws_region" {}
 
-variable "organization" {}
-
-variable "environment" {}
 
 /**
  * Subnets
@@ -44,12 +45,6 @@ resource "aws_subnet" "main" {
 
   lifecycle {
     create_before_destroy = true
-  }
-
-  tags {
-    Name         = "${format("%s-%s-%s-%s", var.organization, var.environment, "pub", substr(element(keys(var.cidrs), count.index), -2, -1))}-subnet"
-    Organization = "${var.organization}"
-    Terraform    = "true"
   }
 }
 
