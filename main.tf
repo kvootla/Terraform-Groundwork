@@ -40,7 +40,7 @@ resource "aws_subnet" "main" {
   vpc_id                  = "${var.vpc_id}"
   cidr_block              = "${var.cidrs[element(keys(var.cidrs), count.index)]}"
   availability_zone       = "${element(keys(var.cidrs), count.index)}"
-  count                   = "${length(var.cidrs)}"
+  count                   = "${length(keys(var.cidrs))}"
   map_public_ip_on_launch = "${var.map_public_ip_on_launch}"
 
   lifecycle {
@@ -61,7 +61,7 @@ resource "aws_route_table" "main" {
 resource "aws_route_table_association" "main" {
   subnet_id      = "${element(aws_subnet.main.*.id, count.index)}"
   route_table_id = "${element(aws_route_table.main.*.id, count.index)}"
-  count          = "${length(var.cidrs)}"
+  count                   = "${length(keys(var.cidrs))}"
 
   lifecycle {
     create_before_destroy = true
@@ -72,7 +72,7 @@ resource "aws_route" "igw" {
   route_table_id         = "${element(aws_route_table.main.*.id, count.index)}"
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = "${var.igw_id}"
-  count                  = "${length(var.cidrs)}"
+  count                   = "${length(keys(var.cidrs))}"
 
   depends_on = [
     "aws_route_table.main",
