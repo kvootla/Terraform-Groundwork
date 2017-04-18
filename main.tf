@@ -2,7 +2,11 @@
  * Inputs
  */
 
-variable "cidrs" { }
+variable "cidrs" {
+  type        = "map"
+  default     = { }
+  description = "A map with key being the availability zone and value the CIDR range."
+}
 
 variable "vpc_id" {
   description = "The VPC ID."
