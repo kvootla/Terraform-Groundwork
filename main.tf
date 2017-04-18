@@ -3,7 +3,7 @@
  */
 
 variable "cidrs" {
-  type        = "map"
+  type        = "string"
   description = "A map with key being the availability zone and value the CIDR range."
 }
 
