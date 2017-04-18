@@ -14,7 +14,10 @@ variable "subnet_id" {
 
 variable "key_name" {}
 
-variable "security_group_id" {}
+
+variable "security_groups" {
+  description = "a comma separated lists of security group IDs"
+}
 
 variable "ami_id" {
   description = "The AMI to use"
@@ -57,7 +60,7 @@ resource "aws_instance" "ec2_instance" {
     instance_type    = "${var.instance_type}"
     user_data 		   = "${file(var.user_data)}"
     key_name 		     = "${var.key_name}"
-    security_group_id = "${var.security_group_id}"
+    vpc_security_group_ids = ["${split(",",var.security_groups)}"]
 
     tags {
         created_by = "${lookup(var.tags,"created_by")}"
