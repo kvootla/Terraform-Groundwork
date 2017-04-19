@@ -62,7 +62,7 @@ resource "aws_instance" "main" {
   key_name               = "${var.key_name}"
   vpc_security_group_ids = ["${split(",",var.security_groups)}"]
   monitoring             = true
-  user_data              = "${file(filepath.sh)}"
+  user_data              = "${file("filepath.sh")}"
 
   tags {
     Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-i"
