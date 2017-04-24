@@ -33,15 +33,6 @@ resource "aws_vpc" "abc" {
   tags                 = "${merge(var.tags, map("Name", format("%s", var.name)))}"
   
   }
-
-//IGW Resource for Module 
-resource "aws_internet_gateway" "abc" {
-  vpc_id = "${aws_vpc.abc.id}"
-
-  tags {
-    Name = "abc-igw"
-}
-  }
   
 
 /**
