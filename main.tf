@@ -26,7 +26,7 @@ variable "enable_dns_support" {
  */
 
 //VPC Resource for Module
-resource "aws_vpc" "mod" {
+resource "aws_vpc" "my_existing_vpc" {
   cidr_block           = "${var.cidr}"
   enable_dns_hostnames = "${var.enable_dns_hostnames}"
   enable_dns_support   = "${var.enable_dns_support}"
@@ -39,6 +39,6 @@ resource "aws_vpc" "mod" {
  */
 
 output "vpc_id" {
-  value = "${aws_vpc.mod.id}"
+  value = "${aws_vpc.my_existing_vpc.id}"
 }
 
