@@ -41,7 +41,8 @@ resource "aws_internet_gateway" "abc" {
   tags {
     Name = "abc-igw"
 }
-
+  }
+  
 
 /**
  * Outputs Varibales
