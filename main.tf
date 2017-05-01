@@ -39,10 +39,20 @@ variable "application" {
   description = "Application tag e.g. dchbx"
 }
 
+variable "aws_access_key" {}
+variable "aws_secret_key" {}
+variable "aws_region" {}
+
 
 /**
  * EC2 Instance
  */
+
+ provider "aws" {
+    access_key = "${var.aws_access_key}"
+    secret_key = "${var.aws_secret_key}"
+    region     = "${var.aws_region}"
+}
 
 resource "aws_instance" "main" {
   ami                    = "${var.ami_id}"
