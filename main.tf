@@ -12,7 +12,7 @@ variable "instance_type" {
 }
 
 variable "security_groups" {
-  default     = []
+  description = "a comma separated lists of security group IDs"
 }
 
 variable "user_data" {
@@ -39,20 +39,10 @@ variable "application" {
   description = "Application tag e.g. dchbx"
 }
 
-variable "aws_access_key" {}
-variable "aws_secret_key" {}
-variable "aws_region" {}
-
 
 /**
  * EC2 Instance
  */
-
-provider "aws" {
-    access_key = "${var.aws_access_key}"
-    secret_key = "${var.aws_secret_key}"
-    region     = "${var.aws_region}"
-}
 
 resource "aws_instance" "main" {
   ami                    = "${var.ami_id}"
@@ -60,7 +50,7 @@ resource "aws_instance" "main" {
   instance_type          = "${var.instance_type}"
   subnet_id              = "${var.subnet_id}"
   key_name               = "${var.key_name}"
-  vpc_security_group_ids = "${element(var.security_groups, count.index)}"
+  vpc_security_group_ids = ["${split(",",var.security_groups)}"]
   monitoring             = true
   user_data              = "${file("filepath.sh")}"
 
