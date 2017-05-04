@@ -5,7 +5,7 @@
 
 variable "sg_type" {
   description = "The type of traffic the security group is enabling."
-  default     = "ssh"
+  default     = "web"
 }
 
 variable "vpc_id" {
@@ -52,7 +52,7 @@ resource "aws_security_group" "main_security_group" {
         cidr_blocks = ["${var.source_cidr_block}"]
     }
 
-    // allow traffic for TCP 443
+ // allow traffic for TCP 443
     ingress {
         from_port = 443
         to_port = 443
