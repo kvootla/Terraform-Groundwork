@@ -1,9 +1,11 @@
+
 /**
  * Inputs
  */
 
-variable "security_group_name" {
-  description = "The name for the security group"
+variable "sg_type" {
+  description = "The type of traffic the security group is enabling."
+  default     = "ssh"
 }
 
 variable "vpc_id" {
@@ -14,27 +16,35 @@ variable "source_cidr_block" {
   description = "The source CIDR block to allow traffic from"
 }
 
+variable "organization" {
+  description = "Organization the SG is for."
+}
+
+variable "environment" {
+  description = "Environment the SG is for."
+  default     = ""
+}
+
 variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "aws_region" {}
 
 
 /**
- * Security Groups/Web
+ * Security Groups/SSH
  */
 
 provider "aws" {
     access_key = "${var.aws_access_key}"
     secret_key = "${var.aws_secret_key}"
-    region = "${var.aws_region}"
+    region     = "${var.aws_region}"
   }
    
 resource "aws_security_group" "main_security_group" {
-    name = "${var.security_group_name}"
+    name   = "${format("%s-%s-%s", var.organization, var.environment, var.sg_type)}"
     vpc_id = "${var.vpc_id}"
 
-
-    // allow traffic for TCP 80
+ // allow traffic for TCP 80
     ingress {
         from_port = 80
         to_port = 80
@@ -49,8 +59,15 @@ resource "aws_security_group" "main_security_group" {
         protocol = "tcp"
         cidr_blocks = ["${var.source_cidr_block}"]
     }
-}
       
+  tags {
+    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.sg_type)}-sg"
+    Organization = "${var.organization}"
+    Terraform    = "true"
+  }
+    
+}
+
 
 /**
  * Outputs
@@ -59,4 +76,3 @@ resource "aws_security_group" "main_security_group" {
 output "security_group_id" {
   value = "${aws_security_group.main_security_group.id}"
 }
-
