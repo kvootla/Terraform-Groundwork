@@ -5,7 +5,7 @@
 
 variable "sg_type" {
   description = "The type of traffic the security group is enabling."
-  default     = "ssh"
+  default     = "ntp"
 }
 
 variable "vpc_id" {
@@ -44,7 +44,7 @@ resource "aws_security_group" "main_security_group" {
     name   = "${format("%s-%s-%s", var.organization, var.environment, var.sg_type)}"
     vpc_id = "${var.vpc_id}"
 
-    // allow traffic for UDP 123
+ // allow traffic for UDP 123
     ingress {
         from_port = 123
         to_port = 123
@@ -59,7 +59,6 @@ resource "aws_security_group" "main_security_group" {
   }
     
 }
-
 
 /**
  * Outputs
