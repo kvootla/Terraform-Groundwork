@@ -2,8 +2,9 @@
  * Inputs
  */
 
-variable "security_group_name" {
-  description = "The name for the security group"
+variable "sg_type" {
+  description = "The type of traffic the security group is enabling."
+  default     = "ssh"
 }
 
 variable "vpc_id" {
@@ -14,16 +15,13 @@ variable "source_cidr_block" {
   description = "The source CIDR block to allow traffic from"
 }
 
-variable "environment" {
-  description = "Environment tag, e.g prod"
-}
-
 variable "organization" {
-  description = "Organization tag e.g. dchbx"
+  description = "Organization the SG is for."
 }
 
-variable "application" {
-  description = "Application tag e.g. dchbx"
+variable "environment" {
+  description = "Environment the SG is for."
+  default     = ""
 }
 
 variable "aws_access_key" {}
@@ -38,11 +36,11 @@ variable "aws_region" {}
 provider "aws" {
     access_key = "${var.aws_access_key}"
     secret_key = "${var.aws_secret_key}"
-    region = "${var.aws_region}"
+    region     = "${var.aws_region}"
   }
    
 resource "aws_security_group" "main_security_group" {
-    name = "${var.security_group_name}"
+    name   = "${format("%s-%s-%s", var.organization, var.environment, var.sg_type)}"
     vpc_id = "${var.vpc_id}"
 
 
@@ -55,11 +53,10 @@ resource "aws_security_group" "main_security_group" {
     }
       
   tags {
-    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-i"
+    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.sg_type)}-sg"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
-}
     
 }
 
