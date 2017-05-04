@@ -4,7 +4,7 @@
 
 variable "sg_type" {
   description = "The type of traffic the security group is enabling."
-  default     = "ssh"
+  default     = "rabbitmq"
 }
 
 variable "vpc_id" {
@@ -43,7 +43,7 @@ resource "aws_security_group" "main_security_group" {
     name   = "${format("%s-%s-%s", var.organization, var.environment, var.sg_type)}"
     vpc_id = "${var.vpc_id}"
   
- // allow traffic for TCP 5671
+  // allow traffic for TCP 5671
     ingress {
         from_port = 5671
         to_port = 5671
@@ -51,7 +51,7 @@ resource "aws_security_group" "main_security_group" {
         cidr_blocks = ["${var.source_cidr_block}"]
     }
 
-    // allow traffic for TCP 5672
+  // allow traffic for TCP 5672
     ingress {
         from_port = 5672
         to_port = 5672
@@ -59,7 +59,7 @@ resource "aws_security_group" "main_security_group" {
         cidr_blocks = ["${var.source_cidr_block}"]
     }
     
-    // allow traffic for TCP 15671
+  // allow traffic for TCP 15671
     ingress {
         from_port = 15671
         to_port = 15671
@@ -67,7 +67,7 @@ resource "aws_security_group" "main_security_group" {
         cidr_blocks = ["${var.source_cidr_block}"]
     }
 
-    // allow traffic for TCP 15672
+  // allow traffic for TCP 15672
     ingress {
         from_port = 15672
         to_port = 15672
