@@ -5,7 +5,7 @@
 
 variable "sg_type" {
   description = "The type of traffic the security group is enabling."
-  default     = "ssh"
+  default     = "oracle"
 }
 
 variable "vpc_id" {
