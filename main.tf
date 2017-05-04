@@ -14,6 +14,18 @@ variable "source_cidr_block" {
   description = "The source CIDR block to allow traffic from"
 }
 
+variable "environment" {
+  description = "Environment tag, e.g prod"
+}
+
+variable "organization" {
+  description = "Organization tag e.g. dchbx"
+}
+
+variable "application" {
+  description = "Application tag e.g. dchbx"
+}
+
 variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "aws_region" {}
@@ -41,6 +53,13 @@ resource "aws_security_group" "main_security_group" {
         protocol        = "tcp"                
         cidr_blocks = ["${var.source_cidr_block}"]
     }
+      
+  tags {
+    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-i"
+    Organization = "${var.organization}"
+    Terraform    = "true"
+  }
+}
     
 }
 
