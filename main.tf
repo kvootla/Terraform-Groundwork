@@ -11,7 +11,11 @@ variable "instance_type" {
   description = "Instance type, see a list at: https://aws.amazon.com/ec2/instance-types/"
 }
 
-variable "security_groups" { default = "" }
+variable "security_groups" { 
+  type        = "list"
+  description = "a comma separated lists of security group IDs"
+  default     = [default = ""]
+  }
 
 variable "user_data" {
    description = "The path to a file with user_data for the instances"
