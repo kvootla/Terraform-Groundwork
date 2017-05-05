@@ -60,7 +60,7 @@ resource "aws_instance" "main" {
   instance_type          = "${var.instance_type}"
   subnet_id              = "${var.subnet_id}"
   key_name               = "${var.key_name}"
-  vpc_security_group_ids = ["${split(",",var.security_groups)}"]
+  vpc_security_group_ids = "${element(split(",", var.security_groups), count.index)}"
   monitoring             = true
   user_data              = "${file("filepath.sh")}"
 
