@@ -12,7 +12,6 @@ variable "instance_type" {
 }
 
 variable "security_groups" { 
-  type        = "string"
   description = "a comma separated lists of security group IDs"
   default     = []
   }
