@@ -11,10 +11,9 @@ variable "instance_type" {
   description = "Instance type, see a list at: https://aws.amazon.com/ec2/instance-types/"
 }
 
-variable "security_groups" { 
+variable "security_groups" {
   description = "a comma separated lists of security group IDs"
-  default     = []
-  }
+}
 
 variable "user_data" {
    description = "The path to a file with user_data for the instances"
@@ -61,7 +60,7 @@ resource "aws_instance" "main" {
   instance_type          = "${var.instance_type}"
   subnet_id              = "${var.subnet_id}"
   key_name               = "${var.key_name}"
-  vpc_security_group_ids = "${element(split(",", var.security_groups), count.index)}"
+  vpc_security_group_ids = ["${split(",",var.security_groups)}"]
   monitoring             = true
   user_data              = "${file("filepath.sh")}"
 
