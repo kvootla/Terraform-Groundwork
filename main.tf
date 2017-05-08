@@ -59,6 +59,13 @@ resource "aws_security_group" "main_security_group" {
         protocol = "tcp"
         cidr_blocks = ["${var.source_cidr_block}"]
     }
+   
+   egress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }  
       
   tags {
     Name         = "${format("%s-%s-%s", var.organization, var.environment, var.sg_type)}-sg"
