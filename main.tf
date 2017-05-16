@@ -23,11 +23,7 @@ variable "netbios_node_type" {
   default     = ""
 }
 
-variable "ntp_servers" {
-  type        = "list"
-  description = "List of NTP servers to configure"
-  default     = []
-}
+variable "ntp_servers" { }
 
 variable "organization" {
   description = "Organization the VPC is for."
