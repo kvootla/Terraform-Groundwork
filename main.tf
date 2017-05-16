@@ -57,7 +57,7 @@ resource "aws_vpc_dhcp_options" "dhcp" {
   ntp_servers          = ["${compact(var.ntp_servers)}"]
 
   tags {
-    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-igw"
+    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-dhcp"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
