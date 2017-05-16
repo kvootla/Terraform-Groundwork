@@ -13,15 +13,9 @@ variable "domain_name" {
   default     = ""
 }
 
-variable "name_servers" {
-  description = "List of name servers to configure in '/etc/resolv.conf'"
-  default     = ["AmazonProvidedDNS"]
-}
+variable "name_servers" { }
 
-variable "netbios_name_servers" {
-  description = "List of NETBIOS name servers"
-  default     = []
-}
+variable "netbios_name_servers" { }
 
 variable "netbios_node_type" {
   type        = "string"
