@@ -13,20 +13,29 @@ variable "domain_name" {
   default     = ""
 }
 
-variable "name_servers" { }
+variable "name_servers" {
+  type        = "list"
+  description = "List of name servers to configure in '/etc/resolv.conf'"
+  default     = ["AmazonProvidedDNS"]
+}
 
 variable "netbios_name_servers" {
   type        = "list"
   description = "List of NETBIOS name servers"
   default     = []
 }
+
 variable "netbios_node_type" {
   type        = "string"
   description = "The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network."
   default     = ""
 }
 
-variable "ntp_servers" { }
+variable "ntp_servers" {
+  type        = "list"
+  description = "List of NTP servers to configure"
+  default     = []
+}
 
 variable "organization" {
   description = "Organization the VPC is for."
