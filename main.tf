@@ -37,6 +37,15 @@ variable "ntp_servers" {
   default     = []
 }
 
+variable "organization" {
+  description = "Organization the VPC is for."
+}
+
+variable "environment" {
+  description = "Environment the VPC is for."
+  default     = ""
+}
+
 
 /**
  * DHCP_Option
