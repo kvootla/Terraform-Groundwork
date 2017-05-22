@@ -17,7 +17,6 @@ variable "device_name" {
 
 variable "azs" {
   description = "A list of Availability zones in the region"
-  default     = []
 }
 
 variable "ebs_encrypted" {
