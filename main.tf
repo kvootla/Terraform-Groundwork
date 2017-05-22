@@ -48,7 +48,7 @@ resource "aws_ebs_volume" "ebs" {
   volume_type       = "${var.ebs_type}"
   volume_size       = "${var.ebs_size}"
   encrypted         = "${var.ebs_encrypted}"
-  availability_zone = "${element(var.azs, count.index)}"
+  availability_zone = "${var.azs}"
 
   tags {
     Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-i"
