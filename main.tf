@@ -43,7 +43,7 @@ variable "application" {
  * Instance with EBS Volumes
  */
 
-resource "aws_ebs_volume" "ebs" {
+resource "aws_ebs_volume" "main" {
   volume_type       = "${var.ebs_type}"
   volume_size       = "${var.ebs_size}"
   encrypted         = "${var.ebs_encrypted}"
@@ -67,5 +67,5 @@ resource "aws_volume_attachment" "ebs_attachment" {
  */
 
 output "ebs_id" {
-  value = "${aws_instance.main.id}"
+  value = "${aws_ebs_volume.main.id}"
 }
