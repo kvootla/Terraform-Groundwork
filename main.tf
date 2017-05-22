@@ -6,11 +6,6 @@ variable "ebs_size" {
   description = "EBS volume size"
 }
 
-variable "ebs_type" {
-  description = "EBS volume type"
-  default     = "gp2"
-}
-
 variable "device_name" {
   description = "List of EBS device name"
 }
@@ -44,7 +39,6 @@ variable "application" {
  */
 
 resource "aws_ebs_volume" "main" {
-  volume_type       = "${var.ebs_type}"
   volume_size       = "${var.ebs_size}"
   encrypted         = "${var.ebs_encrypted}"
   availability_zone = "${var.azs}"
