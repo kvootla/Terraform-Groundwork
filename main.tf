@@ -67,8 +67,6 @@ resource "aws_volume_attachment" "ebs_attachment" {
  * Outputs Variables
  */
 
-output "main_id" {
+output "ebs_id" {
   value = "${aws_instance.main.id}"
 }
-Contact GitHub API Training Shop Blog About
-
