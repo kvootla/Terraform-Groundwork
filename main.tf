@@ -2,8 +2,12 @@
  * Input Variables
  */
 
-variable "ebs_size" {
+variable "size" {
   description = "EBS volume size"
+}
+
+variable "type" {
+  description = "EBS volume type"
 }
 
 variable "device_name" {
@@ -39,7 +43,8 @@ variable "application" {
  */
 
 resource "aws_ebs_volume" "main" {
-  volume_size       = "${var.ebs_size}"
+  volume_type       = "${var.type}"
+  volume_size       = "${var.size}"
   encrypted         = "${var.ebs_encrypted}"
   availability_zone = "${var.azs}"
 
