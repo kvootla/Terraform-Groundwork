@@ -64,8 +64,7 @@ variable "subnet_group_name" {
 }
 
 variable "subnet_id" {
-  description = "List of subnets DB should be available at. It might be one subnet."
-  type        = "list"
+  description = "A subnets DB should be available at. It might be one subnet."
 }
 
 variable "private_cidr" {
