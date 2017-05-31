@@ -79,6 +79,7 @@ variable "application" {
   description = "Application tag e.g. enroll"
 }
 
+
 /**
  * Relational Database Service
  */
@@ -133,4 +134,3 @@ output "rds_instance_address" {
 output "rds_instance_endpoint" {
   value = "${aws_db_instance.main_rds_instance.endpoint}"
 }
-
