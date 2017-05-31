@@ -6,11 +6,6 @@ variable "rds_instance_identifier" {
   description = "Custom name of the instance"
 }
 
-variable "rds_is_multi_az" {
-  description = "Set to true on production"
-  default     = false
-}
-
 variable "rds_storage_type" {
   description = "One of 'standard' (magnetic), 'gp2' (general purpose SSD), or 'io1' (provisioned IOPS SSD)."
   default     = "standard"
@@ -59,22 +54,30 @@ variable "publicly_accessible" {
   default     = false
 }
 
-# RDS Subnet Group Variables
-variable "subnets" {
-  description = "List of subnets DB should be available at. It might be one subnet."
-  type        = "list"
+variable "cidrs" {
+  type        = "map"
+  description = "A map with key being the availability zone and value the CIDR range."
 }
 
-variable "private_cidr" {
-  description = "VPC private addressing, used for a security group"
-  type        = "string"
+variable "security_groups" {
+  description = "a comma separated lists of security group IDs"
 }
 
-variable "rds_vpc_id" {
-  description = "VPC to connect to, used for a security group"
-  type        = "string"
+variable "subnet_id" {
+  description = "A external subnet id"
 }
 
+variable "environment" {
+  description = "Environment tag, e.g prod"
+}
+
+variable "organization" {
+  description = "Organization tag e.g. dchbx"
+}
+
+variable "application" {
+  description = "Application tag e.g. enroll"
+}
 
 /**
  * Relational Database Service
@@ -83,64 +86,35 @@ variable "rds_vpc_id" {
 resource "aws_db_instance" "main_rds_instance" {
   identifier        = "${var.rds_instance_identifier}"
   allocated_storage = "${var.rds_allocated_storage}"
-  engine            = "${var.rds_engine_type}"
+  engine_type       = "${var.rds_engine_type}"
   engine_version    = "${var.rds_engine_version}"
   instance_class    = "${var.rds_instance_class}"
+  
   name              = "${var.database_name}"
   username          = "${var.database_user}"
   password          = "${var.database_password}"
-
-  port                   = "${var.database_port}"
-  vpc_security_group_ids = ["${aws_security_group.main_db_access.id}"]
-
-  db_subnet_group_name = "${aws_db_subnet_group.main_db_subnet_group.name}"
-  parameter_group_name = "${aws_db_parameter_group.main_rds_instance.id}"
-
-  multi_az            = "${var.rds_is_multi_az}"
-  storage_type        = "${var.rds_storage_type}"
-  publicly_accessible = "${var.publicly_accessible}"
-
+  port              = "${var.database_port}"
+  
+  parameter_group_name        = "${aws_db_parameter_group.main_rds_instance.id}"
+  storage_type                = "${var.rds_storage_type}"
   allow_major_version_upgrade = "${var.allow_major_version_upgrade}"
   auto_minor_version_upgrade  = "${var.auto_minor_version_upgrade}"
-}
+
+  vpc_security_group_ids = ["${split(",",var.security_groups)}"]
+  db_subnet_group_name   =  "${var.subnet_group_name}"
+  db_subnet_id           = "${var.subnet_id}"   
+  cidr_block             = "${var.cidrs[element(keys(var.cidrs), count.index)]}"
+
+  tags {
+    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-i"
+    Organization = "${var.organization}"
+    Terraform    = "true"
+   }
+  }
 
 resource "aws_db_parameter_group" "main_rds_instance" {
   name   = "${var.rds_instance_identifier}-${replace(var.db_parameter_group, ".", "")}-custom-params"
   family = "${var.db_parameter_group}"
-}
-
-resource "aws_db_subnet_group" "main_db_subnet_group" {
-  name        = "${var.rds_instance_identifier}-subnetgrp"
-  description = "RDS subnet group"
-  subnet_ids  = ["${var.subnets}"]
-}
-
-resource "aws_security_group" "main_db_access" {
-  name        = "Database access"
-  description = "Allow access to the database"
-  vpc_id      = "${var.rds_vpc_id}"
-}
-
-resource "aws_security_group_rule" "allow_db_access" {
-  type = "ingress"
-
-  from_port   = "${var.database_port}"
-  to_port     = "${var.database_port}"
-  protocol    = "tcp"
-  cidr_blocks = ["${var.private_cidr}"]
-
-  security_group_id = "${aws_security_group.main_db_access.id}"
-}
-
-resource "aws_security_group_rule" "allow_all_outbound" {
-  type = "egress"
-
-  from_port   = 0
-  to_port     = 0
-  protocol    = "-1"
-  cidr_blocks = ["0.0.0.0/0"]
-
-  security_group_id = "${aws_security_group.main_db_access.id}"
 }
 
 
@@ -148,27 +122,15 @@ resource "aws_security_group_rule" "allow_all_outbound" {
  * Outputs
  */
 
-# Output the ID of the RDS instance
 output "rds_instance_id" {
   value = "${aws_db_instance.main_rds_instance.id}"
 }
 
-# Output the address (aka hostname) of the RDS instance
 output "rds_instance_address" {
   value = "${aws_db_instance.main_rds_instance.address}"
 }
 
-# Output endpoint (hostname:port) of the RDS instance
 output "rds_instance_endpoint" {
   value = "${aws_db_instance.main_rds_instance.endpoint}"
 }
 
-# Output the ID of the Subnet Group
-output "subnet_group_id" {
-  value = "${aws_db_subnet_group.main_db_subnet_group.id}"
-}
-
-# Output DB security group ID
-output "security_group_id" {
-  value = "${aws_security_group.main_db_access.id}"
-}
