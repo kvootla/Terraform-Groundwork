@@ -59,12 +59,16 @@ variable "cidrs" {
   description = "A map with key being the availability zone and value the CIDR range."
 }
 
-variable "security_groups" {
-  description = "a comma separated lists of security group IDs"
+variable "subnet_group_name" {
+  description = "A group name for the subnet"
 }
 
 variable "subnet_id" {
   description = "A external subnet id"
+}
+
+variable "security_groups" {
+  description = "a comma separated lists of security group IDs"
 }
 
 variable "environment" {
@@ -101,10 +105,10 @@ resource "aws_db_instance" "main_rds_instance" {
   allow_major_version_upgrade = "${var.allow_major_version_upgrade}"
   auto_minor_version_upgrade  = "${var.auto_minor_version_upgrade}"
 
-  vpc_security_group_ids = ["${split(",",var.security_groups)}"]
+  cidr_block             = "${var.cidrs[element(keys(var.cidrs), count.index)]}"
   db_subnet_group_name   =  "${var.subnet_group_name}"
   db_subnet_id           = "${var.subnet_id}"   
-  cidr_block             = "${var.cidrs[element(keys(var.cidrs), count.index)]}"
+  vpc_security_group_ids = ["${split(",",var.security_groups)}"]
 
   tags {
     Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-i"
