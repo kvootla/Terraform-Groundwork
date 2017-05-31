@@ -135,7 +135,7 @@ resource "aws_db_parameter_group" "main_rds_instance" {
 resource "aws_db_subnet_group" "main_db_subnet_group" {
   name        = "${var.rds_instance_identifier}-subnetgrp"
   description = "RDS subnet group"
-  subnet_ids  = ["${var.subnets}"]
+  subnet_ids  = ["${var.subnet_id}"]
 }
 
 /**
