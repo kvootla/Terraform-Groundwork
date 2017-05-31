@@ -87,6 +87,7 @@ variable "application" {
 resource "aws_db_instance" "main_rds_instance" {
   identifier        = "${var.rds_instance_identifier}"
   allocated_storage = "${var.rds_allocated_storage}"
+  storage_type      = "${var.rds_storage_type}"
   engine_type       = "${var.rds_engine_type}"
   engine_version    = "${var.rds_engine_version}"
   instance_class    = "${var.rds_instance_class}"
@@ -97,7 +98,6 @@ resource "aws_db_instance" "main_rds_instance" {
   port              = "${var.database_port}"
   
   parameter_group_name        = "${aws_db_parameter_group.main_rds_instance.id}"
-  storage_type                = "${var.rds_storage_type}"
   allow_major_version_upgrade = "${var.allow_major_version_upgrade}"
   auto_minor_version_upgrade  = "${var.auto_minor_version_upgrade}"
 
