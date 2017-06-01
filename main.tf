@@ -66,4 +66,3 @@ EOF
     Organization = "${var.organization}"
     Terraform    = "true"
   }
-}
