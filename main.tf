@@ -32,7 +32,7 @@ resource "aws_s3_bucket" "bucket" {
   }
 
  tags {
-    Name         = "${format("%s-%s-%s-%s", var.organization, var.environment, var.name, var.application)}-i"
+    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-i"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
