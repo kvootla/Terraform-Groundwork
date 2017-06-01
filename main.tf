@@ -7,11 +7,11 @@ variable "name" {
 }
 
 variable "account_id" {
-  description = "Used to populate the name tag for the bucket"
+  description = "Used to access into the bucket"
 }
 
 variable "user_name" {
-  description = "Used to populate the name tag for the bucket"
+  description = "Used to access the bucket"
 }
 
 variable "environment" {
@@ -54,7 +54,7 @@ resource "aws_s3_bucket" "bucket" {
             "Sid": "Stmt1439656798784",
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::${var.account_id}:user:${var.user_name}"
+                "AWS": "arn:aws:iam::"${var.account_id}":user:"${var.user_name}""
             },
             "Action": [
                 "s3:DeleteObject",
