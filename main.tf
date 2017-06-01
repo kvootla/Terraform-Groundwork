@@ -1,4 +1,5 @@
-nputs
+/**
+ * Input
  */
 
 variable "name" {
