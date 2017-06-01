@@ -25,7 +25,7 @@ variable "rds_engine_type" {
 }
 
 variable "rds_engine_version" {
-  description = "Database engine version, depends on engine type"
+  description = "Database engine version"
 }
 
 variable "rds_instance_class" {
