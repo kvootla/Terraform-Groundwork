@@ -54,7 +54,7 @@ resource "aws_s3_bucket" "bucket" {
             "Sid": "Stmt1439656798784",
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::"${var.account_id}":user:"${var.user_name}""
+                "AWS": "arn:aws:iam::"${var.account_id}":"${var.user_name}""
             },
             "Action": [
                 "s3:DeleteObject",
