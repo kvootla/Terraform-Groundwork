@@ -39,6 +39,12 @@ resource "aws_s3_bucket" "bucket" {
     enabled = false
   }
 
+ tags {
+    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-i"
+    Organization = "${var.organization}"
+    Terraform    = "true"
+  }
+  
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -60,9 +66,3 @@ resource "aws_s3_bucket" "bucket" {
     ]
 EOF
 }
-
- tags {
-    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-i"
-    Organization = "${var.organization}"
-    Terraform    = "true"
-  }
