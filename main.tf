@@ -7,23 +7,11 @@ variable "name" {
 }
 
 variable "account_id" {
-  description = "Used to populate the name tag for the bucket"
+  description = "Used to get access for the bucket"
 }
 
 variable "user_name" {
-  description = "Used to populate the name tag for the bucket"
-}
-
-variable "environment" {
-  description = "Environment tag, e.g prod"
-}
-
-variable "organization" {
-  description = "Organization tag e.g. dchbx"
-}
-
-variable "application" {
-  description = "Application tag e.g. enroll"
+  description = "Used to get the permission access for the bucket"
 }
 
 /**
@@ -31,19 +19,13 @@ variable "application" {
  */
 
 resource "aws_s3_bucket" "bucket" {
-  bucket        = "${var.name}"
-  acl           = "private"
+  bucket = "${var.name}"
+  acl    = "private"
 
- versioning {
+  versioning {
     enabled = false
   }
 
- tags {
-    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-i"
-    Organization = "${var.organization}"
-    Terraform    = "true"
-  }
-  
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -53,18 +35,18 @@ resource "aws_s3_bucket" "bucket" {
             "Sid": "Stmt1439656798784",
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::${var.account_id}:user:${var.user_name}"
+                "AWS": "arn:aws:iam::"${var.account_id}":"${var.user_name}""
             },
             "Action": [
                 "s3:DeleteObject",
                 "s3:GetObject",
                 "s3:PutObject"
             ],
-            "Resource": "arn:aws:s3:::${var.name}/*"
+            "Resource": "arn:aws:s3:::"${var.name}"/*"
         }
     ]
 EOF
- }
+}
 
 /**
  * Outputs
@@ -72,4 +54,4 @@ EOF
 
 output "bucket_id" {
   value = "${aws_s3_bucket.bucket.id}"
- }
+}
