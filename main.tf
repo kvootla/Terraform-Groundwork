@@ -119,7 +119,7 @@ resource "aws_db_instance" "main_rds_instance" {
 
   multi_az               = "${var.rds_is_multi_az}"
   db_subnet_group_name   = "${aws_db_subnet_group.main_db_subnet_group.name}"
-  subnet_id              = ["${split(",",var.subnet_id)}"]   
+  subnet_id              = ["${var.subnet_id}"]   
   vpc_security_group_ids = ["${split(",",var.security_groups)}"]
 
   tags {
