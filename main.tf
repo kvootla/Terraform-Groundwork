@@ -63,10 +63,9 @@ variable "subnet_group_name" {
   description = "A group name for the subnet"
 }
 
-variable "subnet_id" {
-  description = "List of subnets DB should be available at. It might be one subnet."
+variable "subnet_ids" {
+  description = "A list of subnet IDs"
   type        = "list"
-  default     = []
 }
 
 variable "private_cidr" {
@@ -119,7 +118,7 @@ resource "aws_db_instance" "main_rds_instance" {
 
   multi_az               = "${var.rds_is_multi_az}"
   db_subnet_group_name   = "${aws_db_subnet_group.main_db_subnet_group.name}"
-  subnet_id              = ["${var.subnet_id}"]   
+  db_subnet_ids          = "${var.subnet_ids}"   
   vpc_security_group_ids = ["${split(",",var.security_groups)}"]
 
   tags {
