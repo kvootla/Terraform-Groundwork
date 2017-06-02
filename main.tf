@@ -20,10 +20,6 @@ variable "rds_allocated_storage" {
   description = "The allocated storage in GBs"
 }
 
-variable "rds_engine_type" {
-  description = "Database engine type"
-}
-
 variable "rds_engine_version" {
   description = "Database engine version"
 }
@@ -102,7 +98,6 @@ resource "aws_db_instance" "main_rds_instance" {
   identifier        = "${var.rds_instance_identifier}"
   allocated_storage = "${var.rds_allocated_storage}"
   storage_type      = "${var.rds_storage_type}"
-  engine_type       = "${var.rds_engine_type}"
   engine_version    = "${var.rds_engine_version}"
   instance_class    = "${var.rds_instance_class}"
   
