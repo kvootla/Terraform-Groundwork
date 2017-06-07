@@ -32,7 +32,7 @@ variable "health_check_target" {
 }
 
 /**
- * Elstic Load Balancer/http
+ * Elastic Load Balancer/http
  */
 
 resource "aws_elb" "elb" {
