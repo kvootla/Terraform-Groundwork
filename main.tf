@@ -1,4 +1,3 @@
-
 /**
  * Inputs
  */
@@ -28,42 +27,40 @@ variable "environment" {
 /**
  * Security Groups/SSH
  */
-   
+
 resource "aws_security_group" "main_security_group" {
-    name   = "${format("%s-%s-%s", var.organization, var.environment, var.sg_type)}"
-    vpc_id = "${var.vpc_id}"
+  name   = "${format("%s-%s-%s", var.organization, var.environment, var.sg_type)}"
+  vpc_id = "${var.vpc_id}"
 
- // allow traffic for TCP 80
-    ingress {
-        from_port = 80
-        to_port = 80
-        protocol = "tcp"
-        cidr_blocks = ["${var.source_cidr_block}"]
-    }
+  // allow traffic for TCP 80
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["${var.source_cidr_block}"]
+  }
 
- // allow traffic for TCP 443
-    ingress {
-        from_port = 443
-        to_port = 443
-        protocol = "tcp"
-        cidr_blocks = ["${var.source_cidr_block}"]
-    }
-   
-   egress {
-        from_port = 0
-        to_port = 0
-        protocol = "-1"
-        cidr_blocks = ["0.0.0.0/0"]
-    }  
-      
+  // allow traffic for TCP 443
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["${var.source_cidr_block}"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   tags {
     Name         = "${format("%s-%s-%s", var.organization, var.environment, var.sg_type)}-sg"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
-    
 }
-
 
 /**
  * Outputs
