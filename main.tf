@@ -43,27 +43,16 @@ variable "public_subnets" {
   description = "A list of public subnets inside the VPC"
 }
 
-variable "aws_access_key" {}
-variable "aws_secret_key" {}
-variable "aws_region" {}
-
-  
 /**
  * Subnets
  */
-
-provider "aws" {
-    access_key = "${var.aws_access_key}"
-    secret_key = "${var.aws_secret_key}"
-    region = "${var.aws_region}"
-}
 
 resource "aws_subnet" "private_subnet" {
   vpc_id                  = "${var.vpc_id}"
   cidr_block              = "${var.private_subnets}"
   availability_zone       = "${var.availability_zones}"
   map_public_ip_on_launch = false
-  }
+}
 
 resource "aws_subnet" "public_subnet" {
   vpc_id                  = "${var.vpc_id}"
@@ -71,7 +60,6 @@ resource "aws_subnet" "public_subnet" {
   availability_zone       = "${var.availability_zones}"
   map_public_ip_on_launch = "${var.map_public_ip_on_launch}"
 }
-
 
 /**
  * Outputs Varibales
