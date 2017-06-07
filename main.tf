@@ -11,7 +11,7 @@ variable "account_id" {
 }
 
 variable "user_name" {
-  description = "Used to get the permission access for the bucket"
+  description = "Used to get the access permission for the bucket"
 }
 
 /**
