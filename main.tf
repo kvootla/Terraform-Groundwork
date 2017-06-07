@@ -24,53 +24,51 @@ variable "environment" {
   default     = ""
 }
 
-
 /**
  * Security Groups/Rabbitmq
  */
-   
+
 resource "aws_security_group" "main_security_group" {
-    name   = "${format("%s-%s-%s", var.organization, var.environment, var.sg_type)}"
-    vpc_id = "${var.vpc_id}"
-  
+  name   = "${format("%s-%s-%s", var.organization, var.environment, var.sg_type)}"
+  vpc_id = "${var.vpc_id}"
+
   // allow traffic for TCP 5671
-    ingress {
-        from_port = 5671
-        to_port = 5671
-        protocol = "tcp"
-        cidr_blocks = ["${var.source_cidr_block}"]
-    }
+  ingress {
+    from_port   = 5671
+    to_port     = 5671
+    protocol    = "tcp"
+    cidr_blocks = ["${var.source_cidr_block}"]
+  }
 
   // allow traffic for TCP 5672
-    ingress {
-        from_port = 5672
-        to_port = 5672
-        protocol = "tcp"
-        cidr_blocks = ["${var.source_cidr_block}"]
-    }
-    
+  ingress {
+    from_port   = 5672
+    to_port     = 5672
+    protocol    = "tcp"
+    cidr_blocks = ["${var.source_cidr_block}"]
+  }
+
   // allow traffic for TCP 15671
-    ingress {
-        from_port = 15671
-        to_port = 15671
-        protocol = "tcp"
-        cidr_blocks = ["${var.source_cidr_block}"]
-    }
+  ingress {
+    from_port   = 15671
+    to_port     = 15671
+    protocol    = "tcp"
+    cidr_blocks = ["${var.source_cidr_block}"]
+  }
 
   // allow traffic for TCP 15672
-    ingress {
-        from_port = 15672
-        to_port = 15672
-        protocol = "tcp"
-        cidr_blocks = ["${var.source_cidr_block}"]
-    }
-      
+  ingress {
+    from_port   = 15672
+    to_port     = 15672
+    protocol    = "tcp"
+    cidr_blocks = ["${var.source_cidr_block}"]
+  }
+
   tags {
     Name         = "${format("%s-%s-%s", var.organization, var.environment, var.sg_type)}-sg"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
-    
 }
 
 /**
