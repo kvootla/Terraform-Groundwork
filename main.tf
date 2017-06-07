@@ -12,7 +12,7 @@ variable "alb_name" {
 }
 
 variable "alb_security_groups" {
-  description = "A comma separated string of security groups with which we associate the ALB. e.g. 'sg-edcd9784,sg-edcd9785'"
+  description = "A comma separated string of sg's with which we associate the ALB. e.g. 'sg-edcd9784,sg-edcd9785'"
 }
 
 variable "log_bucket" {
