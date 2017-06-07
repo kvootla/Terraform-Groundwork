@@ -25,15 +25,12 @@ variable "enable_dns_support" {
  * VPC
  */
 
-//VPC Resource for Module
-resource "aws_vpc" "abc" {
+resource "aws_vpc" "main" {
   cidr_block           = "${var.cidr}"
   enable_dns_hostnames = "${var.enable_dns_hostnames}"
   enable_dns_support   = "${var.enable_dns_support}"
   tags                 = "${merge(var.tags, map("Name", format("%s", var.name)))}"
-  
-  }
-  
+}
 
 /**
  * Outputs Varibales
@@ -42,4 +39,3 @@ resource "aws_vpc" "abc" {
 output "vpc_id" {
   value = "${aws_vpc.abc.id}"
 }
-
