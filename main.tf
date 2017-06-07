@@ -19,7 +19,7 @@ variable "user_data" {
 variable "asg_name" {}
 
 variable "asg_number_of_instances" {
-  description = "The number of instances we want in the ASG"
+  description = "The number of instances in the ASG"
 }
 
 variable "asg_minimum_number_of_instances" {
