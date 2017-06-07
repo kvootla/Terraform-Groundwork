@@ -27,7 +27,6 @@ variable "subnets" {
   description = "A comma delimited list of subnets to associate with the ALB. e.g. 'subnet-1a2b3c4d,subnet-1a2b3c4e,subnet-1a2b3c4f'"
 }
 
-
 /**
  * Application Load Balancer
  */
@@ -55,22 +54,24 @@ resource "aws_alb" "alb_nologing" {
   count = "${(var.log_bucket == "" || var.log_prefix == "") ? 1 : 0}"
 }
 
-
 /**
  * Outputs Varibales
  */
 
 output "dns_name" {
   value = "${var.alb_loging.dns_name}"
+
   /*value = "${coalesce(list("var.alb_loging.dns_name", "var.alb_nologing.dns_name")) }"*/
 }
 
 output "id" {
   value = "${var.alb_loging.id}"
+
   /*value = "${coalesce(list("var.alb_loging.dns_name", "var.alb_nologing.dns_name")) }"*/
 }
 
 output "zone_id" {
   value = "${var.alb_loging.zone_id}"
+
   /*value = "${coalesce(list("var.alb_loging.dns_name", "var.alb_nologing.dns_name")) }"*/
 }
