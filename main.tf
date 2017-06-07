@@ -1,4 +1,3 @@
-
 /**
  * Inputs
  */
@@ -25,29 +24,27 @@ variable "environment" {
   default     = ""
 }
 
-
 /**
  * Security Groups/NTP
  */
-   
-resource "aws_security_group" "main_security_group" {
-    name   = "${format("%s-%s-%s", var.organization, var.environment, var.sg_type)}"
-    vpc_id = "${var.vpc_id}"
 
- // allow traffic for UDP 123
-    ingress {
-        from_port = 123
-        to_port = 123
-        protocol = "udp"
-        cidr_blocks = ["${var.source_cidr_block}"]
-    } 
-      
+resource "aws_security_group" "main_security_group" {
+  name   = "${format("%s-%s-%s", var.organization, var.environment, var.sg_type)}"
+  vpc_id = "${var.vpc_id}"
+
+  // allow traffic for UDP 123
+  ingress {
+    from_port   = 123
+    to_port     = 123
+    protocol    = "udp"
+    cidr_blocks = ["${var.source_cidr_block}"]
+  }
+
   tags {
     Name         = "${format("%s-%s-%s", var.organization, var.environment, var.sg_type)}-sg"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
-    
 }
 
 /**
