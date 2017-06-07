@@ -100,16 +100,16 @@ resource "aws_db_instance" "main_rds_instance" {
   storage_type      = "${var.rds_storage_type}"
   engine_version    = "${var.rds_engine_version}"
   instance_class    = "${var.rds_instance_class}"
-  
-  name              = "${var.database_name}"
-  username          = "${var.database_user}"
-  password          = "${var.database_password}"
-  port              = "${var.database_port}"
-  
+
+  name     = "${var.database_name}"
+  username = "${var.database_user}"
+  password = "${var.database_password}"
+  port     = "${var.database_port}"
+
   parameter_group_name        = "${aws_db_parameter_group.main_rds_instance.id}"
-  publicly_accessible         = "${var.publicly_accessible}"  
-  allow_major_version_upgrade = "${var.allow_major_version_upgrade}"
+  publicly_accessible         = "${var.publicly_accessible}"
   auto_minor_version_upgrade  = "${var.auto_minor_version_upgrade}"
+  allow_major_version_upgrade = "${var.allow_major_version_upgrade}"
 
   multi_az               = "${var.rds_is_multi_az}"
   db_subnet_group_name   = "${aws_db_subnet_group.main_db_subnet_group.name}"
@@ -119,8 +119,8 @@ resource "aws_db_instance" "main_rds_instance" {
     Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-i"
     Organization = "${var.organization}"
     Terraform    = "true"
-   }
   }
+}
 
 resource "aws_db_parameter_group" "main_rds_instance" {
   name   = "${var.rds_instance_identifier}-${replace(var.db_parameter_group, ".", "")}-custom-params"
@@ -148,4 +148,3 @@ output "rds_instance_address" {
 output "rds_instance_endpoint" {
   value = "${aws_db_instance.main_rds_instance.endpoint}"
 }
-
