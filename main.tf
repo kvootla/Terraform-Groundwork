@@ -2,10 +2,6 @@
  * Input Variables
  */
 
-variable "aws_access_key" {}
-variable "aws_secret_key" {}
-variable "aws_region" {}
-
 variable "alb_is_internal" {
   description = "Determines if the ALB is internal. Default: false"
   default     = false
@@ -35,14 +31,6 @@ variable "subnets" {
 /**
  * Application Load Balancer
  */
-
-provider "aws" {
-    access_key = "${var.aws_access_key}"
-    secret_key = "${var.aws_secret_key}"
-    region = "${var.aws_region}"
-}
-     
-### ALB resources with a switch - logging enabled/disabled
 
 resource "aws_alb" "alb_loging" {
   name            = "${var.alb_name}"
