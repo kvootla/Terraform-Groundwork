@@ -57,8 +57,8 @@ resource "aws_ebs_volume" "main" {
 
 resource "aws_volume_attachment" "ebs_att" {
   device_name = "${var.device_name}"
-  volume_id   = "${aws_ebs_volume.main.id}"
   instance_id = "${var.instance_id}"
+  volume_id   = "${aws_ebs_volume.main.id}"
 }
 
 /**
