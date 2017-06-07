@@ -43,12 +43,10 @@ variable "public_subnets" {
   default = []
 }
 
-
 /**
  * Routes
  */
 
-// Routes
 resource "aws_route" "private_aws_route" {
   count                  = "${length(var.private_subnets)}"
   destination_cidr_block = "0.0.0.0/0"
@@ -62,7 +60,6 @@ resource "aws_route" "public_aws_route" {
   gateway_id             = "${aws_internet_gateway.internet_gateway.id}"
 }
 
-// Routes Table
 resource "aws_route_table" "private_route_table" {
   vpc_id           = "${aws_vpc.vpc.id}"
   propagating_vgws = ["${var.public_propagating_vgws}"]
@@ -82,7 +79,6 @@ resource "aws_route_table" "public_route_table" {
   }
 }
 
-// Routes Table Association
 resource "aws_route_table_association" "public_route_table_association" {
   count          = "${length(var.public_subnets)}"
   subnet_id      = "${element(aws_subnet.public_subnet.*.id, count.index)}"
@@ -95,30 +91,9 @@ resource "aws_route_table_association" "private_route_table_association" {
   route_table_id = "${element(aws_route_table.private_route_table.*.id, count.index)}"
 }
 
-
 /**
  * Outputs Varibales
  */
-
- output "flow_log_cloudwatch_log_group_arn" {
-  value = "${aws_cloudwatch_log_group.cloudwatch_log_group.arn}"
-}
-
-#output "flow_log_cloudwatch_log_group_name" {
-#  value = "${aws_cloudwatch_log_group.cloudwatch_log_group.name}"
-#}
-
-output "flow_log_cloudwatch_log_stream_arn" {
-  value = "${aws_cloudwatch_log_stream.cloudwatch_log_stream.arn}"
-}
-
-output "internet_gateway_id" {
-  value = "${aws_internet_gateway.internet_gateway.id}"
-}
-
-output "nat_eips" {
-  value = ["${aws_eip.eip.*.id}"]
-}
 
 output "private_route_table_ids" {
   value = ["${aws_route_table.private_route_table.*.id}"]
