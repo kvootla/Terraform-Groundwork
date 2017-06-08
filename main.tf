@@ -63,7 +63,7 @@ resource "aws_subnet" "private_subnet" {
   map_public_ip_on_launch = false
 
   tags {
-    Name        = "${var.name}-${format("private")}"
+    Name        = "${format("private")}-{var.name}"
     Environment = "${var.environment}"
   }
 }
@@ -76,7 +76,7 @@ resource "aws_subnet" "public_subnet" {
   map_public_ip_on_launch = "${var.map_public_ip_on_launch}"
    
   tags {
-    Name        = "${var.name}-${format("public")}"
+    Name        = "${format("public")}-{var.name}"
     Environment = "${var.environment}"
   }
 }
