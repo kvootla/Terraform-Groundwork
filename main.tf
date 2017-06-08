@@ -43,15 +43,11 @@ variable "public_subnets" {
   description = "A list of public subnets inside the VPC"
 }
 
-variable "tags_1" {
+variable "tags" {
   description = "A map of tags to add to all resources"
   default     = {}
 }
 
-variable "tags_2" {
-  description = "A map of tags to add to all resources"
-  default     = {}
-}
 
 /**
  * Subnets
@@ -62,7 +58,7 @@ resource "aws_subnet" "private_subnet" {
   cidr_block              = "${var.private_subnets}"
   availability_zone       = "${var.availability_zones}"
   map_public_ip_on_launch = false
-  tags_1                 = "${merge(var.tags_1, map("Name", format("%s", var.name)))}"
+  tags                    = "${merge(var.tags, map("Name", format("%s", var.name)))}"
 }
 
 resource "aws_subnet" "public_subnet" {
