@@ -65,7 +65,8 @@ resource "aws_subnet" "private_subnet" {
   tags {
     Name        = "${format("private")}-${var.name}"
     Environment = "${var.environment}"
-  }
+    Terraform   = "true"  
+ }
 }
 
 
