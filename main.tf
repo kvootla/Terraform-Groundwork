@@ -2,8 +2,12 @@
  * Input Variables
  */
 
-variable "name" { default = "igw" }
+variable "name" {
+  default = "igw"
+}
+
 variable "vpc_id" {}
+
 variable "environment" {
   description = "Environment tag, e.g prod"
 }
@@ -14,16 +18,18 @@ variable "environment" {
 
 resource "aws_internet_gateway" "igw" {
   vpc_id = "${var.vpc_id}"
-  tags { Name = "${var.name}" }
-      Environment = "${var.environment}"
-      Terraform    = "true"
-}
 
+  tags {
+    Name        = "${var.name}"
+    Environment = "${var.environment}"
+    Terraform   = "true"
+  }
+}
 
 /**
  * Outputs Varibales
  */
 
-output "igw_id" { 
-	value = "${aws_internet_gateway.igw.id}"
-    }
+output "igw_id" {
+  value = "${aws_internet_gateway.igw.id}"
+}
