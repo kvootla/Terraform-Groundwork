@@ -48,6 +48,9 @@ variable "name" {
   default     = "Subnet"
 }
 
+variable "environment" {
+  description = "Environment tag, e.g prod"
+}
 
 /**
  * Subnets
