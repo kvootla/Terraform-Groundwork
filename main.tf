@@ -25,3 +25,4 @@ output "nat_eips" {
   value = [
     "${aws_eip.main.*.public_ip}"
   ]
+}
