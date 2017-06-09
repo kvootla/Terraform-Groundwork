@@ -8,6 +8,10 @@ variable "name" {
 
 variable "vpc_id" {}
 
+variable "route_table_id" {
+  description = "the igw in particular route table with in the subnet"
+}
+
 variable "environment" {
   description = "Environment tag, e.g prod"
 }
@@ -18,6 +22,8 @@ variable "environment" {
 
 resource "aws_internet_gateway" "igw" {
   vpc_id = "${var.vpc_id}"
+  route_table_id         = "${var.route_table_id}"
+  destination_cidr_block = "0.0.0.0/0"
 
   tags {
     Name        = "${var.name}"
