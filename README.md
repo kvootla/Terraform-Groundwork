@@ -7,6 +7,7 @@ you can use with your service Terraform template.
 Ports
 -----
 - TCP 27017
+- TCP 27018
 
 Module Input Variables
 ----------------------
