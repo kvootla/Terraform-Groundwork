@@ -10,6 +10,10 @@ variable "subnet_id" {
   description = "The VPC subnet the instance(s) will go in"
 }
 
+variable "igw_id" {
+  description = "The Internet Gateway ID."
+}
+
 variable "name" {}
 variable "environment" {}
 
@@ -31,6 +35,21 @@ resource "aws_route_table" "main" {
 resource "aws_route_table_association" "main" {
   subnet_id      = "${var.subnet_id}"
   route_table_id = "${aws_route_table.main.id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_route" "igw" {
+  route_table_id         = "${aws_route_table.main.id}"
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = "${var.igw_id}"
+  count                  = 1
+
+  depends_on = [
+    "aws_route_table.main",
+  ]
 
   lifecycle {
     create_before_destroy = true
