@@ -11,9 +11,7 @@ variable "subnet_id" {
 }
 
 variable "name" {}
-variable "organization" {}
 variable "environment" {}
-
 
 /**
  * Routes
@@ -38,7 +36,6 @@ resource "aws_route_table_association" "main" {
     create_before_destroy = true
   }
 }
-
 
 /**
  * Outputs
