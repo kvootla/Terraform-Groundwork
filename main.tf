@@ -13,16 +13,16 @@ resource "aws_eip" "main" {
 }
 
 resource "aws_nat_gateway" "main" {
-  allocation_id = "${element(aws_eip.main.*.id, count.index)}"
+  allocation_id = "${aws_eip.main.id}"
   subnet_id     = "${var.public_subnet_id}"
 }
 
 /**
- * Outputs Varibales
+ * Outputs
  */
 
 output "nat_eips" {
   value = [
-    "${aws_eip.main.*.public_ip}"
+    "${aws_eip.main.public_ip}"
   ]
 }
