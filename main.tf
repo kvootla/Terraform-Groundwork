@@ -15,10 +15,6 @@ variable "source_cidr_block" {
   description = "The source CIDR block to allow traffic from"
 }
 
-variable "source_security_groups" {
-  description = "A source security groups to allow traffic from"
-}
-
 variable "organization" {
   description = "Organization the SG is for."
 }
@@ -41,7 +37,6 @@ resource "aws_security_group" "main_security_group" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    security_groups = "${var.source_security_groups}"
     cidr_blocks = ["${var.source_cidr_block}"]
   }
 
@@ -50,7 +45,6 @@ resource "aws_security_group" "main_security_group" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    security_groups = "${var.source_security_groups}"   
     cidr_blocks = ["${var.source_cidr_block}"]
   }
 
