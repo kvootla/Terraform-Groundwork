@@ -13,8 +13,6 @@ variable "vpc_id" {
 
 variable "source_cidr_blocks" {
   description = "A list of source CIDR blocks to allow traffic from"
-  type        = "list"
-  default     = []
 }
 
 variable "self_ingress" {
