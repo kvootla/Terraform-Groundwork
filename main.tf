@@ -11,16 +11,16 @@ variable "vpc_id" {
   description = "The VPC this security group will go in"
 }
 
-variable "source_cidr_block" {
-  description = "The source CIDR block to allow traffic from"
+variable "source_cidr_blocks" {
+  description = "A source CIDR blocks to allow traffic from"
 }
 
 variable "organization" {
-  description = "Organization the SG is for."
+  description = "Organization the security group is for."
 }
 
 variable "environment" {
-  description = "Environment the SG is for."
+  description = "Environment the security group is for."
   default     = ""
 }
 
@@ -34,10 +34,17 @@ resource "aws_security_group" "main_security_group" {
 
   // allow traffic for TCP 27017
   ingress {
-    from_port   = 27017
-    to_port     = 27017
-    protocol    = "tcp"
-    cidr_blocks = ["${var.source_cidr_block}"]
+    from_port       = 27017
+    to_port         = 27017
+    protocol        = "tcp"
+    cidr_blocks     = ["${var.source_cidr_blocks}"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags {
@@ -51,6 +58,6 @@ resource "aws_security_group" "main_security_group" {
  * Outputs
  */
 
-output "security_group_id" {
+output "sg_id" {
   value = "${aws_security_group.main_security_group.id}"
 }
