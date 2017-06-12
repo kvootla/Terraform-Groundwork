@@ -17,12 +17,6 @@ variable "source_cidr_blocks" {
   default     = []
 }
 
-variable "source_security_groups" {
-  description = "A list of source security groups to allow traffic from"
-  type        = "list"
-  default     = []
-}
-
 variable "self_ingress" {
   description = "Include security group itself as a source to this ingress rule"
   default     = "false"
@@ -51,7 +45,6 @@ resource "aws_security_group" "main_security_group" {
     to_port         = 22
     protocol        = "tcp"
     cidr_blocks     = ["${var.source_cidr_blocks}"]
-    security_groups = ["${var.source_security_groups}"]
     self            = "${var.self_ingress}"
   }
 
