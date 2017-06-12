@@ -21,8 +21,7 @@ resource "aws_nat_gateway" "main" {
  * Outputs
  */
 
-output "nat_eips" {
-  value = [
-    "${aws_eip.main.public_ip}"
-  ]
+output "nat_id" {
+  value = "${aws_nat_gateway.main.id}"
+
 }
