@@ -11,8 +11,8 @@ variable "vpc_id" {
   description = "The VPC this security group will go in"
 }
 
-variable "source_cidr_block" {
-  description = "The source CIDR block to allow traffic from"
+variable "source_cidr_blocks" {
+  description = "A list of source CIDR blocks to allow traffic from"
 }
 
 variable "organization" {
@@ -37,7 +37,14 @@ resource "aws_security_group" "main_security_group" {
     from_port   = 123
     to_port     = 123
     protocol    = "udp"
-    cidr_blocks = ["${var.source_cidr_block}"]
+    cidr_blocks = ["${var.source_cidr_blocks}"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags {
