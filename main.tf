@@ -38,7 +38,6 @@ resource "aws_security_group" "main_security_group" {
     to_port         = 1521
     protocol        = "tcp"
     cidr_blocks     = "${var.source_cidr_blocks}"
-    self            = "${var.self_ingress}"
   }
 
   egress {
