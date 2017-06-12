@@ -11,16 +11,16 @@ variable "vpc_id" {
   description = "The VPC this security group will go in"
 }
 
-variable "source_cidr_block" {
-  description = "The source CIDR block to allow traffic from"
+variable "source_cidr_blocks" {
+  description = "A source CIDR blocks to allow traffic from"
 }
 
 variable "organization" {
-  description = "Organization the SG is for."
+  description = "Organization the security group is for."
 }
 
 variable "environment" {
-  description = "Environment the SG is for."
+  description = "Environment the security group is for."
   default     = ""
 }
 
@@ -34,34 +34,57 @@ resource "aws_security_group" "main_security_group" {
 
   // allow traffic for TCP 5671
   ingress {
-    from_port   = 5671
-    to_port     = 5671
-    protocol    = "tcp"
-    cidr_blocks = ["${var.source_cidr_block}"]
+    from_port       = 5671
+    to_port         = 5671
+    protocol        = "tcp"
+    cidr_blocks     = ["${var.source_cidr_blocks}"]
   }
 
   // allow traffic for TCP 5672
   ingress {
-    from_port   = 5672
-    to_port     = 5672
-    protocol    = "tcp"
-    cidr_blocks = ["${var.source_cidr_block}"]
+    from_port       = 5672
+    to_port         = 5672
+    protocol        = "tcp"
+    cidr_blocks     = ["${var.source_cidr_blocks}"]
   }
 
   // allow traffic for TCP 15671
   ingress {
-    from_port   = 15671
-    to_port     = 15671
-    protocol    = "tcp"
-    cidr_blocks = ["${var.source_cidr_block}"]
+    from_port       = 15671
+    to_port         = 15671
+    protocol        = "tcp"
+    cidr_blocks     = ["${var.source_cidr_blocks}"]
   }
 
   // allow traffic for TCP 15672
   ingress {
-    from_port   = 15672
-    to_port     = 15672
-    protocol    = "tcp"
-    cidr_blocks = ["${var.source_cidr_block}"]
+    from_port       = 15672
+    to_port         = 15672
+    protocol        = "tcp"
+    cidr_blocks     = ["${var.source_cidr_blocks}"]
+  }
+
+  // allow traffic for TCP 25672
+  ingress {
+    from_port       = 25672
+    to_port         = 25672
+    protocol        = "tcp"
+    cidr_blocks     = ["${var.source_cidr_blocks}"]
+  }
+
+  // allow traffic for TCP 4369
+  ingress {
+    from_port       = 4369
+    to_port         = 4369
+    protocol        = "tcp"
+    cidr_blocks     = ["${var.source_cidr_blocks}"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags {
@@ -75,6 +98,6 @@ resource "aws_security_group" "main_security_group" {
  * Outputs
  */
 
-output "security_group_id" {
+output "sg_id" {
   value = "${aws_security_group.main_security_group.id}"
 }
