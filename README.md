@@ -20,7 +20,7 @@ Usage
 
 ```hcl
 module "sg" {
-  source              = "github.com/dchbx/infrastructure_modules/aws/sg/ssh"
+  source              = "github.com/dchbx/infrastructure_modules/aws/sg/rdp"
   security_group_name = "${var.security_group_name}"
   vpc_id 	      = "${var.vpc_id}"
   source_cidr_block   = "${var.source_cidr_block}"
