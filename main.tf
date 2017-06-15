@@ -65,17 +65,16 @@ resource "aws_subnet" "private_subnet" {
   tags {
     Name        = "${format("private")}-${var.name}"
     Environment = "${var.environment}"
-    Terraform   = "true"  
- }
+    Terraform   = "true"
+  }
 }
-
 
 resource "aws_subnet" "public_subnet" {
   vpc_id                  = "${var.vpc_id}"
   cidr_block              = "${var.public_subnets}"
   availability_zone       = "${var.availability_zones}"
   map_public_ip_on_launch = "${var.map_public_ip_on_launch}"
-   
+
   tags {
     Name        = "${format("public")}-${var.name}"
     Environment = "${var.environment}"
