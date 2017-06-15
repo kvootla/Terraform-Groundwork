@@ -8,7 +8,7 @@ variable "private_subnet_id" {}
  * Nat
  */
 resource "aws_eip" "main" {
-  vpc   = true
+  vpc = true
 }
 
 resource "aws_nat_gateway" "main" {
@@ -22,5 +22,4 @@ resource "aws_nat_gateway" "main" {
 
 output "nat_id" {
   value = "${aws_nat_gateway.main.id}"
-
 }
