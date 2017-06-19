@@ -26,28 +26,6 @@ resource "aws_s3_bucket" "bucket" {
     enabled = false
   }
 
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Id": "Policy1439656804052",
-    "Statement": [
-        {
-            "Sid": "Stmt1439656798784",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "arn:aws:iam::"${var.account_id}":"${var.user_name}""
-            },
-            "Action": [
-                "s3:DeleteObject",
-                "s3:GetObject",
-                "s3:PutObject"
-            ],
-            "Resource": "arn:aws:s3:::"${var.name}"/*"
-        }
-    ]
-EOF
-}
-
 /**
  * Outputs
  */
