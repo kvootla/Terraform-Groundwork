@@ -2,10 +2,6 @@
  * Inputs
  */
 
-variable "name" {
-  description = "Decriptive name used to label tagged resources."
-}
-
 variable "vpc_id" {
   description = "VPC ID where VPN Gateway(s) will be attached."
 }
