@@ -1,4 +1,3 @@
-
 /*
  * Inputs
  */
@@ -8,17 +7,13 @@ variable "vpc_id" {
 }
 
 variable "enable_vgw_route_propagation" {
-   description = "Whether the routes known to the Virtual Private Gateway, are propagated to the route tables listed in the route_table_ids listed. Accepts either true of false."
-   default     = false
+  description = "Whether the routes known to the Virtual Private Gateway, are propagated to the route tables listed in the route_table_ids listed. Accepts either true of false."
+  default     = false
 }
 
 variable "customer_gateway_id" {
   description = "customer gateway id"
   default     = true
-}
-
-variable "vpn_gateway_id" {
-  description = "Specify which VPN Gateway the Customer Gateway will be associated with."
 }
 
 variable "ip_address" {
@@ -70,7 +65,7 @@ resource "aws_customer_gateway" "main" {
   ip_address = "${var.ip_address}"
   type       = "ipsec.1"
 
- tags {
+  tags {
     Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-VPN"
     Organization = "${var.organization}"
     Terraform    = "true"
@@ -82,7 +77,7 @@ resource "aws_customer_gateway" "main" {
 }
 
 resource "aws_vpn_connection" "main" {
-  vpn_gateway_id = "${aws_vpn_gateway.main.id}"
+  vpn_gateway_id      = "${aws_vpn_gateway.main.id}"
   customer_gateway_id = "${aws_customer_gateway.main.id}"
   type                = "ipsec.1"
 
