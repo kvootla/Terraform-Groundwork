@@ -27,6 +27,12 @@ variable "environment" {
 resource "aws_vpn_gateway" "main" {
   vpc_id = "${var.vpc_id}"
 
+  tags {
+    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-dhcp"
+    Organization = "${var.organization}"
+    Terraform    = "true"
+  }
+
   lifecycle {
     create_before_destroy = true
   }
@@ -35,12 +41,6 @@ resource "aws_vpn_gateway" "main" {
 resource "aws_vpn_gateway_attachment" "main" {
   vpc_id         = "${var.vpc_id}"
   vpn_gateway_id = "${aws_vpn_gateway.main.id}"
-
-  tags {
-    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-dhcp"
-    Organization = "${var.organization}"
-    Terraform    = "true"
-  } 
 
   lifecycle {
     create_before_destroy = true
