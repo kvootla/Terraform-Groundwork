@@ -54,6 +54,7 @@ resource "aws_vpn_gateway_attachment" "main" {
 
 resource "aws_vpn_connection" "main" {
   vpn_gateway_id = "${aws_vpn_gateway.main.id}"
+  customer_gateway_id = "${var.customer_gateway_id}"
   type           = "ipsec.1"
 
   tags {
