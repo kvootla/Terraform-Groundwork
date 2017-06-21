@@ -15,6 +15,15 @@ variable "enable_vgw_route_propagation" {
   default     = false
 }
 
+variable "organization" {
+  description = "Organization the VPC is for."
+}
+
+variable "environment" {
+  description = "Environment the VPC is for."
+  default     = ""
+}
+
 /**
  * VPN Gateway
  */
@@ -30,6 +39,12 @@ resource "aws_vpn_gateway" "default" {
 resource "aws_vpn_gateway_attachment" "default" {
   vpc_id         = "${var.vpc_id}"
   vpn_gateway_id = "${aws_vpn_gateway.default.id}"
+
+  tags {
+    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-dhcp"
+    Organization = "${var.organization}"
+    Terraform    = "true"
+  } 
 
   lifecycle {
     create_before_destroy = true
