@@ -20,6 +20,15 @@ variable "customer_gateway_id" {
   default     = true
 }
 
+variable "organization" {
+  description = "Organization the VPC is for."
+}
+
+variable "environment" {
+  description = "Environment the VPC is for."
+  default     = ""
+}
+
 /**
  * VPN Gateway
  */
