@@ -82,7 +82,7 @@ resource "aws_customer_gateway" "main" {
 }
 
 resource "aws_vpn_connection" "main" {
-  vpn_gateway_id      = "${var.vpn_gateway_id}"
+  vpn_gateway_id = "${aws_vpn_gateway.main.id}"
   customer_gateway_id = "${aws_customer_gateway.main.id}"
   type                = "ipsec.1"
 
