@@ -2,6 +2,10 @@
  * Inputs
  */
 
+variable "name" {
+  description = "Decriptive name used to label tagged resources."
+}
+
 variable "vpc_id" {
   description = "VPC ID where VPN Gateway(s) will be attached."
 }
@@ -11,13 +15,9 @@ variable "enable_vgw_route_propagation" {
   default     = false
 }
 
-variable "organization" {
-  description = "Organization the VPC is for."
-}
-
-variable "environment" {
-  description = "Environment the VPC is for."
-  default     = ""
+variable "customer_gateway_id" {
+  description = "customer gateway id"
+  default     = true
 }
 
 /**
@@ -41,6 +41,21 @@ resource "aws_vpn_gateway" "main" {
 resource "aws_vpn_gateway_attachment" "main" {
   vpc_id         = "${var.vpc_id}"
   vpn_gateway_id = "${aws_vpn_gateway.main.id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_vpn_connection" "main" {
+  vpn_gateway_id = "${aws_vpn_gateway.main.id}"
+  type           = "ipsec.1"
+
+  tags {
+    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-dhcp"
+    Organization = "${var.organization}"
+    Terraform    = "true"
+  }
 
   lifecycle {
     create_before_destroy = true
