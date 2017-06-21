@@ -2,10 +2,6 @@
  * Inputs
  */
 
-variable "name" {
-  description = "Decriptive name used to label tagged resources."
-}
-
 variable "vpc_id" {
   description = "VPC ID where VPN Gateway(s) will be attached."
 }
@@ -28,7 +24,7 @@ variable "environment" {
  * VPN Gateway
  */
 
-resource "aws_vpn_gateway" "default" {
+resource "aws_vpn_gateway" "main" {
   vpc_id = "${var.vpc_id}"
 
   lifecycle {
@@ -36,9 +32,9 @@ resource "aws_vpn_gateway" "default" {
   }
 }
 
-resource "aws_vpn_gateway_attachment" "default" {
+resource "aws_vpn_gateway_attachment" "main" {
   vpc_id         = "${var.vpc_id}"
-  vpn_gateway_id = "${aws_vpn_gateway.default.id}"
+  vpn_gateway_id = "${aws_vpn_gateway.main.id}"
 
   tags {
     Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-dhcp"
@@ -56,5 +52,5 @@ resource "aws_vpn_gateway_attachment" "default" {
  */
 
 output "vgw_id" {
-  value = "${aws_vpn_gateway.default.id}"
+  value = "${aws_vpn_gateway.main.id}"
 }
