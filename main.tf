@@ -40,5 +40,5 @@ resource "aws_vpc_peering_connection" "main" {
  */
 
 output "vpc_peering_id" {
-  value = "${aws_aws_vpc_peering_connection.main.id}"
+  value = "${aws_vpc_peering_connection.main.id}"
 }
