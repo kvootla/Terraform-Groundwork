@@ -2,9 +2,9 @@
  * Inputs
  */
 
-variable "aws_vpc.requester.id" {}
+variable "requester_id" {}
 
-variable "aws_vpc.accepter.id" {}
+variable "accepter_id" {}
 
 variable "organization" {
   description = "Organization the VPC is for."
@@ -15,17 +15,16 @@ variable "environment" {
   default     = ""
 }
 
-
 /**
  * VPC Peering
  */
 
 resource "aws_vpc_peering_connection" "main" {
-  peer_vpc_id   = "${aws_vpc.requester.id}"
-  vpc_id        = "${aws_vpc.accepter.id}"
-  auto_accept   = true
+  peer_vpc_id = "${var.requester_id}"
+  vpc_id      = "${var.accepter_id}"
+  auto_accept = true
 
- tags {
+  tags {
     Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-VPN"
     Organization = "${var.organization}"
     Terraform    = "true"
@@ -35,7 +34,6 @@ resource "aws_vpc_peering_connection" "main" {
     create_before_destroy = true
   }
 }
-
 
 /**
  * Outputs
