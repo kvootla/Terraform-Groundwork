@@ -13,7 +13,7 @@ resource "aws_eip" "main" {
 
 resource "aws_nat_gateway" "main" {
   allocation_id = "${aws_eip.main.id}"
-  subnet_id     = "${var.private_subnet_id}"
+  subnet_id     = "${var.public_subnet_id}"
 }
 
 /**
