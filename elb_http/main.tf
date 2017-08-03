@@ -1,4 +1,3 @@
-
 variable "internal" {
   description = "Determines if the ELB is internal or not"
   default     = false
@@ -6,12 +5,12 @@ variable "internal" {
 
 variable "subnet_ids" {
   description = "List of subnet IDs"
-  type = "list"
+  type        = "list"
 }
 
 variable "security_group_ids" {
   description = "List of security group IDs"
-  type = "list"
+  type        = "list"
 }
 
 variable "backend_port" {
@@ -39,26 +38,24 @@ variable "environment" {
   default     = ""
 }
 
-
 /**
  * Elastic Load Balancer/http
  */
 
 resource "aws_elb" "main_elb" {
   internal           = "${internal}"
-  subnet_ids                   = ["${split(",", var.subnet_ids)}"]
-  security_group_ids         = ["${split(",",var.security_group_ids)}"]
+  subnet_ids         = ["${split(",", var.subnet_ids)}"]
+  security_group_ids = ["${split(",",var.security_group_ids)}"]
 
   idle_timeout                = 30
   connection_draining         = true
   connection_draining_timeout = 15
 
-
- listener {
+  listener {
     lb_port           = 80
     lb_protocol       = "http"
-    instance_port     = "${backend_port}"
-    instance_protocol = "${backend_protocol}"
+    instance_port     = "${var.backend_port}"
+    instance_protocol = "${var.backend_protocol}"
   }
 
   health_check {
