@@ -69,7 +69,14 @@ resource "aws_elb" "main_elb" {
   }
 
   cross_zone_load_balancing = true
-  name                      = "${var.organization}-${var.environment}-${var.engine}-${var.application}-elb"
+
+  name = "${var.organization}-${var.environment}-${var.application}-elb"
+
+  tags {
+    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-i"
+    Organization = "${var.organization}"
+    Terraform    = "true"
+  }
 }
 
 /**
