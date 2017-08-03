@@ -1,51 +1,64 @@
-/**
- * Input Variables
- */
 
-variable "elb_name" {}
-
-variable "elb_is_internal" {
+variable "internal" {
   description = "Determines if the ELB is internal or not"
   default     = false
 }
 
-variable "elb_security_group" {}
-
-variable "subnet_az1" {
-  description = "The subnet for AZ1"
+variable "subnet_ids" {
+  description = "List of subnet IDs"
+  type = "list"
 }
 
-variable "subnet_az2" {
-  description = "The subnet for AZ2"
+variable "security_group_ids" {
+  description = "List of security group IDs"
+  type = "list"
 }
 
 variable "backend_port" {
-  description = "The port the service on the EC2 instances listens on"
+  description = "Instance port"
 }
 
 variable "backend_protocol" {
-  description = "The protocol the backend service speaks"
+  description = "Protocol to use, HTTP or TCP"
 }
 
 variable "health_check_target" {
-  description = "The URL the ELB should use for health checks"
+  description = "Healthcheck path"
 }
+
+variable "application" {
+  description = "Application that will use the cache"
+}
+
+variable "organization" {
+  description = "Organization the VPC is for."
+}
+
+variable "environment" {
+  description = "Environment the VPC is for."
+  default     = ""
+}
+
 
 /**
  * Elastic Load Balancer/http
  */
 
-resource "aws_elb" "elb" {
-  name            = "${var.elb_name}"
-  subnets         = ["${var.subnet_az1}", "${var.subnet_az2}"]
-  internal        = "${var.elb_is_internal}"
-  security_groups = ["${var.elb_security_group}"]
+resource "aws_elb" "main_elb" {
+  internal           = "${internal}"
+  subnet_ids                   = ["${split(",", var.subnet_ids)}"]
+  security_group_ids         = ["${split(",",var.security_groups)}"]
 
-  listener {
-    instance_port     = "${var.backend_port}"
-    instance_protocol = "${var.backend_protocol}"
+  idle_timeout                = 30
+  connection_draining         = true
+  connection_draining_timeout = 15
+
+
+ listener {
     lb_port           = 80
     lb_protocol       = "http"
+    instance_port     = "${backend_port}"
+    instance_protocol = "${backend_protocol}"
   }
 
   health_check {
@@ -57,6 +70,12 @@ resource "aws_elb" "elb" {
   }
 
   cross_zone_load_balancing = true
+
+   tags {
+    Name         = "${var.organization}-${var.environment}-${var.engine}-${application}-elasticache"
+    Organization = "${var.organization}"
+    Terraform    = "true"
+  }
 }
 
 /**
@@ -64,7 +83,7 @@ resource "aws_elb" "elb" {
  */
 
 output "elb_id" {
-  value = "${aws_elb.elb.id}"
+  value = "${aws_elb.main_elb.id}"
 }
 
 output "elb_name" {
