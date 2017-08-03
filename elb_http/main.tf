@@ -44,8 +44,8 @@ variable "environment" {
 
 resource "aws_elb" "main_elb" {
   internal           = "${var.internal}"
-  subnet_ids         = ["${split(",", var.subnet_ids)}"]
-  security_group_ids = ["${split(",",var.security_group_ids)}"]
+  subnet_ids         = ["${var.subnet_ids}"]
+  security_group_ids = ["${var.security_group_ids}"]
 
   idle_timeout                = 30
   connection_draining         = true
