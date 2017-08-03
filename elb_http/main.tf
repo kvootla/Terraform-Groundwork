@@ -3,14 +3,16 @@ variable "internal" {
   default     = false
 }
 
-variable "subnet_ids" {
-  description = "List of subnet IDs"
-  type        = "list"
+variable "subnet_az1" {
+  description = "The subnet for AZ1"
+}
+
+variable "subnet_az2" {
+  description = "The subnet for AZ2"
 }
 
 variable "security_group_ids" {
   description = "List of security group IDs"
-  type        = "list"
 }
 
 variable "backend_port" {
@@ -44,8 +46,8 @@ variable "environment" {
 
 resource "aws_elb" "main_elb" {
   internal           = "${var.internal}"
-  subnet_ids         = ["${var.subnet_ids}"]
-  security_group_ids = ["${var.security_group_ids}"]
+  subnet_ids         = ["${var.subnet_az1}","${var.subnet_az2}"] 
+  security_group_ids = "${var.security_group_ids}"
 
   idle_timeout                = 30
   connection_draining         = true
