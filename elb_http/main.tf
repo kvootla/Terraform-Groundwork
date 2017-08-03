@@ -45,9 +45,9 @@ variable "environment" {
  */
 
 resource "aws_elb" "main_elb" {
-  internal          = "${var.internal}"
+  internal        = "${var.internal}"
   subnets         = ["${var.subnet_az1}", "${var.subnet_az2}"]
-  security_groups   = ["${var.security_group_id}"]
+  security_groups = ["${var.security_group_id}"]
 
   idle_timeout                = 30
   connection_draining         = true
@@ -69,12 +69,7 @@ resource "aws_elb" "main_elb" {
   }
 
   cross_zone_load_balancing = true
-
-  tags {
-    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-i"
-    Organization = "${var.organization}"
-    Terraform    = "true"
-  }
+  name                      = "${var.organization}-${var.environment}-${var.engine}-${var.application}-elb"
 }
 
 /**
