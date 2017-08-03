@@ -5,8 +5,9 @@
 variable "public_subnet_id" {}
 
 /**
- * Nat
+ * Nat Gateway
  */
+
 resource "aws_eip" "main" {
   vpc = true
 }

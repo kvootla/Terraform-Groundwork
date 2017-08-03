@@ -2,11 +2,11 @@
  * Input Variables
  */
 
+variable "vpc_id" {}
+
 variable "name" {
   default = "igw"
 }
-
-variable "vpc_id" {}
 
 variable "environment" {
   description = "Environment tag, e.g prod"

@@ -79,7 +79,7 @@ variable "security_groups" {
 }
 
 variable "rds_engine_type" {
-    description = "Database engine type"
+  description = "Database engine type"
 }
 
 variable "environment" {
@@ -102,7 +102,7 @@ resource "aws_db_instance" "main_rds_instance" {
   identifier        = "${var.rds_instance_identifier}"
   allocated_storage = "${var.rds_allocated_storage}"
   storage_type      = "${var.rds_storage_type}"
-  engine = "${var.rds_engine_type}"
+  engine            = "${var.rds_engine_type}"
   engine_version    = "${var.rds_engine_version}"
   instance_class    = "${var.rds_instance_class}"
 

@@ -7,30 +7,7 @@ variable "ami_id" {}
 variable "instance_type" {}
 variable "iam_instance_profile" {}
 variable "key_name" {}
-
-variable "security_group" {
-  description = "The security group the instances to use"
-}
-
-variable "user_data" {
-  description = "The path to a file with user_data for the instances"
-}
-
 variable "asg_name" {}
-
-variable "asg_number_of_instances" {
-  description = "The number of instances in the ASG"
-}
-
-variable "asg_minimum_number_of_instances" {
-  description = "The minimum number of instances the ASG should maintain"
-  default     = 1
-}
-
-variable "health_check_grace_period" {
-  description = "Number of seconds for a health check to time out"
-  default     = 300
-}
 
 variable "health_check_type" {
   default = "EC2"
@@ -42,6 +19,28 @@ variable "subnet_azs" {
 
 variable "azs" {
   description = "Availability Zones"
+}
+
+variable "security_group" {
+  description = "The security group the instances to use"
+}
+
+variable "user_data" {
+  description = "The path to a file with user_data for the instances"
+}
+
+variable "asg_number_of_instances" {
+  description = "The maximum number of instances in the ASG should maintain"
+}
+
+variable "asg_minimum_number_of_instances" {
+  description = "The minimum number of instances in the ASG should maintain"
+  default     = 2
+}
+
+variable "health_check_grace_period" {
+  description = "Number of seconds for a health check to time out"
+  default     = 300
 }
 
 /**
