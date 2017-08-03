@@ -71,8 +71,8 @@ resource "aws_elb" "main_elb" {
 
   cross_zone_load_balancing = true
 
-   tags {
-    Name         = "${var.organization}-${var.environment}-${var.engine}-${application}-elasticache"
+  tags {
+    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-i"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
