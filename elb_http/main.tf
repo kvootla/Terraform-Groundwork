@@ -43,7 +43,7 @@ variable "environment" {
  */
 
 resource "aws_elb" "main_elb" {
-  internal           = "${internal}"
+  internal           = "${var.internal}"
   subnet_ids         = ["${split(",", var.subnet_ids)}"]
   security_group_ids = ["${split(",",var.security_group_ids)}"]
 
