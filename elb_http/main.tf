@@ -11,7 +11,7 @@ variable "subnet_az2" {
   description = "The subnet for AZ2"
 }
 
-variable "security_group_ids" {
+variable "security_group_id" {
   description = "List of security group IDs"
 }
 
@@ -41,13 +41,13 @@ variable "environment" {
 }
 
 /**
- * Elastic Load Balancer/http
+ * Elastic Load Balancer
  */
 
 resource "aws_elb" "main_elb" {
-  internal           = "${var.internal}"
-  subnet_ids         = ["${var.subnet_az1}","${var.subnet_az2}"] 
-  security_group_ids = "${var.security_group_ids}"
+  internal          = "${var.internal}"
+  subnet_id         = ["${var.subnet_az1}", "${var.subnet_az2}"]
+  security_group_id = "${var.security_group_id}"
 
   idle_timeout                = 30
   connection_draining         = true
