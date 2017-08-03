@@ -47,7 +47,7 @@ variable "environment" {
 resource "aws_elb" "main_elb" {
   internal           = "${internal}"
   subnet_ids                   = ["${split(",", var.subnet_ids)}"]
-  security_group_ids         = ["${split(",",var.security_groups)}"]
+  security_group_ids         = ["${split(",",var.security_group_ids)}"]
 
   idle_timeout                = 30
   connection_draining         = true
@@ -87,9 +87,9 @@ output "elb_id" {
 }
 
 output "elb_name" {
-  value = "${aws_elb.elb.name}"
+  value = "${aws_elb.main_elb.name}"
 }
 
 output "elb_dns_name" {
-  value = "${aws_elb.elb.dns_name}"
+  value = "${aws_elb.main_elb.dns_name}"
 }
