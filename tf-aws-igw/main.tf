@@ -4,8 +4,17 @@
 
 variable "vpc_id" {}
 
-variable "name" {
-  default = "igw"
+variable "application" {
+  description = "Application that will use the cache"
+}
+
+variable "organization" {
+  description = "Organization the VPC is for."
+}
+
+variable "environment" {
+  description = "Environment the VPC is for."
+  default     = ""
 }
 
 variable "environment" {
@@ -16,13 +25,14 @@ variable "environment" {
  * Internet Gateway
  */
 
-resource "aws_internet_gateway" "igw" {
+resource "aws_internet_gateway" "main" {
   vpc_id = "${var.vpc_id}"
+  name   = "${var.organization}-${var.environment}-${var.application}-igw"
 
   tags {
-    Name        = "${var.name}"
-    Environment = "${var.environment}"
-    Terraform   = "true"
+    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-igw"
+    Organization = "${var.organization}"
+    Terraform    = "true"
   }
 }
 
@@ -31,5 +41,5 @@ resource "aws_internet_gateway" "igw" {
  */
 
 output "igw_id" {
-  value = "${aws_internet_gateway.igw.id}"
+  value = "${aws_internet_gateway.main.id}"
 }
