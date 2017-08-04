@@ -1,14 +1,18 @@
+/*
+ * Inputs
+ */
+
 variable "internal" {
   description = "Determines if the ELB is internal or not"
   default     = false
 }
 
-variable "subnet_az1" {
-  description = "The subnet for AZ1"
+variable "subnet_group_a1" {
+  description = "The subnet for availability zone 1"
 }
 
-variable "subnet_az2" {
-  description = "The subnet for AZ2"
+variable "subnet_group_a2" {
+  description = "The subnet for availability zone 2"
 }
 
 variable "security_group_id" {
@@ -45,17 +49,26 @@ variable "environment" {
  */
 
 resource "aws_elb" "main_elb" {
-  internal        = "${var.internal}"
-  subnets         = ["${var.subnet_az1}", "${var.subnet_az2}"]
-  security_groups = ["${var.security_group_id}"]
+  name               = "${var.organization}-${var.environment}-${var.application}-elb"
+  internal           = "${var.internal}"
+  subnet_ids         = ["${var.subnet_ids}"]
+  security_group_ids = ["${var.security_group_ids}"]
 
   idle_timeout                = 30
   connection_draining         = true
   connection_draining_timeout = 15
+  cross_zone_load_balancing   = true
 
   listener {
     lb_port           = 80
     lb_protocol       = "http"
+    instance_port     = "${var.backend_port}"
+    instance_protocol = "${var.backend_protocol}"
+  }
+
+  listener {
+    lb_port           = 443
+    lb_protocol       = "https"
     instance_port     = "${var.backend_port}"
     instance_protocol = "${var.backend_protocol}"
   }
@@ -67,10 +80,6 @@ resource "aws_elb" "main_elb" {
     target              = "${var.health_check_target}"
     interval            = 30
   }
-
-  cross_zone_load_balancing = true
-
-  name = "${var.organization}-${var.environment}-${var.application}-elb"
 
   tags {
     Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-i"
