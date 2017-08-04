@@ -21,7 +21,7 @@ resource "aws_internet_gateway" "main" {
   vpc_id = "${var.vpc_id}"
 
   tags {
-    Name         = "${format("%s-%s-%s", var.organization, var.environment)}-igw"
+    Name         = "${format("%s-%s", var.organization, var.environment)}-igw"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
