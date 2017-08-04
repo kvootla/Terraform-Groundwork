@@ -19,7 +19,6 @@ variable "environment" {
 
 resource "aws_internet_gateway" "main" {
   vpc_id = "${var.vpc_id}"
-  name   = "${var.organization}-${var.environment}-igw"
 
   tags {
     Name         = "${format("%s-%s-%s", var.organization, var.environment)}-igw"
