@@ -60,7 +60,7 @@ variable "environment" {
  * Autoscaling Groups
  */
 
-resource "aws_launch_configuration" "main" {
+resource "aws_launch_configuration" "launch_config" {
   name                 = "${var.organization}-${var.environment}-${var.application}-{var.lc_name}-elb"
   image_id             = "${var.ami_id}"
   instance_type        = "${var.instance_type}"
@@ -70,7 +70,7 @@ resource "aws_launch_configuration" "main" {
   user_data            = "${file(var.user_data)}"
 }
 
-resource "aws_autoscaling_group" "main" {
+resource "aws_autoscaling_group" "asg" {
   depends_on           = ["aws_launch_configuration.launch_config"]
   name                 = "${var.organization}-${var.environment}-${var.application}-elb"
   availability_zones   = ["${split(",", var.azs)}"]
@@ -89,9 +89,9 @@ resource "aws_autoscaling_group" "main" {
  */
 
 output "launch_config_id" {
-  value = "${aws_launch_configuration.main.id}"
+  value = "${aws_launch_configuration.launch_config.id}"
 }
 
 output "asg_id" {
-  value = "${aws_autoscaling_group.main.id}"
+  value = "${aws_autoscaling_group.asg.id}"
 }
