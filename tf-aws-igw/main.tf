@@ -17,7 +17,7 @@ variable "environment" {
  * Internet Gateway
  */
 
-resource "aws_internet_gateway" "main" {
+resource "aws_internet_gateway" "igw" {
   vpc_id = "${var.vpc_id}"
 
   tags {
@@ -32,5 +32,5 @@ resource "aws_internet_gateway" "main" {
  */
 
 output "igw_id" {
-  value = "${aws_internet_gateway.main.id}"
+  value = "${aws_internet_gateway.igw.id}"
 }
