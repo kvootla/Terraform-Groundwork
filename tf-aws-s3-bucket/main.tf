@@ -2,7 +2,7 @@
  * Input
  */
 
-variable "name" {
+variable "bucket_name" {
   description = "Used to populate the name tag for the bucket"
 }
 
@@ -11,7 +11,7 @@ variable "name" {
  */
 
 resource "aws_s3_bucket" "bucket" {
-  bucket = "${var.name}"
+  bucket = "${var.bucket_name}"
   acl    = "private"
 
   versioning {
