@@ -98,7 +98,7 @@ variable "application" {
  * Relational Database Service
  */
 
-resource "aws_db_instance" "main_rds_instance" {
+resource "aws_db_instance" "rds_instance" {
   identifier        = "${var.rds_instance_identifier}"
   allocated_storage = "${var.rds_allocated_storage}"
   storage_type      = "${var.rds_storage_type}"
@@ -127,12 +127,12 @@ resource "aws_db_instance" "main_rds_instance" {
   }
 }
 
-resource "aws_db_parameter_group" "main_rds_instance" {
+resource "aws_db_parameter_group" "rds_instance" {
   name   = "${var.rds_instance_identifier}-${replace(var.db_parameter_group, ".", "")}-custom-params"
   family = "${var.db_parameter_group}"
 }
 
-resource "aws_db_subnet_group" "main_db_subnet_group" {
+resource "aws_db_subnet_group" "rds_subnet_group" {
   name        = "${var.rds_instance_identifier}-subnetgrp"
   description = "RDS subnet group"
   subnet_ids  = ["${var.subnet_ids}"]
@@ -143,13 +143,13 @@ resource "aws_db_subnet_group" "main_db_subnet_group" {
  */
 
 output "rds_instance_id" {
-  value = "${aws_db_instance.main_rds_instance.id}"
+  value = "${aws_db_instance.rds_instance.id}"
 }
 
 output "rds_instance_address" {
-  value = "${aws_db_instance.main_rds_instance.address}"
+  value = "${aws_db_instance.rds_instance.address}"
 }
 
 output "rds_instance_endpoint" {
-  value = "${aws_db_instance.main_rds_instance.endpoint}"
+  value = "${aws_db_instance.rds_instance.endpoint}"
 }
