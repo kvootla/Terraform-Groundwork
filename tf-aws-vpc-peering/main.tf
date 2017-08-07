@@ -19,7 +19,7 @@ variable "environment" {
  * VPC Peering
  */
 
-resource "aws_vpc_peering_connection" "main" {
+resource "aws_vpc_peering_connection" "vpc_peering" {
   peer_vpc_id = "${var.requester_id}"
   vpc_id      = "${var.accepter_id}"
   auto_accept = true
@@ -40,5 +40,5 @@ resource "aws_vpc_peering_connection" "main" {
  */
 
 output "vpc_peering_id" {
-  value = "${aws_vpc_peering_connection.main.id}"
+  value = "${aws_vpc_peering_connection.vpc_peering.id}"
 }
