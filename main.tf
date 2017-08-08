@@ -2,8 +2,6 @@
  * Inputs
  */
 
-variable "owner" {}  
-
 variable "application" {
   description = "Application that will use the cache"
 }
@@ -24,10 +22,7 @@ variable "environment" {
 resource "aws_sns_topic" "main" {
    name            = "sns-${var.organization}-${var.environment}-${var.application}"
 }
-   tags {
-        Owner = "${var.owner}"
-    }
-
+ 
 /**
  * Outputs
  */
