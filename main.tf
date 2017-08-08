@@ -12,7 +12,20 @@ variable "vpc_id" {
 }
 
 variable "source_cidr_blocks" {
-  description = "A source CIDR blocks to allow traffic from"
+  description = "A list of source CIDR blocks to allow traffic from"
+  type        = "list"
+  default     = []
+}
+
+variable "source_security_groups" {
+  description = "A list of source security groups to allow traffic from"
+  type        = "list"
+  default     = []
+}
+
+variable "self_ingress" {
+  description = "Include security group itself as a source to this ingress rule"
+  default     = "false"
 }
 
 variable "organization" {
@@ -38,6 +51,8 @@ resource "aws_security_group" "main_security_group" {
     to_port         = 5671
     protocol        = "tcp"
     cidr_blocks     = ["${var.source_cidr_blocks}"]
+    security_groups = ["${var.source_security_groups}"]
+    self            = "${var.self_ingress}"
   }
 
   // allow traffic for TCP 5672
@@ -46,6 +61,8 @@ resource "aws_security_group" "main_security_group" {
     to_port         = 5672
     protocol        = "tcp"
     cidr_blocks     = ["${var.source_cidr_blocks}"]
+    security_groups = ["${var.source_security_groups}"]
+    self            = "${var.self_ingress}"
   }
 
   // allow traffic for TCP 15671
@@ -54,6 +71,8 @@ resource "aws_security_group" "main_security_group" {
     to_port         = 15671
     protocol        = "tcp"
     cidr_blocks     = ["${var.source_cidr_blocks}"]
+    security_groups = ["${var.source_security_groups}"]
+    self            = "${var.self_ingress}"
   }
 
   // allow traffic for TCP 15672
@@ -62,6 +81,8 @@ resource "aws_security_group" "main_security_group" {
     to_port         = 15672
     protocol        = "tcp"
     cidr_blocks     = ["${var.source_cidr_blocks}"]
+    security_groups = ["${var.source_security_groups}"]
+    self            = "${var.self_ingress}"
   }
 
   // allow traffic for TCP 25672
@@ -70,6 +91,8 @@ resource "aws_security_group" "main_security_group" {
     to_port         = 25672
     protocol        = "tcp"
     cidr_blocks     = ["${var.source_cidr_blocks}"]
+    security_groups = ["${var.source_security_groups}"]
+    self            = "${var.self_ingress}"
   }
 
   // allow traffic for TCP 4369
@@ -78,6 +101,8 @@ resource "aws_security_group" "main_security_group" {
     to_port         = 4369
     protocol        = "tcp"
     cidr_blocks     = ["${var.source_cidr_blocks}"]
+    security_groups = ["${var.source_security_groups}"]
+    self            = "${var.self_ingress}"
   }
 
   egress {
