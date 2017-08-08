@@ -17,7 +17,7 @@ variable "subnet_group_a2" {
 
 variable "instance_ids" {
   description = "List of instance IDs"
-  default = []
+  default     = []
 }
 
 variable "security_group_id" {
