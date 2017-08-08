@@ -20,17 +20,17 @@ variable "environment" {
  */
 
 resource "aws_sns_topic" "main" {
-   name            = "sns-${var.organization}-${var.environment}-${var.application}"
+  name = "sns-${var.organization}-${var.environment}-${var.application}"
 }
- 
+
 /**
  * Outputs
  */
 
 output "sns_id" {
-    value = "${aws_sns_topic.main.id}"
+  value = "${aws_sns_topic.main.id}"
 }
 
 output "arn" {
-    value = "${aws_sns_topic.main.outputs.ARN}"
+  value = "${aws_sns_topic.main.outputs.ARN}"
 }
