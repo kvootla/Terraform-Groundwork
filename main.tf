@@ -20,7 +20,7 @@ variable "environment" {
  */
 
 resource "aws_sns_topic" "main" {
-  name = "sns-${var.organization}-${var.environment}-${var.application}"
+  name = "${var.organization}-${var.environment}-${var.application}-sns"
 }
 
 /**
