@@ -2,6 +2,8 @@
  * Inputs
  */
 
+variable "owner" {}  
+
 variable "application" {
   description = "Application that will use the cache"
 }
@@ -23,10 +25,8 @@ resource "aws_sns_topic" "main" {
    name            = "sns-${var.organization}-${var.environment}-${var.application}"
 }
    tags {
-    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-elb"
-    Organization = "${var.organization}"
-    Terraform    = "true"
-  }
+        Owner = "${var.owner}"
+    }
 
 /**
  * Outputs
