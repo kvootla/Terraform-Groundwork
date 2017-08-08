@@ -11,8 +11,21 @@ variable "vpc_id" {
   description = "The VPC this security group will go in"
 }
 
-variable "source_cidr_block" {
-  description = "The source CIDR block to allow traffic from"
+variable "source_cidr_blocks" {
+  description = "A list of source CIDR blocks to allow traffic from"
+  type        = "list"
+  default     = []
+}
+
+variable "source_security_groups" {
+  description = "A list of source security groups to allow traffic from"
+  type        = "list"
+  default     = []
+}
+
+variable "self_ingress" {
+  description = "Include security group itself as a source to this ingress rule"
+  default     = "false"
 }
 
 variable "organization" {
@@ -34,18 +47,22 @@ resource "aws_security_group" "main_security_group" {
 
   // allow traffic for TCP 80
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["${var.source_cidr_block}"]
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    cidr_blocks     = ["${var.source_cidr_block}"]
+    security_groups = ["${var.source_security_groups}"]
+    self            = "${var.self_ingress}"
   }
 
   // allow traffic for TCP 443
   ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["${var.source_cidr_block}"]
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
+    cidr_blocks     = ["${var.source_cidr_block}"]
+    security_groups = ["${var.source_security_groups}"]
+    self            = "${var.self_ingress}"
   }
 
   egress {
