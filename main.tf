@@ -14,11 +14,17 @@ variable "igw_id" {
   description = "The Internet Gateway ID."
 }
 
-variable "name" {}
-variable "environment" {}
+variable "organization" {
+  description = "Organization the VPC is for."
+}
+
+variable "environment" {
+  description = "Environment the VPC is for."
+  default     = ""
+}
 
 /**
- * Routes
+ * Routes/Internet Gateway
  */
 
 resource "aws_route_table" "main" {
@@ -26,9 +32,9 @@ resource "aws_route_table" "main" {
   count  = 1
 
   tags {
-    Name        = "${var.name}"
-    Environment = "${var.environment}"
-    Terraform   = "true"
+    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-igw"
+    Organization = "${var.organization}"
+    Terraform    = "true"
   }
 }
 
