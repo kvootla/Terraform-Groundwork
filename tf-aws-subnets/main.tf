@@ -2,8 +2,6 @@
  * Input Variables
  */
 
-variable "vpc_cidr" {}
-
 variable "vpc_id" {}
 
 variable "availability_zones" {
@@ -25,7 +23,7 @@ variable "private_propagating_vgws" {
   default     = []
 }
 
-variable "private_subnets" {
+variable "private_subnet_cidr" {
   default = "A list of public subnets inside the VPC"
 }
 
@@ -39,7 +37,7 @@ variable "public_propagating_vgws" {
   default     = []
 }
 
-variable "public_subnets" {
+variable "public_subnet_cidr" {
   description = "A list of public subnets inside the VPC"
 }
 
@@ -58,7 +56,7 @@ variable "environment" {
 
 resource "aws_subnet" "private_subnet" {
   vpc_id                  = "${var.vpc_id}"
-  cidr_block              = "${var.private_subnets}"
+  cidr_block              = "${var.private_subnet_cidr}"
   availability_zone       = "${var.availability_zones}"
   map_public_ip_on_launch = false
 
@@ -71,13 +69,14 @@ resource "aws_subnet" "private_subnet" {
 
 resource "aws_subnet" "public_subnet" {
   vpc_id                  = "${var.vpc_id}"
-  cidr_block              = "${var.public_subnets}"
+  cidr_block              = "${var.public_subnet_cidr}"
   availability_zone       = "${var.availability_zones}"
   map_public_ip_on_launch = "${var.map_public_ip_on_launch}"
 
   tags {
     Name        = "${format("public")}-${var.name}"
     Environment = "${var.environment}"
+    Terraform   = "true"
   }
 }
 
