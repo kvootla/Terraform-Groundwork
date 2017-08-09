@@ -50,5 +50,5 @@ output "url" {
 }
 
 output "arn" {
-  value = "${aws_sqs_queue.outputs.arn}"
+  value = "${aws_sqs_queue.main.arn}"
 }
