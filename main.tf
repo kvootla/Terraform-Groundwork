@@ -2,7 +2,7 @@
  * Input Variables
  */
 
-variable "vpc" {
+variable "vpc_id" {
   default = true
 }
 
@@ -14,10 +14,10 @@ variable "instance_ids" {
  * Elastic IP
  */
 
-resource "aws_eip" "eip" {
-  instance = "${element(split(",", var.instance_ids), count.index)}"
-  vpc      = "${var.vpc}"
+resource "aws_eip" "main" {
+  vpc      = "${var.vpc_id}"
   count    = "${length(split(",", var.instance_ids))}"
+  instance = "${element(split(",", var.instance_ids), count.index)}"
 }
 
 /**
