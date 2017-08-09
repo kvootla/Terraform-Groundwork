@@ -34,12 +34,11 @@ variable "environment" {
  * Simple Queue Service
  */
 
-resource "aws_sqs" "main" {
-
-  name = "${var.organization}-${var.environment}-${var.application}-sqs"
+resource "aws_sqs_queue" "main" {
+  name             = "${var.organization}-${var.environment}-${var.application}-sqs"
   delay_seconds    = "${var.delay_seconds}"
   max_message_size = "${var.max_message_size}"
-  redrive_policy = "${var.redrive_policy}"
+  redrive_policy   = "${var.redrive_policy}"
 }
 
 /**
@@ -47,9 +46,9 @@ resource "aws_sqs" "main" {
  */
 
 output "url" {
-  value = "${aws_sqs.main.id}"
+  value = "${aws_sqs_queue.main.id}"
 }
 
 output "arn" {
-  value = "${aws_sqs.main.arn}"
+  value = "${aws_sqs_queue.outputs.arn}"
 }
