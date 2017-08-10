@@ -9,7 +9,7 @@ variable "instance_id" {
 }
 
 /**
- * CloudWatch Event Target
+ * CloudWatch Event
  */
 
 resource "aws_cloudwatch_event_target" "main" {
