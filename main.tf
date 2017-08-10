@@ -4,7 +4,7 @@
 
 variable "arn" {}
 
-variable "instance_ids" {
+variable "instance_id" {
   description = "List of instance IDs"
   default     = []
 }
