@@ -2,46 +2,62 @@
  * Inputs
  */
 
+variable "name" {}
 variable "arn" {}
-
-variable "instance_id" {
-  description = "List of instance IDs"
-  default     = []
-}
+variable "volume_id" {}
+variable "cron_expression"
 
 /**
- * CloudWatch Event
+ * CloudWatch Event Target
  */
 
 resource "aws_cloudwatch_event_target" "main" {
-  rule      = "${aws_cloudwatch_event_rule.console.name}"
+ volume_id = "${var.volume_id}"
   arn       = "${var.arn}"
-  instance_id    = ["${var.instance_id}"]
 }
 
-resource "aws_cloudwatch_event_rule" "console" {
-  name        = "capture-ec2-scaling-events"
-  description = "Capture all EC2 scaling events"
+resource "aws_cloudwatch_schedule_rule" "console" {
+
+cron_expression = "${var.cron_expression}"
 
   event_pattern = <<PATTERN
 {
-  "source": [
-    "aws.autoscaling"
+  "version": "0",
+  "id": "89d1a02d-5ec7-412e-82f5-13505f849b41",
+  "detail-type": "Scheduled Event",
+  "source": "aws.events",
+  "account": "123456789012",
+  "time": "2016-12-30T18:44:49Z",
+  "region": "us-east-1",
+  "resources": [
+    "arn:aws:events:us-east-1:123456789012:rule/SampleRule"
   ],
-  "detail-type": [
-    "EC2 Instance Launch Successful",
-    "EC2 Instance Terminate Successful",
-    "EC2 Instance Launch Unsuccessful",
-    "EC2 Instance Terminate Unsuccessful"
-  ]
+  "detail": {}
 }
 PATTERN
 }
 
-/**
- * Outputs
- */
+resource "aws_cloudwatch_event_rule" "console" {
+  name        = "${var.name}"
+  description = "Capture each ebs snapshots"
 
-output "cloudwatch_id" {
-  value = "${aws_cloudwatch_event_target.main.id}"
+  event_pattern = <<PATTERN
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:Describe*",
+        "ec2:RebootInstances",
+        "ec2:StopInstances",
+        "ec2:TerminateInstances",
+        "ec2:CreateSnapshot"
+      ],
+      "Resource": "*"
+    }
+  ]
+ }
+}
+PATTERN
 }
