@@ -2,29 +2,34 @@
  * Inputs
  */
 
-variable "rds_instance_identifier" {
-  description = "Custom name of the instance"
-}
-
-variable "rds_is_multi_az" {
+variable "multi_az" {
   description = "Set to true on production"
   default     = false
 }
 
-variable "rds_storage_type" {
+variable "storage_type" {
   description = "One of 'standard' (magnetic), 'gp2' (general purpose SSD), or 'io1' (provisioned IOPS SSD)."
-  default     = "standard"
+  default     = "gp2"
 }
 
-variable "rds_allocated_storage" {
+variable "allocated_storage" {
   description = "The allocated storage in GBs"
 }
 
-variable "rds_engine_version" {
-  description = "Database engine version"
+variable "storage_encrypted" {
+  description = "Encrypted RDS storage"
+  default     = true
 }
 
-variable "rds_instance_class" {
+variable "engine_type" {
+  description = "Database engine type"
+}
+
+variable "engine_version" {
+  description = "Database engine version, depends on engine type"
+}
+
+variable "instance_class" {
   description = "Class of RDS instance"
 }
 
@@ -46,40 +51,44 @@ variable "database_user" {}
 variable "database_password" {}
 variable "database_port" {}
 
-variable "db_parameter_group" {
-  description = "Parameter group, depends on DB engine used"
-}
-
 variable "publicly_accessible" {
   description = "Determines if database can be publicly available (NOT recommended)"
   default     = false
 }
 
-variable "subnet_group_name" {
-  description = "A group name for the subnet"
-}
-
 variable "subnet_ids" {
-  description = "A list of subnet IDs"
+  description = "List of subnets DB should be available at. It might be one subnet."
   type        = "list"
 }
 
-variable "private_cidr" {
-  description = "VPC private addressing, used for a security group"
-  type        = "string"
-}
-
-variable "rds_vpc_id" {
+variable "vpc_id" {
   description = "VPC to connect to, used for a security group"
   type        = "string"
 }
 
-variable "security_groups" {
-  description = "a comma separated lists of security group IDs"
+variable "license_model" {
+  description = "Typically included or BYOL"
+  default     = "license-included"
 }
 
-variable "rds_engine_type" {
-  description = "Database engine type"
+variable "backup_retention_period" {
+  description = "Backup retention period 1-35"
+  default     = 35
+}
+
+variable "backup_window" {
+  description = "Backup window in UTC"
+  default     = "08:00-09:00"
+}
+
+variable "maintenance_window" {
+  description = "Maintenance window in UTC w/ day of the week"
+  default     = "sun:06:00-sun:07:00"
+}
+
+variable "security_groups" {
+  description = "A list of security group IDs"
+  type        = "list"
 }
 
 variable "environment" {
@@ -90,52 +99,44 @@ variable "organization" {
   description = "Organization tag e.g. dchbx"
 }
 
-variable "application" {
-  description = "Application tag e.g. enroll"
+variable "database_type" {
+  description = "Database type e.g. oracle"
 }
 
 /**
  * Relational Database Service
  */
 
-resource "aws_db_instance" "rds_instance" {
-  identifier        = "${var.rds_instance_identifier}"
-  allocated_storage = "${var.rds_allocated_storage}"
-  storage_type      = "${var.rds_storage_type}"
-  engine            = "${var.rds_engine_type}"
-  engine_version    = "${var.rds_engine_version}"
-  instance_class    = "${var.rds_instance_class}"
+resource "aws_db_instance" "main_rds_instance" {
+  identifier        = "rds-${var.organization}-${var.environment}-${var.database_type}"
+  allocated_storage = "${var.allocated_storage}"
+  storage_type      = "${var.storage_type}"
+  storage_encrypted = "${var.storage_encrypted}"
+  engine            = "${var.engine_type}"
+  engine_version    = "${var.engine_version}"
+  license_model     = "${var.license_model}"
+  instance_class    = "${var.instance_class}"
 
   name     = "${var.database_name}"
   username = "${var.database_user}"
   password = "${var.database_password}"
   port     = "${var.database_port}"
 
-  parameter_group_name        = "${aws_db_parameter_group.rds_instance.id}"
   publicly_accessible         = "${var.publicly_accessible}"
-  auto_minor_version_upgrade  = "${var.auto_minor_version_upgrade}"
   allow_major_version_upgrade = "${var.allow_major_version_upgrade}"
+  auto_minor_version_upgrade  = "${var.auto_minor_version_upgrade}"
+  backup_retention_period     = "${var.backup_retention_period}"
+  backup_window               = "${var.backup_window}"
+  maintenance_window          = "${var.maintenance_window}"
 
-  multi_az               = "${var.rds_is_multi_az}"
-  db_subnet_group_name   = "${aws_db_subnet_group.rds_subnet_group.name}"
-  vpc_security_group_ids = ["${split(",",var.security_groups)}"]
-
-  tags {
-    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-i"
-    Organization = "${var.organization}"
-    Terraform    = "true"
-  }
+  multi_az               = "${var.multi_az}"
+  db_subnet_group_name   = "${aws_db_subnet_group.main_db_subnet_group.name}"
+  vpc_security_group_ids = ["${var.security_groups}"]
 }
 
-resource "aws_db_parameter_group" "rds_instance" {
-  name   = "${var.rds_instance_identifier}-${replace(var.db_parameter_group, ".", "")}-custom-params"
-  family = "${var.db_parameter_group}"
-}
-
-resource "aws_db_subnet_group" "rds_subnet_group" {
-  name        = "${var.rds_instance_identifier}-subnetgrp"
-  description = "RDS subnet group"
-  subnet_ids  = ["${var.subnet_ids}"]
+resource "aws_db_subnet_group" "main_db_subnet_group" {
+  name       = "${var.organization}-${var.environment}"
+  subnet_ids = ["${var.subnet_ids}"]
 }
 
 /**
@@ -143,13 +144,13 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
  */
 
 output "rds_instance_id" {
-  value = "${aws_db_instance.rds_instance.id}"
+  value = "${aws_db_instance.main_rds_instance.id}"
 }
 
 output "rds_instance_address" {
-  value = "${aws_db_instance.rds_instance.address}"
+  value = "${aws_db_instance.main_rds_instance.address}"
 }
 
 output "rds_instance_endpoint" {
-  value = "${aws_db_instance.rds_instance.endpoint}"
+  value = "${aws_db_instance.main_rds_instance.endpoint}"
 }
