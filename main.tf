@@ -3,7 +3,9 @@
  */
 
 variable "arn" {}
-variable "instance_id" {}
+variable "instance_id" {
+  description = "List of security group IDs"
+}
 
 
 /**
@@ -17,7 +19,7 @@ resource "aws_cloudwatch_event_target" "main" {
 
   run_command_targets {
     key = "InstanceIds"
-    values = "${var.instance_id}"
+    values = ["${var.instance_id}"]
   }
 }
 
