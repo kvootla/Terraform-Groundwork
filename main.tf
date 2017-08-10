@@ -19,5 +19,5 @@ input = "\"arn:aws:ec2:${var.region}:${var.account_id}:volume/vol-${var.ebs_vol_
 resource "aws_cloudwatch_event_rule" "snap_ebs" {
 name = "snap-ebs-volumes"
 description = "Snapshot EBS volumes"
-schedule_expression = "* 1 * * ? *"
+schedule_expression = "cron(0 20 * * ? *)"
 }
