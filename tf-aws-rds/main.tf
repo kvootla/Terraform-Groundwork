@@ -111,13 +111,13 @@ resource "aws_db_instance" "rds_instance" {
   password = "${var.database_password}"
   port     = "${var.database_port}"
 
-  parameter_group_name        = "${aws_db_parameter_group.main_rds_instance.id}"
+  parameter_group_name        = "${aws_db_parameter_group.rds_instance.id}"
   publicly_accessible         = "${var.publicly_accessible}"
   auto_minor_version_upgrade  = "${var.auto_minor_version_upgrade}"
   allow_major_version_upgrade = "${var.allow_major_version_upgrade}"
 
   multi_az               = "${var.rds_is_multi_az}"
-  db_subnet_group_name   = "${aws_db_subnet_group.main_db_subnet_group.name}"
+  db_subnet_group_name   = "${aws_db_subnet_group.rds_subnet_group.name}"
   vpc_security_group_ids = ["${split(",",var.security_groups)}"]
 
   tags {
