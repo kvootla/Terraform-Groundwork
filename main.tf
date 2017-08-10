@@ -13,10 +13,9 @@ variable "instance_id" {
  */
 
 resource "aws_cloudwatch_event_target" "main" {
-  target_id = "main"
   rule      = "${aws_cloudwatch_event_rule.console.name}"
   arn       = "${var.arn}"
-  values    = ["${var.instance_id}"]
+  instance_id    = ["${var.instance_id}"]
 }
 
 resource "aws_cloudwatch_event_rule" "console" {
