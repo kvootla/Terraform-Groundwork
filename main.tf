@@ -4,8 +4,9 @@
 
 variable "arn" {}
 
-variable "instance_id" {
-  description = "List of security group IDs"
+variable "instance_ids" {
+  description = "List of instance IDs"
+  default     = []
 }
 
 /**
