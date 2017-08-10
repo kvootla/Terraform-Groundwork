@@ -3,10 +3,10 @@
  */
 
 variable "arn" {}
+
 variable "instance_id" {
   description = "List of security group IDs"
 }
-
 
 /**
  * CloudWatch Event Target
@@ -16,11 +16,7 @@ resource "aws_cloudwatch_event_target" "main" {
   target_id = "main"
   rule      = "${aws_cloudwatch_event_rule.console.name}"
   arn       = "${var.arn}"
-
-  run_command_targets {
-    key = "InstanceIds"
-    values = ["${var.instance_id}"]
-  }
+  values    = ["${var.instance_id}"]
 }
 
 resource "aws_cloudwatch_event_rule" "console" {
@@ -46,6 +42,6 @@ PATTERN
  * Outputs
  */
 
- output "cloudwatch_id" {
+output "cloudwatch_id" {
   value = "${aws_cloudwatch_event_target.main.id}"
 }
