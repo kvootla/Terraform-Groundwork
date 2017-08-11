@@ -107,11 +107,11 @@ variable "environment" {
  */
 
 resource "aws_elb" "main_elb" {
-  name               = "${var.organization}-${var.environment}-${var.application}-elb"
-  internal           = "${var.internal}"
-  subnet_ids         = ["${var.subnet_group_a1}","${var.subnet_group_a2}"]
-  instances          = ["${var.instance_ids}"]
-  security_group_ids = ["${var.security_group_id}"]
+  name            = "${var.organization}-${var.environment}-${var.application}-elb"
+  internal        = "${var.internal}"
+  subnets         = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"]
+  instances       = ["${var.instance_ids}"]
+  security_groups = ["${var.security_group_id}"]
 
   idle_timeout                = "${var.idle_timeout}"
   connection_draining         = "${var.connection_draining}"
