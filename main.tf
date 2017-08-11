@@ -3,19 +3,27 @@
  */
 
 variable "region" {
-description = "The region of the EBS volume to be snapshot"
+  description = "The region of the EBS volume to be snapshot"
   default     = "us-east-1"
 }
+
 variable "account_id" {
- description = "The canonical user ID associated with the aws account"
+  description = "The canonical user ID associated with the aws account"
 }
 
 variable "ebs_volume_id" {
-  description = "EBS volume ID for capturing the snapshot"
+  description = "List of EBS volume ID for capturing the snapshot"
+  type        = "list"
 }
+
 variable "cron_expression" {
   description = "Scheduling expression to capture snapshot at certain interval"
-  default = "cron(0 20 * * ? *)" 
+  default     = "cron(0 20 * * ? *)"
+}
+
+variable "target_id" {
+  description = "unique target assignment ID to be assigned if needed"
+  default     = ""
 }
 
 variable "application" {
@@ -36,7 +44,7 @@ variable "environment" {
  */
 
 resource "aws_cloudwatch_event_target" "main" {
-  target_id = "main"
+  target_id = "${var.target_id}"
   rule      = "${aws_cloudwatch_event_rule.snap_ebs.name}"
   arn       = "arn:aws:automation:${var.region}:${var.account_id}:action/EBSCreateSnapshot/EBSCreateSnapshot_ebs_volume"
   input     = "\"arn:aws:ec2:${var.region}:${var.account_id}:volume/vol-${var.ebs_volume_id}\""
