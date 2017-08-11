@@ -94,10 +94,6 @@ output "elasticache_cluster_id" {
   value = "${aws_elasticache_cluster.main.id}"
 }
 
-output "cache_security_group_id" {
-  value = "${security_group_ids.main.id}"
-}
-
 output "port" {
   value = "6379"
 }
