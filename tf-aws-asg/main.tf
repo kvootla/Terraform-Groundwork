@@ -37,9 +37,9 @@ variable "min_number_of_instances" {
   default     = 2
 }
 
-variable "health_check_period" {
+variable "health_check_grace_period" {
   description = "Number of seconds for a health check to time out"
-  default     = 300
+  default = 300
 }
 
 variable "application" {
@@ -79,7 +79,7 @@ resource "aws_autoscaling_group" "main" {
   max_size            = "${var.max_number_of_instances}"
   min_size            = "${var.min_number_of_instances}"
   desired_capacity    = "${var.max_number_of_instances}"
-  health_check_period = "${var.health_check_period}"
+  health_check_grace_period = "${var.health_check_grace_period}"
   health_check_type   = "${var.health_check_type}"
 }
 
