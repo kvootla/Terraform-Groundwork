@@ -7,13 +7,10 @@ variable "ami_id" {}
 variable "key_name" {}
 variable "instance_type" {}
 variable "iam_instance_profile" {}
+variable "subnet_group_azs" {}
 
 variable "health_check_type" {
   default = "EC2"
-}
-
-variable "subnet_group_ids" {
-  description = "The subnet IDs with in the VPC"
 }
 
 variable "azs" {
@@ -73,12 +70,12 @@ resource "aws_autoscaling_group" "asg" {
   depends_on           = ["aws_launch_configuration.launch_config"]
   name                 = "${var.organization}-${var.environment}-${var.application}-elb"
   availability_zones   = ["${split(",", var.azs)}"]
-  vpc_zone_identifier  = ["${split(",", var.subnet_group_ids)}"]
+  vpc_zone_identifier  = ["${split(",", var.subnet_group_azs)}"]
   launch_configuration = "${aws_launch_configuration.launch_config.id}"
 
   max_size                  = "${var.asg_maximum_number_of_instances}"
   min_size                  = "${var.asg_minimum_number_of_instances}"
-  desired_capacity          = "${var.asg_number_of_instances}"
+  desired_capacity          = "${var.asg_maximum_number_of_instances}"
   health_check_grace_period = "${var.health_check_grace_period}"
   health_check_type         = "${var.health_check_type}"
 }
