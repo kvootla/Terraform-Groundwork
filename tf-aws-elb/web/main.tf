@@ -109,9 +109,9 @@ variable "environment" {
 resource "aws_elb" "main_elb" {
   name               = "${var.organization}-${var.environment}-${var.application}-elb"
   internal           = "${var.internal}"
-  subnet_ids         = ["${var.subnet_ids}"]
+  subnet_ids         = ["${var.subnet_group_a1}","${var.subnet_group_a2}"]
   instances          = ["${var.instance_ids}"]
-  security_group_ids = ["${var.security_group_ids}"]
+  security_group_ids = ["${var.security_group_id}"]
 
   idle_timeout                = "${var.idle_timeout}"
   connection_draining         = "${var.connection_draining}"
@@ -121,15 +121,15 @@ resource "aws_elb" "main_elb" {
   listener {
     lb_port           = 80
     lb_protocol       = "http"
-    instance_port     = "${var.backend_port}"
-    instance_protocol = "${var.backend_protocol}"
+    instance_port     = "${var.http_backend_port}"
+    instance_protocol = "${var.http_backend_protocol}"
   }
 
   listener {
     lb_port           = 443
     lb_protocol       = "https"
-    instance_port     = "${var.backend_port}"
-    instance_protocol = "${var.backend_protocol}"
+    instance_port     = "${var.https_backend_port}"
+    instance_protocol = "${var.https_backend_protocol}"
   }
 
   health_check {
