@@ -5,7 +5,6 @@
 variable "lc_name" {}
 variable "ami_id" {}
 variable "key_name" {}
-variable "asg_name" {}
 variable "instance_type" {}
 variable "iam_instance_profile" {}
 
