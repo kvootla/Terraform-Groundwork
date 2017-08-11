@@ -79,7 +79,7 @@ resource "aws_autoscaling_group" "main" {
   max_size            = "${var.max_number_of_instances}"
   min_size            = "${var.min_number_of_instances}"
   desired_capacity    = "${var.max_number_of_instances}"
-  health_check_period = "${health_check_period}"
+  health_check_period = "${var.health_check_period}"
   health_check_type   = "${var.health_check_type}"
 }
 
