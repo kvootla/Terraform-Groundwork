@@ -12,8 +12,7 @@ variable "account_id" {
 }
 
 variable "ebs_volume_id" {
-  description = "List of EBS volume ID for capturing the snapshot"
-  type        = "list"
+  description = "EBS volume ID for capturing the snapshot"
 }
 
 variable "cron_expression" {
