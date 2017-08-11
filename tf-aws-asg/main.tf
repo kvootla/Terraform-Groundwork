@@ -21,8 +21,8 @@ variable "security_group_ids" {
 }
 
 variable "subnet_group_ids" {
-   description = "The subnet IDs with in the VPC"
- }
+  description = "The subnet IDs with in the VPC"
+}
 
 variable "user_data" {
   description = "The path to a file with user_data for the instances"
@@ -76,11 +76,11 @@ resource "aws_autoscaling_group" "main" {
   vpc_zone_identifier  = ["${var.subnet_group_ids}"]
   launch_configuration = "${aws_launch_configuration.launch_config.id}"
 
-  max_size                  = "${var.max_number_of_instances}"
-  min_size                  = "${var.min_number_of_instances}"
-  desired_capacity          = "${var.max_number_of_instances}"
-  health_check_period = "${var.health_check_period}"
-  health_check_type         = "${var.health_check_type}"
+  max_size            = "${var.max_number_of_instances}"
+  min_size            = "${var.min_number_of_instances}"
+  desired_capacity    = "${var.max_number_of_instances}"
+  health_check_period = "${health_check_period}"
+  health_check_type   = "${var.health_check_type}"
 }
 
 /**
