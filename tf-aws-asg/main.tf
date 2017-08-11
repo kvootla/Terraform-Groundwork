@@ -39,7 +39,7 @@ variable "min_number_of_instances" {
 
 variable "health_check_grace_period" {
   description = "Number of seconds for a health check to time out"
-  default = 300
+  default     = 300
 }
 
 variable "application" {
@@ -76,11 +76,11 @@ resource "aws_autoscaling_group" "main" {
   vpc_zone_identifier  = ["${var.subnet_group_ids}"]
   launch_configuration = "${aws_launch_configuration.launch_config.id}"
 
-  max_size            = "${var.max_number_of_instances}"
-  min_size            = "${var.min_number_of_instances}"
-  desired_capacity    = "${var.max_number_of_instances}"
+  max_size                  = "${var.max_number_of_instances}"
+  min_size                  = "${var.min_number_of_instances}"
+  desired_capacity          = "${var.max_number_of_instances}"
   health_check_grace_period = "${var.health_check_grace_period}"
-  health_check_type   = "${var.health_check_type}"
+  health_check_type         = "${var.health_check_type}"
 }
 
 /**
