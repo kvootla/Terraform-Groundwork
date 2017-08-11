@@ -2,25 +2,35 @@
 * Inputs
 */
 
-variable "public_subnet_id" {}
+variable "allocation_id" {}
+
+variable "subnet_id" {}
 
 /**
- * Nat Gateway
- */
-
-resource "aws_eip" "main" {
-  vpc = true
-}
+* NAT Gateway
+*/
 
 resource "aws_nat_gateway" "main" {
-  allocation_id = "${aws_eip.main.id}"
-  subnet_id     = "${var.public_subnet_id}"
+  allocation_id = "${var.allocation_id}"
+  subnet_id     = "${var.subnet_id}"
 }
 
 /**
- * Outputs
- */
+* Outputs
+*/
 
-output "nat_id" {
+output "id" {
   value = "${aws_nat_gateway.main.id}"
+}
+
+output "eni_id" {
+  value = "${aws_nat_gateway.main.network_interface_id}"
+}
+
+output "public_ip" {
+  value = "${aws_nat_gateway.main.public_ip}"
+}
+
+output "private_ip" {
+  value = "${aws_nat_gateway.main.private_ip}"
 }
