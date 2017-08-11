@@ -22,7 +22,7 @@ variable "cron_expression" {
 
 variable "target_id" {
   description = "unique target assignment ID to be assigned if needed"
-  default     = ""
+  default     = "main"
 }
 
 variable "application" {
