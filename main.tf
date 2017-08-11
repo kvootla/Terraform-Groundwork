@@ -22,7 +22,6 @@ variable "cron_expression" {
 
 variable "target_id" {
   description = "unique target assignment ID to be assigned if needed"
-  default     = "main"
 }
 
 variable "application" {
@@ -39,7 +38,7 @@ variable "environment" {
 }
 
 /**
- * CloudWatch Event Target
+ * EBS Snapshots Using CloudWatch Events
  */
 
 resource "aws_cloudwatch_event_target" "main" {
