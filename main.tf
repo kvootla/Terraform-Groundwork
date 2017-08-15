@@ -60,7 +60,7 @@ variable "application" {
 }
 
 /**
-* Instance(s)
+* EC2 Instances
 */
 
 resource "aws_instance" "main" {
@@ -90,7 +90,7 @@ resource "aws_instance" "main" {
 }
 
 /**
-* Output(s)
+* Outputs
 */
 
 output "instance_id" {
