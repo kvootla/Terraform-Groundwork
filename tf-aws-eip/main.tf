@@ -3,11 +3,11 @@
  */
 
 variable "vpc_id" {
-  default = true
+  description = "The VPC ID."
 }
 
 variable "instance_ids" {
-  default = ""
+   description = "The instance ID for which elastic ip is tagged."
 }
 
 /**
@@ -25,5 +25,5 @@ resource "aws_eip" "main" {
  */
 
 output "public_ip" {
-  value = "${aws_eip.eip.public_ip}"
+  value = "${aws_eip.main.public_ip}"
 }
