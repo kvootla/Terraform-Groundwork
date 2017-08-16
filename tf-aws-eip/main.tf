@@ -3,11 +3,11 @@
  */
 
 variable "vpc_id" {
-  description = "The VPC ID."
+  default = true
 }
 
 variable "instance_ids" {
-   description = "The instance ID for which elastic ip is tagged."
+  description = "The instance ID for which elastic ip is tagged."
 }
 
 /**
