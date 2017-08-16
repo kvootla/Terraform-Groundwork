@@ -2,13 +2,13 @@
  * Inputs
  */
 
+variable "vpc_id" {
+  description = "The VPC ID."
+}
+
 variable "cidrs" {
   type        = "map"
   description = "A map with key being the availability zone and value the CIDR range."
-}
-
-variable "vpc_id" {
-  description = "The VPC ID."
 }
 
 variable "subnet_type" {
@@ -16,8 +16,13 @@ variable "subnet_type" {
   default     = ""
 }
 
-variable "organization" {}
-variable "environment" {}
+variable "environment" {
+  description = "Environment tag for the instance, e.g prod"
+}
+
+variable "organization" {
+  description = "Organization tag for the instance, e.g. dchbx"
+}
 
 /**
 * Templates for tags
