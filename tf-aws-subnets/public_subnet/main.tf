@@ -2,29 +2,54 @@
  * Inputs
  */
 
+variable "vpc_id" {
+  description = "The VPC ID."
+}
+
+variable "map_public_ip_on_launch" {
+  default = false
+}
+
+variable "igw_id" {
+  description = "The Internet Gateway ID."
+}
+
 variable "cidrs" {
   type        = "map"
   description = "A map with key being the availability zone and value the CIDR range."
 }
 
-variable "vpc_id" {
-  description = "The VPC ID."
+variable "subnet_type" {
+  description = "An additional identifier in the subnet name and route table name (optional field)."
+  default     = ""
 }
 
-variable "igw_id" {}
-
-variable "map_public_ip_on_launch" {
-  default = true
+variable "environment" {
+  description = "Environment tag for the instance, e.g prod"
 }
 
-variable "organization" {}
+variable "organization" {
+  description = "Organization tag for the instance, e.g. dchbx"
+}
 
-variable "environment" {}
+/**
+* Templates for tags
+*/
 
+data "template_file" "subnet_tag" {
+  template = "$${organization}-$${environment}-pub$${separator}$${subnet_type}"
+
+  vars {
+    organization = "${var.organization}"
+    environment  = "${var.environment}"
+    separator    = "${var.subnet_type == "" ? "" : "-"}"
+    subnet_type  = "${var.subnet_type}"
+  }
+}
 
 /**
  * Subnets
- */  
+ */
 
 resource "aws_subnet" "main" {
   vpc_id                  = "${var.vpc_id}"
@@ -38,7 +63,7 @@ resource "aws_subnet" "main" {
   }
 
   tags {
-    Name         = "${format("%s-%s-%s-%s", var.organization, var.environment, "pub", substr(element(keys(var.cidrs), count.index), -2, -1))}-subnet"
+    Name         = "${format("%s-%s", data.template_file.subnet_tag.rendered, substr(element(keys(var.cidrs), count.index), -2, -1))}-subnet"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
@@ -52,8 +77,8 @@ resource "aws_route_table" "main" {
   vpc_id = "${var.vpc_id}"
   count  = 1
 
- tags {
-    Name         = "${format("%s-%s-%s-%s", var.organization, var.environment, "pub", substr(element(keys(var.cidrs), count.index), -2, -1))}-rtb"
+  tags {
+    Name         = "${format("%s", data.template_file.subnet_tag.rendered)}-rtb"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
@@ -61,7 +86,7 @@ resource "aws_route_table" "main" {
 
 resource "aws_route_table_association" "main" {
   subnet_id      = "${element(aws_subnet.main.*.id, count.index)}"
-  route_table_id = "${element(aws_route_table.main.*.id, count.index)}"
+  route_table_id = "${aws_route_table.main.id}"
   count          = "${length(keys(var.cidrs))}"
 
   lifecycle {
@@ -70,10 +95,10 @@ resource "aws_route_table_association" "main" {
 }
 
 resource "aws_route" "igw" {
-  route_table_id         = "${element(aws_route_table.main.*.id, count.index)}"
+  route_table_id         = "${aws_route_table.main.id}"
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = "${var.igw_id}"
-  count                  = "${length(keys(var.cidrs))}"
+  count                  = 1
 
   depends_on = [
     "aws_route_table.main",
@@ -84,19 +109,14 @@ resource "aws_route" "igw" {
   }
 }
 
-
 /**
  * Outputs
  */
 
 output "subnet_ids" {
-  value = [
-    "${aws_subnet.main.*.id}"
-  ]
+  value = ["${aws_subnet.main.*.id}"]
 }
 
-output "route_table_ids" {
-  value = [
-    "${aws_route_table.main.*.id}"
-  ]
+output "route_table_id" {
+  value = "${aws_route_table.main.id}"
 }
