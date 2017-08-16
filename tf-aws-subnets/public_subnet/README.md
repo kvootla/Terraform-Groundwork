@@ -1,107 +1,39 @@
-Module: AWS_Subnets
-===================
+Module: AWS/Subnets/Public Subnet
+=================================
 
-This module is called within the `environments` module to create a new AWS VPC. 
+A Terraform module to create public subnets in VPC in AWS.
 
-## Example Usage
 
-These files should be added to the VPC directory `environments/$ACCOUNT/$REGION/$VPC`
+Module Input Variables
+----------------------
 
-__main.tf__
+- `vpc_id` - VPC id
+- `igw_id` - Internet gateway id
+- `cidrs` - List of VPC CIDR blocks
+- `map_public_ip_on_launch` - Should be true or false (optional, default is true)
+- `organization`   - organization for whom the VPC will be used (lowercase abbreviations)
+- `environment`    - environment, e.g. prod, preprod, etc. (optional - default: true)
 
-```
-module "vpc" {
-  source = "git@github.com:TerraformDesignPattern/vpc.git"
 
-  availability_zones = "${var.availability_zones}"
-  aws_region         = "${var.aws_region}"
-  private_subnets    = "${var.private_subnets}"
-  public_subnets     = "${var.public_subnets}"
-  vpc_cidr           = "${var.vpc_cidr}"
-  vpc_name           = "${var.vpc_name}"
+Usage
+-----
+
+```hcl
+module "public_subnet" {
+  source = "github.com/dchbx/infrastructure_modules//aws/subnets/public_subnet"
+
+  vpc_id = "vpc-12345678"
+  cidrs  = {"us-east-1a = "10.2.1.0/24"}
+  igw_id = "igw-12345678"
+
+  organization       = "dchbx"
+  environment        = "dchbx"
 }
 ```
 
-__variables.tf__
+Outputs
+=======
 
-As a personal preference, I try to only define data in variable files. 
+- `subnet_ids` - List of subnet ids
+- `route_table_ids` - List of route table ids
 
-```
-variable "availability_zones" {
-  default = ["us-east-1b", "us-east-1c", "us-east-1d"]
-}
-
-variable "aws_region" {
-  default = "us-east-1"
-}
-
-variable "private_subnets" {
-  default = [
-    "172.19.101.0/24",
-    "172.19.102.0/24",
-    "172.19.103.0/24",
-  ]
-}
-
-variable "public_subnets" {
-  default = [
-    "172.19.1.0/24",
-    "172.19.2.0/24",
-    "172.19.3.0/24",
-  ]
-}
-
-variable "vpc_cidr" {
-  default = "172.19.0.0/16"
-}
-
-variable "vpc_name" {
-  default = "production-us-east-1-vpc"
-}
-```
-
-__outputs.tf__
-
-Export the module's outputs so environment service modules can use the state data.
-
-```
-output "internet_gateway_id" {
-  value = "${module.vpc.internet_gateway_id}"
-}
-
-output "nat_eips" {
-  value = ["${module.vpc.nat_eips}"]
-}
-
-output "private_route_table_ids" {
-  value = ["${module.vpc.private_route_table_ids}"]
-}
-
-output "private_subnet_cidr_blocks" {
-  value = ["${module.vpc.private_subnet_cidr_blocks}"]
-}
-
-output "private_subnet_ids" {
-  value = ["${module.vpc.private_subnet_ids}"]
-}
-
-output "public_route_table_ids" {
-  value = ["${module.vpc.public_route_table_ids}"]
-}
-
-output "public_subnet_cidr_blocks" {
-  value = ["${module.vpc.public_subnet_cidr_blocks}"]
-}
-
-output "public_subnet_ids" {
-  value = ["${module.vpc.public_subnet_ids}"]
-}
-
-output "vpc_cidr_block" {
-  value = "${module.vpc.vpc_cidr_block}"
-}
-
-output "vpc_id" {
-  value = "${module.vpc.vpc_id}"
-}
-```
