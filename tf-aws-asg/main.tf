@@ -81,6 +81,12 @@ resource "aws_autoscaling_group" "main" {
   desired_capacity          = "${var.max_number_of_instances}"
   health_check_grace_period = "${var.health_check_grace_period}"
   health_check_type         = "${var.health_check_type}"
+
+  tags {
+    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-asg"
+    Organization = "${var.organization}"
+    Terraform    = "true"
+  }
 }
 
 /**
