@@ -56,4 +56,3 @@ Outputs
 
 - `launch_config_id` - Launch Configuration ID
 - `asg_id`           - ASG ID
-
