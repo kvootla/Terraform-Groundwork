@@ -20,7 +20,8 @@ Usage
 
 ```hcl
 module "ec2_instance" {
-  source              = "github.com/dchbx/infrastructure_modules/aws/ec2"
+  source               = "github.com/kvootla/Terraform-Groundwork//tf-aws-ec2"
+ 
   instance_type       = "${var.instance_type}"
   instance_name       = "${var.instance_name}"
   ami_id              = "${var.ami_id}"
