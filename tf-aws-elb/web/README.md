@@ -21,7 +21,7 @@ Usage
 
 ```hcl
   module "my_web_elb" {
-  source              = "github.com/dchbx/infrastructure_modules.git/aws/elb/elb_http"
+  source               = "github.com/kvootla/Terraform-Groundwork//tf-aws-elb"
 
   name                = "${var.name}"
   internal            = "{var.internal}"
