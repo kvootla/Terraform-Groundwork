@@ -1,8 +1,7 @@
-Module: AWS/Auto Scaling Groups
+Mdule: AWS/Auto Scaling Groups
 ===============================
 
-A Terraform module for creating an Auto-Scaling Group and a launch
-configuration for it.
+A Terraform module for creating an Auto-Scaling Group and a launch configuration for it.
 
 
 Module Input Variables
@@ -28,7 +27,7 @@ Usage
 
 ```hcl
 module "autoscaling_group" {
-  source               = "https://github.com/dchbx/infrastructure_modules.git/aws/asg"
+  source               = "github.com/kvootla/Terraform-Groundwork//tf-aws-asg"
 
   name                 = "${var.organization}-${var.environment}-${var.application}-{var.lc_name}-elb"
   image_id             = "${var.ami_id}"
