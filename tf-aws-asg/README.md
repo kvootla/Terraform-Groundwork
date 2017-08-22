@@ -1,4 +1,4 @@
-Mdule: AWS/Auto Scaling Groups
+Module: AWS/Auto Scaling Groups
 ===============================
 
 A Terraform module for creating an Auto-Scaling Group and a launch configuration for it.
