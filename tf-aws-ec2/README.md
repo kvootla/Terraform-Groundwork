@@ -1,4 +1,4 @@
-Mdule: AWS/EC2 Instance
+Module: AWS/EC2 Instance
 ========================
 
 A Terraform module for making ec2 instances.
