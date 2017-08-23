@@ -45,10 +45,10 @@ variable "environment" {
  */
 
 resource "aws_alb" "alb_loging" {
-  name               = "alb-${var.organization}-${var.environment}-${var.application}"
-  subnets         = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"] 
+  name            = "alb-${var.organization}-${var.environment}-${var.application}"
+  subnets         = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"]
   security_groups = ["${var.security_group_id}"]
-  internal           = "${var.internal}"
+  internal        = "${var.internal}"
 
   access_logs {
     bucket = "${var.log_bucket}"
@@ -59,10 +59,10 @@ resource "aws_alb" "alb_loging" {
 }
 
 resource "aws_alb" "alb_nologing" {
-  name               = "elb-${var.organization}-${var.environment}-${var.application}"
-  subnet_ids         = ["${split(",", var.subnet_ids)}"]
-  security_group_ids = ["${split(",", var.security_group_ids)}"]
-  internal           = "${var.internal}"
+  name            = "alb-${var.organization}-${var.environment}-${var.application}"
+  subnets         = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"]
+  security_groups = ["${var.security_group_id}"]
+  internal        = "${var.internal}"
 
   count = "${(var.log_bucket == "" || var.log_prefix == "") ? 1 : 0}"
 }
