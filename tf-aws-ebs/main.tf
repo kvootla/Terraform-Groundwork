@@ -43,8 +43,8 @@ variable "application" {
  */
 
 resource "aws_ebs_volume" "main" {
-  volume_type       = "${var.type}"
-  volume_size       = "${var.size}"
+  type              = "${var.type}"
+  size              = "${var.size}"
   encrypted         = "${var.ebs_encrypted}"
   availability_zone = "${var.azs}"
 
