@@ -41,7 +41,7 @@ variable "environment" {
  */
 
 resource "aws_alb" "alb_loging" {
-  name               = "elb-${var.organization}-${var.environment}-${var.application}"
+  name               = "alb-${var.organization}-${var.environment}-${var.application}"
   subnet_ids         = ["${split(",", var.subnet_ids)}"]
   security_group_ids = ["${split(",", var.security_group_ids)}"]
   internal           = "${var.internal}"
@@ -68,13 +68,13 @@ resource "aws_alb" "alb_nologing" {
  */
 
 output "dns_name" {
-  value = "${var.alb_loging.dns_name}"
+  value = "${aws_alb.alb_loging.dns_name}"
 }
 
 output "id" {
-  value = "${var.alb_loging.id}"
+  value = "${aws_alb.alb_loging.id}"
 }
 
 output "zone_id" {
-  value = "${var.alb_loging.zone_id}"
+  value = "${aws_alb.alb_loging.zone_id}"
 }
