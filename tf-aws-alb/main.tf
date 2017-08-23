@@ -15,12 +15,16 @@ variable "log_prefix" {
   description = "S3 prefix within the log_bucket under which logs are stored."
 }
 
-variable "security_group_ids" {
-  description = "A comma separated string of sg's with which we associate the ALB."
+variable "subnet_group_a1" {
+  description = "The subnet for availability zone 1"
 }
 
-variable "subnet_ids" {
-  description = "A comma delimited list of subnets to associate with the ALB."
+variable "subnet_group_a2" {
+  description = "The subnet for availability zone 2"
+}
+
+variable "security_group_id" {
+  description = "List of security group IDs"
 }
 
 variable "application" {
@@ -42,8 +46,8 @@ variable "environment" {
 
 resource "aws_alb" "alb_loging" {
   name               = "alb-${var.organization}-${var.environment}-${var.application}"
-  subnet_ids         = ["${split(",", var.subnet_ids)}"]
-  security_group_ids = ["${split(",", var.security_group_ids)}"]
+  subnets         = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"] 
+  security_groups = ["${var.security_group_id}"]
   internal           = "${var.internal}"
 
   access_logs {
