@@ -82,7 +82,7 @@ resource "aws_alb" "alb_loging" {
   count = "${var.log_bucket != "" && var.log_prefix != "" ? 1 : 0}"
 }
 
-resource "aws_alb" "alb_nologing" {
+resource "aws_alb" "main" {
   name            = "alb-${var.organization}-${var.environment}-${var.application}"
   subnets         = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"]
   security_groups = ["${var.security_group_ids}"]
@@ -142,8 +142,6 @@ resource "aws_alb_listener" "front_end_https" {
   load_balancer_arn = "${aws_alb.main.arn}"
   port              = "443"
   protocol          = "HTTPS"
-  certificate_arn   = "${var.certificate_arn}"
-  ssl_policy        = "ELBSecurityPolicy-2015-05"
 
   default_action {
     target_group_arn = "${aws_alb_target_group.target_group.id}"
