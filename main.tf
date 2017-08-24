@@ -98,16 +98,25 @@ variable "environment" {
  * Application Load Balancer
  */
 
-resource "aws_alb" "main" {
+resource "aws_alb" "alb_loging" {
+   name            = "alb-${var.organization}-${var.environment}-${var.application}"
+   subnets         = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"]
+   security_groups = ["${var.security_group_id}"]
+   internal        = "${var.internal}"
+ 
+   access_logs {
+     bucket = "${var.log_bucket}"
+     prefix = "${var.log_prefix}"
+   }
+ 
+   count = "${var.log_bucket != "" && var.log_prefix != "" ? 1 : 0}"
+ }
+
+resource "aws_alb" "alb_nologing"" {
   name            = "alb-${var.organization}-${var.environment}-${var.application}"
   subnets         = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"]
   security_groups = ["${var.security_group_id}"]
   internal        = "${var.internal}"
-
-  access_logs {
-    bucket = "${var.log_bucket}"
-    prefix = "${var.log_prefix}"
-  }
 
   count = "${(var.log_bucket == "" || var.log_prefix == "") ? 1 : 0}"
 
@@ -148,7 +157,7 @@ health_check {
 }
 
 resource "aws_alb_listener" "front_end_http" {
-  load_balancer_arn = "${aws_alb.main.arn}"
+  load_balancer_arn = "${aws_alb.alb_nologing".arn}"
   port              = "80"
   protocol          = "HTTP"
 
@@ -166,13 +175,13 @@ resource "aws_alb_listener" "front_end_http" {
  */
 
 output "dns_name" {
-  value = "${aws_alb.main.dns_name}"
+  value = "${aws_alb.alb_loging".dns_name}"
 }
 
 output "id" {
-  value = "${aws_alb.main.id}"
+  value = "${aws_alb.alb_loging".id}"
 }
 
 output "zone_id" {
-  value = "${aws_alb.main.zone_id}"
+  value = "${aws_alb.alb_loging".zone_id}"
 }
