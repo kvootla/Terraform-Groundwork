@@ -135,7 +135,7 @@ resource "aws_alb_target_group" "target_group" {
 
 health_check {
     interval  = "${var.health_check_interval}"
-    path                 = "${var.path}"
+    path                 = "${var.health_check_path}"
     port                 = "${var.port}"
     healthy_threshold    = "${var.healthy_threshold}"
     unhealthy_threshold  = "${var.unhealthy_threshold}"
