@@ -103,7 +103,7 @@ resource "aws_alb" "alb_nologing" {
 }
 
 resource "aws_alb_target_group" "target_group" {
-  name     = "${var.alb_name}-tg"
+  name     = "alb-${var.organization}-${var.environment}-${var.application}"
   port     = "${var.backend_port}"
   protocol = "${upper(var.backend_protocol)}"
   vpc_id   = "${var.vpc_id}"
