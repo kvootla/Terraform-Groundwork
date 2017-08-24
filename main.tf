@@ -31,6 +31,31 @@ variable "security_group_id" {
   description = "List of security group IDs"
 }
 
+variable "healthy_threshold" {
+  description = "Healthy threshold"
+  default     = 3
+}
+
+variable "unhealthy_threshold" {
+  description = "Unhealthy threshold"
+  default     = 3
+}
+
+variable "health_check_timeout" {
+  description = "Healthcheck timeout (in seconds)"
+  default     = 5
+}
+
+variable "health_check_interval" {
+  description = "Healthcheck interval (in seconds)"
+  default     = 30
+}
+
+variable "port" {
+   description = "The port on which the load balancer is listening."
+   default     = "traffic-port"
+}
+
 variable "alb_protocols" {
   description = "A comma delimited list of the protocols the ALB accepts."
   default     = "HTTPS"
@@ -82,7 +107,7 @@ resource "aws_alb" "alb_loging" {
   count = "${var.log_bucket != "" && var.log_prefix != "" ? 1 : 0}"
 }
 
-resource "aws_alb" "main" {
+resource "aws_alb" "alb_nologing" {
   name            = "alb-${var.organization}-${var.environment}-${var.application}"
   subnets         = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"]
   security_groups = ["${var.security_group_id}"]
@@ -108,14 +133,14 @@ resource "aws_alb_target_group" "target_group" {
   protocol = "${upper(var.backend_protocol)}"
   vpc_id   = "${var.vpc_id}"
 
-  health_check {
-    interval            = 30
-    path                = "${var.health_check_path}"
-    port                = "traffic-port"
-    healthy_threshold   = 3
-    unhealthy_threshold = 3
-    timeout             = 5
-    protocol            = "${var.backend_protocol}"
+health_check {
+    interval  = "${var.health_check_interval}"
+    path                 = "${var.path}"
+    port                 = "${var.port}"
+    healthy_threshold    = "${var.healthy_threshold}"
+    unhealthy_threshold  = "${var.unhealthy_threshold}"
+    health_check_timeout = "${var.health_check_timeout}"
+    protocol             = "${var.backend_protocol}"
   }
 
   tags {
@@ -126,7 +151,7 @@ resource "aws_alb_target_group" "target_group" {
 }
 
 resource "aws_alb_listener" "front_end_http" {
-  load_balancer_arn = "${aws_alb.main.arn}"
+  load_balancer_arn = "${aws_alb.alb_nologing.arn}"
   port              = "80"
   protocol          = "HTTP"
 
