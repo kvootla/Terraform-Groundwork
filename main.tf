@@ -157,7 +157,7 @@ health_check {
 }
 
 resource "aws_alb_listener" "front_end_http" {
-  load_balancer_arn = "${aws_alb.alb_nologing".arn}"
+  load_balancer_arn = "${aws_alb.alb_nologing.arn}"
   port              = "80"
   protocol          = "HTTP"
 
@@ -175,13 +175,13 @@ resource "aws_alb_listener" "front_end_http" {
  */
 
 output "dns_name" {
-  value = "${aws_alb.alb_loging".dns_name}"
+  value = "${aws_alb.alb_loging.dns_name}"
 }
 
 output "id" {
-  value = "${aws_alb.alb_loging".id}"
+  value = "${aws_alb.alb_loging.id}"
 }
 
 output "zone_id" {
-  value = "${aws_alb.alb_loging".zone_id}"
+  value = "${aws_alb.alb_loging.zone_id}"
 }
