@@ -169,19 +169,6 @@ resource "aws_alb_listener" "front_end_http" {
   count = "${trimspace(element(split(",", var.alb_protocols), 1)) == "HTTP" || trimspace(element(split(",", var.alb_protocols), 2)) == "HTTP" ? 1 : 0}"
 }
 
-resource "aws_alb_listener" "front_end_https" {
-  load_balancer_arn = "${aws_alb.alb_nologing.arn}"
-  port              = "443"
-  protocol          = "HTTPS"
-
-  default_action {
-    target_group_arn = "${aws_alb_target_group.target_group.id}"
-    type             = "forward"
-  }
-
-  count = "${trimspace(element(split(",", var.alb_protocols), 1)) == "HTTPS" || trimspace(element(split(",", var.alb_protocols), 2)) == "HTTPS" ? 1 : 0}"
-}
-
 /**
  * Outputs Varibales
  */
