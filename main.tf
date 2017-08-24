@@ -71,7 +71,7 @@ variable "environment" {
 resource "aws_alb" "alb_loging" {
   name            = "alb-${var.organization}-${var.environment}-${var.application}"
   subnets         = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"]
-  security_groups = ["${var.security_group_ids}"]
+  security_groups = ["${var.security_group_id}"]
   internal        = "${var.internal}"
 
   access_logs {
@@ -85,7 +85,7 @@ resource "aws_alb" "alb_loging" {
 resource "aws_alb" "main" {
   name            = "alb-${var.organization}-${var.environment}-${var.application}"
   subnets         = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"]
-  security_groups = ["${var.security_group_ids}"]
+  security_groups = ["${var.security_group_id}"]
   internal        = "${var.internal}"
 
   access_logs {
