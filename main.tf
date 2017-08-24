@@ -132,15 +132,15 @@ resource "aws_alb_target_group" "target_group" {
   port     = "${var.backend_port}"
   protocol = "${upper(var.backend_protocol)}"
   vpc_id   = "${var.vpc_id}"
-
+ 
 health_check {
     interval  = "${var.health_check_interval}"
-    path                 = "${var.health_check_path}"
-    port                 = "${var.port}"
     healthy_threshold    = "${var.healthy_threshold}"
     unhealthy_threshold  = "${var.unhealthy_threshold}"
-    health_check_timeout = "${var.health_check_timeout}"
+    timeout              = "${var.health_check_timeout}"
     protocol             = "${var.backend_protocol}"
+    path                 = "${var.health_check_path}"
+    port                 = "${var.port}"
   }
 
   tags {
