@@ -76,6 +76,11 @@ variable "health_check_path" {
   default     = "/"
 }
 
+variable "cookie_duration" {
+  description = "If load balancer connection stickiness is desired, set this to the duration that cookie should be valid."
+  default     = "1"
+}
+
 variable "application" {
   description = "Application that will use the cache"
 }
@@ -93,21 +98,7 @@ variable "environment" {
  * Application Load Balancer
  */
 
-resource "aws_alb" "alb_loging" {
-  name            = "alb-${var.organization}-${var.environment}-${var.application}"
-  subnets         = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"]
-  security_groups = ["${var.security_group_id}"]
-  internal        = "${var.internal}"
-
-  access_logs {
-    bucket = "${var.log_bucket}"
-    prefix = "${var.log_prefix}"
-  }
-
-  count = "${var.log_bucket != "" && var.log_prefix != "" ? 1 : 0}"
-}
-
-resource "aws_alb" "alb_nologing" {
+resource "aws_alb" "main" {
   name            = "alb-${var.organization}-${var.environment}-${var.application}"
   subnets         = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"]
   security_groups = ["${var.security_group_id}"]
@@ -121,7 +112,7 @@ resource "aws_alb" "alb_nologing" {
   count = "${(var.log_bucket == "" || var.log_prefix == "") ? 1 : 0}"
 
   tags {
-    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-elb"
+    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-alb"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
@@ -143,8 +134,14 @@ health_check {
     port                 = "${var.port}"
   }
 
+  stickiness {
+    type            = "lb_cookie"
+    cookie_duration = "${var.cookie_duration}"
+    enabled         = "${ var.cookie_duration == 1 ? false : true}"
+  }
+
   tags {
-    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-elb"
+    Name         = "${format("%s-%s-%s", var.organization, var.environment, var.application)}-alb"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
