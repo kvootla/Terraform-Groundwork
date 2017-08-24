@@ -70,7 +70,7 @@ variable "environment" {
 
 resource "aws_alb" "alb_loging" {
   name            = "alb-${var.organization}-${var.environment}-${var.application}"
-  subnets         = ["${var.subnet_ids}"]
+  subnets         = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"]
   security_groups = ["${var.security_group_ids}"]
   internal        = "${var.internal}"
 
@@ -84,7 +84,7 @@ resource "aws_alb" "alb_loging" {
 
 resource "aws_alb" "alb_nologing" {
   name            = "alb-${var.organization}-${var.environment}-${var.application}"
-  subnets         = ["${var.subnet_ids}"]
+  subnets         = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"]
   security_groups = ["${var.security_group_ids}"]
   internal        = "${var.internal}"
 
