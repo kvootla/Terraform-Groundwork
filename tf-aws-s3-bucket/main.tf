@@ -1,5 +1,5 @@
 /**
- * Input
+ * Inputs
  */
 
 variable "bucket_name" {

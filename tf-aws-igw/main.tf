@@ -1,5 +1,5 @@
 /**
- * Input Variables
+ * Inputs
  */
 
 variable "vpc_id" {}
@@ -28,7 +28,7 @@ resource "aws_internet_gateway" "igw" {
 }
 
 /**
- * Outputs Varibales
+ * Outputs
  */
 
 output "igw_id" {

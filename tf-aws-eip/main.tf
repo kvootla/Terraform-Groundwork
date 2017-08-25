@@ -1,5 +1,5 @@
 /**
- * Input Variables
+ * Inputs
  */
 
 variable "vpc_id" {
@@ -21,7 +21,7 @@ resource "aws_eip" "main" {
 }
 
 /**
- * Outputs Varibales
+ * Outputs
  */
 
 output "id" {

@@ -1,5 +1,5 @@
 /**
- * Input Variables
+ * Inputs
  */
 
 variable "config_name" {}
@@ -90,7 +90,7 @@ resource "aws_autoscaling_group" "main" {
 }
 
 /**
- * Outputs Varibales
+ * Outputs
  */
 
 output "launch_config_id" {

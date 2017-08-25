@@ -1,5 +1,5 @@
 /**
- * Input Variables
+ * Inputs
  */
 
 variable "size" {
@@ -62,7 +62,7 @@ resource "aws_volume_attachment" "ebs_att" {
 }
 
 /**
- * Outputs Variables
+ * Outputs
  */
 
 output "ebs_id" {

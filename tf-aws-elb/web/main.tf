@@ -148,7 +148,7 @@ resource "aws_elb" "main_elb" {
 }
 
 /**
- * Outputs Varibales
+ * Outputs
  */
 
 output "elb_id" {
