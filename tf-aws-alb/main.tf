@@ -1,5 +1,5 @@
 /**
- * Input Variables
+ * Inputs
  */
 
 variable "internal" {
@@ -52,8 +52,8 @@ variable "health_check_interval" {
 }
 
 variable "port" {
-   description = "The port on which the load balancer is listening."
-   default     = "traffic-port"
+  description = "The port on which the load balancer is listening."
+  default     = "traffic-port"
 }
 
 variable "alb_protocols" {
@@ -99,18 +99,18 @@ variable "environment" {
  */
 
 resource "aws_alb" "alb_loging" {
-   name            = "alb-${var.organization}-${var.environment}-${var.application}"
-   subnets         = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"]
-   security_groups = ["${var.security_group_id}"]
-   internal        = "${var.internal}"
- 
-   access_logs {
-     bucket = "${var.log_bucket}"
-     prefix = "${var.log_prefix}"
-   }
- 
-   count = "${var.log_bucket != "" && var.log_prefix != "" ? 1 : 0}"
- }
+  name            = "alb-${var.organization}-${var.environment}-${var.application}"
+  subnets         = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"]
+  security_groups = ["${var.security_group_id}"]
+  internal        = "${var.internal}"
+
+  access_logs {
+    bucket = "${var.log_bucket}"
+    prefix = "${var.log_prefix}"
+  }
+
+  count = "${var.log_bucket != "" && var.log_prefix != "" ? 1 : 0}"
+}
 
 resource "aws_alb" "alb_nologing" {
   name            = "alb-${var.organization}-${var.environment}-${var.application}"
@@ -132,15 +132,15 @@ resource "aws_alb_target_group" "target_group" {
   port     = "${var.backend_port}"
   protocol = "${upper(var.backend_protocol)}"
   vpc_id   = "${var.vpc_id}"
- 
-health_check {
-    interval  = "${var.health_check_interval}"
-    healthy_threshold    = "${var.healthy_threshold}"
-    unhealthy_threshold  = "${var.unhealthy_threshold}"
-    timeout              = "${var.health_check_timeout}"
-    protocol             = "${var.backend_protocol}"
-    path                 = "${var.health_check_path}"
-    port                 = "${var.port}"
+
+  health_check {
+    interval            = "${var.health_check_interval}"
+    healthy_threshold   = "${var.healthy_threshold}"
+    unhealthy_threshold = "${var.unhealthy_threshold}"
+    timeout             = "${var.health_check_timeout}"
+    protocol            = "${var.backend_protocol}"
+    path                = "${var.health_check_path}"
+    port                = "${var.port}"
   }
 
   stickiness {
@@ -170,7 +170,7 @@ resource "aws_alb_listener" "front_end_http" {
 }
 
 /**
- * Outputs Varibales
+ * Outputs
  */
 
 output "dns_name" {
