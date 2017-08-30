@@ -35,4 +35,3 @@ output "sns_id" {
 output "arn" {
   value = "${aws_sns_topic_subscription.main.outputs.ARN}"
 }
-
