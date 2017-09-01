@@ -1,5 +1,5 @@
-Module: AWS/VPC
-===============
+Module: AWS/Virtual Private Cloud
+=================================
 
 A Terraform module to provide a VPC in AWS.
 
