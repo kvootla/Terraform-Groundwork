@@ -1,5 +1,5 @@
-Module: AWS/Internet Gteway
-===========================
+Module: AWS/Internet Gateway
+============================
 
 A Terraform module to creating an Internet Gateway within VPC.
 
