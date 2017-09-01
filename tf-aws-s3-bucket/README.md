@@ -1,5 +1,5 @@
-Module: AWS/S3
-===============
+Module: AWS/S3 Bucket
+=====================
 
 This Terraform module creates an S3 bucket as well as an IAM user and key with access to the bucket.
 
