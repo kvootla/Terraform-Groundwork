@@ -50,7 +50,7 @@ resource "aws_security_group" "main_security_group" {
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
-    cidr_blocks     = ["${var.source_cidr_block}"]
+    cidr_blocks     = ["${var.source_cidr_blocks}"]
     security_groups = ["${var.source_security_groups}"]
     self            = "${var.self_ingress}"
   }
@@ -60,7 +60,7 @@ resource "aws_security_group" "main_security_group" {
     from_port       = 443
     to_port         = 443
     protocol        = "tcp"
-    cidr_blocks     = ["${var.source_cidr_block}"]
+    cidr_blocks     = ["${var.source_cidr_blocks}"]
     security_groups = ["${var.source_security_groups}"]
     self            = "${var.self_ingress}"
   }
