@@ -1,7 +1,7 @@
-Module: AWS_RDS
-===============
+Module: AWS/Relational Database Services
+========================================
 
-A Terraform Template for RDS.
+A Terraform module for creating an for RDS Instances.
 
 
 Module Input Variables
