@@ -27,7 +27,7 @@ Usage
 
 ```hcl
 module "alb" {
-  source              = "github.com/terraform-community-modules/tf_aws_alb//alb"
+  source              = "github.com/kvootla/Terraform-Groundwork//tf_aws_alb"
   alb_security_groups = "${var.alb_security_groups}"
   aws_account_id      = "${var.aws_account_id}"
   certificate_arn     = "${var.certificate_arn}"
