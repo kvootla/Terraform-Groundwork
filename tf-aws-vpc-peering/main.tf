@@ -25,7 +25,7 @@ resource "aws_vpc_peering_connection" "vpc_peering" {
   auto_accept = true
 
   tags {
-    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-VPC_Peering"
+    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-vpc-peering"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
