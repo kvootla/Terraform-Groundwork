@@ -1,5 +1,5 @@
-Module: AWS/Security Groups/b2b
-===============================
+Module: AWS/Security Groups
+===========================
 
 A terraform module with contains rules for a common web application deployment, which you can use with your service Terraform template.
 
