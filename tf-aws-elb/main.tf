@@ -86,7 +86,7 @@ variable "health_check_interval" {
 
 variable "health_check_target" {
   description = "Healthcheck path"
-  default     = "HTTPS:443/"
+  default     = "TCP:443/"
 }
 
 variable "application" {
