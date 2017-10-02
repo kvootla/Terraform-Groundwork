@@ -34,7 +34,7 @@ resource "aws_customer_gateway" "main" {
   type       = "ipsec.1"
 
   tags {
-    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-VPN"
+    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-cgw"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
