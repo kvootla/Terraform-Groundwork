@@ -64,6 +64,7 @@ resource "aws_customer_gateway" "main" {
   bgp_asn    = "${var.bgp_asn}"
   ip_address = "${var.ip_address}"
   type       = "ipsec.1"
+  count  = "${var.customer_gateway_id ? 1 : 0}"
 
   tags {
     Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-vpn"
