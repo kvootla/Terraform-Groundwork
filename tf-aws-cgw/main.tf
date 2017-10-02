@@ -2,11 +2,6 @@
  * Inputs
  */
 
-variable "customer_gateway_id" {
-  description = "customer gateway id"
-  default     = true
-}
-
 variable "ip_address" {
   description = "IP address of the Customer Gateway external interface."
 }
