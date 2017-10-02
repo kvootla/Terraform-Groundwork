@@ -7,7 +7,7 @@ A Terraform module is intended to deploy a VPN Gateway which is attached to a VP
 Module Input Variables
 ----------------------
 
-- `cidr`                         - VPC cidr
+- `cidr`                 - VPC cidr
 - `enable_dns_hostnames` - should be true if you want to use private DNS within the VPC (optional - default: true)
 - `enable_dns_support`   - should be true if you want to use private DNS within the VPC (optional - default: true)
 - `customer_gateway_id`  - should be true 
@@ -23,7 +23,7 @@ Usage
 
 ```hcl
 module "vpn" {
-  source               = "github.com/kvootla/Terraform-Groundwork//tf-aws-vpn"
+  source       = "github.com/kvootla/Terraform-Groundwork//tf-aws-vpn"
 
   vpc_id       = "${var.vpc_id}"
   ip_address   = "99.99.99,99"

@@ -3,7 +3,7 @@
  */
 
 variable "vpc_id" {
-  description = "VPC ID where VPN Gateway(s) will be attached."
+  description = "VPC ID where vpn Gateway(s) will be attached."
 }
 
 variable "enable_vgw_route_propagation" {
@@ -34,14 +34,14 @@ variable "environment" {
 }
 
 /**
- * VPN Gateway
+ * vpn Gateway
  */
 
 resource "aws_vpn_gateway" "main" {
   vpc_id = "${var.vpc_id}"
 
   tags {
-    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-VPN"
+    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-vpn"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
@@ -66,7 +66,7 @@ resource "aws_customer_gateway" "main" {
   type       = "ipsec.1"
 
   tags {
-    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-VPN"
+    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-vpn"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
@@ -82,7 +82,7 @@ resource "aws_vpn_connection" "main" {
   type                = "ipsec.1"
 
   tags {
-    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-VPN"
+    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-vpn"
     Organization = "${var.organization}"
     Terraform    = "true"
   }
