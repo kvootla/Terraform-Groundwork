@@ -11,8 +11,8 @@ variable "enable_vgw_route_propagation" {
   default     = false
 }
 
-variable "customer_gateway_id" {
-  description = "customer gateway id"
+variable "create_customer_gateway" {
+  description = "Create an Customer Gateway (default: true)"
   default     = true
 }
 
@@ -64,7 +64,7 @@ resource "aws_customer_gateway" "main" {
   bgp_asn    = "${var.bgp_asn}"
   ip_address = "${var.ip_address}"
   type       = "ipsec.1"
-  count  = "${var.customer_gateway_id ? 1 : 0}"
+  count  = "${var.create_customer_gateway ? 1 : 0}"
 
   tags {
     Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-vpn"
