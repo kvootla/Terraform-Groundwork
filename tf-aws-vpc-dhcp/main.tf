@@ -16,6 +16,7 @@ variable "domain_name" {
 variable "domain_name_servers" {
   type        = "list"
   description = "List of name servers to configure in '/etc/resolv.conf'"
+  default     = []
 }
 
 variable "netbios_name_servers" {
