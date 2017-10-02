@@ -13,10 +13,9 @@ variable "domain_name" {
   default     = ""
 }
 
-variable "name_servers" {
+variable "domain_name_servers" {
   type        = "list"
   description = "List of name servers to configure in '/etc/resolv.conf'"
-  default     = ["AmazonProvidedDNS"]
 }
 
 variable "netbios_name_servers" {
@@ -52,7 +51,7 @@ variable "environment" {
 
 resource "aws_vpc_dhcp_options" "dhcp" {
   domain_name          = "${var.domain_name}"
-  domain_name_servers  = ["${compact(var.name_servers)}"]
+  domain_name_servers  = ["${compact(var.domain_name_servers)}"]
   netbios_name_servers = ["${compact(var.netbios_name_servers)}"]
   netbios_node_type    = "${var.netbios_node_type}"
   ntp_servers          = ["${compact(var.ntp_servers)}"]
