@@ -11,18 +11,18 @@ variable "enable_vgw_route_propagation" {
   default     = false
 }
 
-variable "customer_gateway_id" {
-  description = "customer gateway id"
+variable "create_customer_gateway" {
+  description = "Create an Customer Gateway (default: true)"
   default     = true
 }
 
-variable "ip_address" {
-  description = "IP address of the Customer Gateway external interface."
-}
+#variable "ip_address" {
+#  description = "IP address of the Customer Gateway external interface."
+#}
 
-variable "bgp_asn" {
-  description = "BGP ASN of the Customer Gateway. By convention, use 65000 if you are not running BGP."
-}
+#variable "bgp_asn" {
+#  description = "BGP ASN of the Customer Gateway. By convention, use 65000 if you are not running BGP."
+#}
 
 variable "organization" {
   description = "Organization the VPC is for."
@@ -64,6 +64,7 @@ resource "aws_customer_gateway" "main" {
   bgp_asn    = "${var.bgp_asn}"
   ip_address = "${var.ip_address}"
   type       = "ipsec.1"
+  count  = "${var.create_customer_gateway ? 1 : 0}"
 
   tags {
     Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-vpn"
