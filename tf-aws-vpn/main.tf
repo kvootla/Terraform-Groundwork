@@ -16,13 +16,13 @@ variable "create_customer_gateway" {
   default     = true
 }
 
-variable "ip_address" {
-  description = "IP address of the Customer Gateway external interface."
-}
+#variable "ip_address" {
+#  description = "IP address of the Customer Gateway external interface."
+#}
 
-variable "bgp_asn" {
-  description = "BGP ASN of the Customer Gateway. By convention, use 65000 if you are not running BGP."
-}
+#variable "bgp_asn" {
+#  description = "BGP ASN of the Customer Gateway. By convention, use 65000 if you are not running BGP."
+#}
 
 variable "organization" {
   description = "Organization the VPC is for."
