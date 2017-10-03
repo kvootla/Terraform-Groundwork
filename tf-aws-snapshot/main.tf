@@ -8,6 +8,10 @@ variable "snapshot_without_reboot" {
   default = "true"
 }
 
+variable "application" {
+  description = "Application that will use the cache"
+}
+
 variable "organization" {
   description = "Organization the VPC is for."
 }
