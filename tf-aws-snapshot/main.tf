@@ -41,5 +41,5 @@ resource "aws_ami_from_instance" "main" {
  */
 
 output "ami_id" {
-  value = "${aws_ami_snapshot.main.id}"
+  value = "${aws_ami_from_instance.main.id}"
 }
