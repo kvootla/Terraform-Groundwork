@@ -74,4 +74,3 @@ resource "aws_vpn_connection" "main" {
 output "vgw_id" {
   value = "${aws_vpn_gateway.main.id}"
 }
-
