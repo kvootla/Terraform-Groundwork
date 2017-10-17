@@ -1,4 +1,4 @@
-Module: AWS/cloudwatch
+Module: AWS/Cloudwatch
 ======================
 
 A Terraform module for creating cloudwatch.
