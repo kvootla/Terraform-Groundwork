@@ -60,3 +60,7 @@ resource "aws_cloudwatch_event_rule" "snap_ebs" {
 output "arn" {
   value = "${aws_cloudwatch_event_target.main.arn}"
 }
+
+output "rule" {
+  value = "${aws_cloudwatch_event_target.main.rule}"
+}
