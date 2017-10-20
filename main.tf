@@ -35,7 +35,7 @@ resource "aws_vpc_endpoint" "s3" {
   service_name    = "${var.service_name}"
   route_table_ids = ["${var.route_table_ids}"]
 
-tags {
+  tags {
     Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-vpc"
     Organization = "${var.organization}"
     Terraform    = "true"
