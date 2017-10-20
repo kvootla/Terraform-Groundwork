@@ -17,6 +17,15 @@ variable "route_table_ids" {
   default     = []
 }
 
+variable "organization" {
+  description = "Organization the VPC is for."
+}
+
+variable "environment" {
+  description = "Environment the VPC is for."
+  default     = ""
+}
+
 /**
  * Security Groups/RDP
  */
@@ -24,6 +33,12 @@ variable "route_table_ids" {
 resource "aws_vpc_endpoint" "s3" {
   vpc_id          = "${var.vpc_id}"
   route_table_ids = ["${var.route_table_ids}"]
+
+tags {
+    Name         = "${var.environment == "" ? var.organization : format("%s-%s", var.organization, var.environment)}-vpc"
+    Organization = "${var.organization}"
+    Terraform    = "true"
+  }
 }
 
 /**
