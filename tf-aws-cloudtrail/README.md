@@ -1,4 +1,4 @@
-Module: AWS/cloudtrail
+Module: AWS/Cloudtrail
 ======================
 
 A Terraform module for creating cloudtrail.
