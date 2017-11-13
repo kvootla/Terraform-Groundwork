@@ -7,12 +7,12 @@ A Terraform module to represents an AWS ElastiCache Redis cluster.
 Module Input Variables
 ----------------------
 
-- `cluster_id` - ID of the cluster
-- `vpc_id` - ID of VPC meant to house the cache
-- `private_subnet_ids` - Comma delimited list of private subnet IDs
-- `engine_version` - Cache engine version (default: `2.8.24`)
-- `instance_type` - Instance type for cache instance (default: `cache.m3.medium`)
-- `maintenance_window` - 60 minute time window to reserve for maintenance
+- `cluster_id` - ID of the cluster.
+- `vpc_id` - ID of VPC meant to house the cache.
+- `private_subnet_ids` - Comma delimited list of private subnet IDs.
+- `engine_version` - Cache engine version (default: `2.8.24`).
+- `instance_type` - Instance type for cache instance (default: `cache.m3.medium`).
+- `maintenance_window` - 60 minute time window to reserve for maintenance.
 
 Usage
 -----
