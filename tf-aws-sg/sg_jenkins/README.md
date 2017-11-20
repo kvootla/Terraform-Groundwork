@@ -1,11 +1,7 @@
 Module: AWS/Security Groups/Jenkins
 ================================
 
-A terraform module with contains rules for a common jenkins application deployment, which
-
-
-/**
-you can use with your service Terraform template.
+A terraform module with contains rules for a common web application deployment, which you can use with your service Terraform template.
 
 Ports
 -----
@@ -26,7 +22,7 @@ Usage
 module "sg" {
   source              = "github.com/dchbx/infrastructure_modules/aws/sg/jenkins"
   security_group_name = "${var.security_group_name}"
-  vpc_id            = "${var.vpc_id}"
+  vpc_id              = "${var.vpc_id}"
   source_cidr_block   = "${var.source_cidr_block}"
 }
 ```
@@ -34,4 +30,4 @@ module "sg" {
 Outputs
 -------
 
-- `security_group_id` - Jenkins SG ID
+- `security_group_id` - SG ID
