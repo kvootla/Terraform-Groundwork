@@ -1,13 +1,12 @@
-Module: AWS/Security Groups/HTTPS
+Module: AWS/Security Groups/Chef
 ================================
 
-A terraform module with contains rules for a common web application deployment, which 
-you can use with your service Terraform template.
+A terraform module with contains rules for a common web application deployment, which you can use with your service Terraform template.
 
 Ports
 -----
+- TCP 22 (SSH)
 - TCP 443 (HTTPS)
-
 
 Module Input Variables
 ----------------------
@@ -20,7 +19,7 @@ Usage
 
 ```hcl
 module "sg" {
-  source              = "github.com/dchbx/infrastructure_modules/aws/sg/https"
+  source              = "github.com/kvootla/Terraform-Groundwork//tf-aws-sg/sg_chef"
   security_group_name = "${var.security_group_name}"
   vpc_id  	      = "${var.vpc_id}"
   source_cidr_block   = "${var.source_cidr_block}"
@@ -30,4 +29,4 @@ module "sg" {
 Outputs
 -------
 
-- `sg_id` - HTTPS SG ID
+- `sg_id` - SG ID
