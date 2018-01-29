@@ -11,8 +11,10 @@ Ports
 Module Input Variables
 ----------------------
 
-- `security_group_name` - The name for your security group, e.g. `bluffdale_web_stage1`
-- `vpc_id`              - The VPC this security group should be created in.
+- `security_group_name` - The name for your security group
+- `vpc_id`              - The VPC this security group should be created
+- `organization`        - organization for whom the VPC will be used (lowercase abbreviations)
+- `environment`         - environment, e.g. prod, preprod, etc. (optional - default: true)
 
 Usage
 -----
