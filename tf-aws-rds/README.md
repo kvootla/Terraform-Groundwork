@@ -7,13 +7,13 @@ A Terraform module for creating an for RDS Instances.
 Module Input Variables
 ----------------------
 
-- `rds_instance_identifier`     - Custom name of the DB instance (NOT a database name)
-- `rds_is_multi_az`             - Defaults to false. Set to true for a multi-az  instance.
-- `rds_storage_type`            - Defaults to standard (magnetic)
-- `rds_allocated_storage`       - The number of GBs to allocate. Input must be an integer, e.g. `10`
-- `rds_engine_type`             - Engine type, such as `mysql` or `postgres`
-- `rds_engine_version`          - eg. `9.5.4` in case of postgres
-- `rds_instance_class`          - instance size, eg. `db.t2.micro`
+- `instance_identifier`     - Custom name of the DB instance (NOT a database name)
+- `multi_az`                - Defaults to false. Set to true for a multi-az  instance.
+- `storage_type`            - Defaults to standard (magnetic)
+- `allocated_storage`       - The number of GBs to allocate. Input must be an integer, e.g. `10`
+- `engine_type`             - Engine type, such as `mysql` or `postgres`
+- `engine_version`          - eg. `9.5.4` in case of postgres
+- `instance_class`          - instance size, eg. `db.t2.micro`
 - `database_name`               - name of the dabatase
 - `database_user`               - user name (admin user)
 - `database_password`           - password - must be longer than 8 characters
