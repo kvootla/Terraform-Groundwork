@@ -7,13 +7,19 @@ A Terraform module for making ec2 instances.
 Module Input Variables
 ----------------------
 
-- `ami_id`               - The AMI to use
-- `number_of_instances`  - The number of instances you want made
-- `subnet_id`            - The VPC subnet to place the instance in
-- `instance_type`        - The EC2 instance type, e.g. m1.small
-- `instance_name`        - The instance name you want, this is used to populate the Name tag
-- `user_data`            - The path to the user_data file. Terraform will include the contents of this file while launching the instance
-- `tags`                 - A map for setting AWS tags.
+- `instance_type`                     - Instance type, see a list at: https://aws.amazon.com/ec2/instance-types/"
+- `ami_id`                            - AMI to serve as base of server build.
+- `security_groups`                   - list of security group IDs.
+- `subnet_id`                         - The VPC subnet to place the instance.
+- `private_ip`                        - Private IP address.
+- `key_name`                          - The SSH key pair.
+- `root_block_volume_size`            - Root block volume size.
+- `root_block_volume_type`            - Root block volume type.
+- `user_data`                         - User data for the instances.
+- `root_block_delete_on_termination`  - Delete root block on instance termination.
+- `environment`                       - Environment tag for the instance, e.g prod"
+- `organization`                      - Organization tag for the instance, e.g. dchbx"
+- `application`                       - Application tag for the instance, e.g. enroll"
 
 Usage
 -----
