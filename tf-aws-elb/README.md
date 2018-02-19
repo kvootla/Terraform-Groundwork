@@ -7,30 +7,45 @@ A Terraform module for creating an ELB with just HTTP/HTTPS support
 Module Input Variables
 ----------------------
 
-- `name`                - The static name of the ELB
-- `security_group_ids`  - The Security Group to associate with the ELB
-- `internal`            - Defaults to `false`, you can set to `true` to make the ELB have an internal IP
-- `subnet_ids`          - The VPC subnet ID for AZ1
-- `instances`           - The list of instances which are attached to ELB.
-- `instance_port`       - The port the service running on the EC2 insances will listen on
-- `instance_protocol`   - The protocol the service on the backend_port understands, e.g. `http` 
-- `target`              - The URL that the ELB should use for health
+- `internal`     			- Determines if the ELB is internal or not
+- `subnet_ids`          		- The VPC subnet ID for AZ1
+- `instance_ids` 			- List of instance IDs
+- `security_group_id`			- List of security group IDs
+- `connection_draining` 	    	- Enable connection draining
+- `connection_draining_timeout` 	- Enable connection draining timeout period (in seconds)
+- `idle_timeout` 			- Idle timeout period (in seconds)
+- `cross_zone_load_balancing`   	- Enable cross zone load balancing
+- `http_backend_port` 			- Backend instance port for the http listener
+- `http_backend_protocol` 		- Backend protocol for the http listener
+- `https_backend_portBackend` 		- instance port for the https listener
+- `https_backend_protocol` 		- Backend protocol for the https listener
+- `healthy_threshold` 			- Healthy threshold
+- `unhealthy_threshold` 		- Unhealthy threshold
+- `health_check_timeout` 		- Healthcheck timeout (in seconds)
+- `health_check_interval` 		- Healthcheck interval (in seconds)
+- `health_check_target` 		- Healthcheck path
+- `application` 	                - Application that will use the cache
+- `organization`         		- organization for whom the VPC will be used (lowercase abbreviations)
+- `environment`          		- environment, e.g. prod, preprod, etc. (optional - default: true
 
 Usage
 -----
 
 ```hcl
-  module "my_web_elb" {
-  source               = "github.com/kvootla/Terraform-Groundwork//tf-aws-elb"
+  module "web" {
+  source              = "github.com/kvootla/Terraform-Groundwork//tf-aws-elb"
 
-  name                = "${var.name}"
-  internal            = "{var.internal}"
-  subnet_ids          = ["${var.subnet_ids}"]
+  internal            = "${var.internal}"
+  subnets             = ["${var.subnet_group_a1}", "${var.subnet_group_a2}"]
   instances           = ["${var.instance_ids}"]
-  security_group_ids  = ["${var.security_group_ids}"]
-  instance_port       = "${var.backend_port}"
-  instance_protocol   = "${var.backend_protocol}"
-  target              = "${var.health_check_target}"
+  security_groups     = ["${var.security_group_id}"]
+  idle_timeout        = "${var.idle_timeout}"
+  instance_port       = "${var.http_backend_port}"
+  instance_protocol   = "${var.http_backend_protocol}"
+  instance_port       = "${var.https_backend_port}"
+  instance_protocol   = "${var.https_backend_protocol}"
+  organization        = "dchbx"
+  environment         = "prod"
 }
 ```
 
