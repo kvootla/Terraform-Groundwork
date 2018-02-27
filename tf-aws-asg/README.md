@@ -14,13 +14,14 @@ Module Input Variables
 - `key_name`             - The SSH key name (uploaded to EC2) instances should be populated.
 - `security_group`       - The Security Group ID that instances in the ASG.
 - `user_data`            - The path to the user_data file for the Launch Configuration.
-
-Terraform will include the contents of this file in the Launch Configuration -
 - `availability_zones`              - The list of AZs, comma separated list
 - `asg_number_of_instances`         - The number of instances we want in the ASG
 - `asg_minimum_number_of_instances` - The minimum number of instances the ASG should maintain
 - `health_check_grace_period`       - Number of seconds for the health check time out (Defaults to 300).
 - `health_check_type`               - The health check type.
+- `application` 	- Application that will use the cache (lowercase abbreviations)
+- `organization` 	- Organization the ALB is for (lowercase abbreviations)
+- `environment` 	- Environment the ALB is for (lowercase abbreviations)
 
 Usage
 -----
