@@ -5,11 +5,10 @@ A Terraform module for creating an ALB with just HTTP/HTTPS support
 
 Module Input Variables
 ----------------------
-- `alb_is_internal` - Determines if the ALB is externally facing or internal. (Optional; default: false)
-- `alb_name` - Name of the ALB as it appears in the AWS console. (Optional; default: my-alb)
-- `alb_protocols` - A comma delimited list of protocols the ALB will accept for incoming connections. O
-- `alb_security_groups` - A comma delimited list of security groups to attach to the ALB. (Required)
-- `aws_region` - Region to deploy our resources. (Required)
+- `internal` - Determines if the ALB is externally facing or internal. (Optional; default: false)
+- `name` - Name of the ALB as it appears in the AWS console. (Optional; default: my-alb)
+- `protocols` - A comma delimited list of protocols the ALB will accept for incoming connections. O
+- `security_groups` - A comma delimited list of security groups to attach to the ALB. (Required)
 - `aws_account_id` - The AWS account ID. (Required)
 - `backend_port` - Port on which the backing instances serve traffic. (Optional; default: 80)
 - `backend_protocol` - Protocol the backing instances use. (Optional; default: HTTP)
@@ -21,6 +20,9 @@ Module Input Variables
 - `principle_account_id` - A mapping of regions to principle account IDs used to send LB logs. (Should only change as regions are added)
 - `subnets` - ALB will be created in the subnets in this list. (Required)
 - `vpc_id` - Resources will be created in the VPC with this `id`. (Required)
+- `application` - Application that will use the cache (lowercase abbreviations)
+- `organization` - Organization the ALB is for (lowercase abbreviations)
+- `environment` - Environment the ALB is for (lowercase abbreviations)
 
 Usage
 -----
@@ -28,21 +30,29 @@ Usage
 ```hcl
 module "alb" {
   source              = "github.com/kvootla/Terraform-Groundwork//tf_aws_alb"
-  alb_security_groups = "${var.alb_security_groups}"
-  aws_account_id      = "${var.aws_account_id}"
-  certificate_arn     = "${var.certificate_arn}"
-  log_bucket          = "${var.log_bucket}"
-  log_prefix          = "${var.log_prefix}"
-  subnets             = "${var.public_subnets}"
+  name                = "alb-${var.organization}-${var.environment}-${var.application}"
+  subnets             = ["${var.subnet_group}"]
+  security_groups     = ["${var.security_group_id}"]
+  internal            = "${var.internal}"
+  port                = "${var.backend_port}"
+  protocol            = "${upper(var.backend_protocol)}"
   vpc_id              = "${var.vpc_id}"
+  interval            = "${var.health_check_interval}"
+  healthy_threshold   = "${var.healthy_threshold}"
+  unhealthy_threshold = "${var.unhealthy_threshold}"
+  timeout             = "${var.health_check_timeout}"
+  protocol            = "${var.backend_protocol}"
+  path                = "${var.health_check_path}"
+  port                = "${var.port}"
+  load_balancer_arn   = "${aws_alb.alb_nologing.arn}"
+  target_group_arn    = "${aws_alb_target_group.target_group.id}"
   }
 ```
 
 Outputs
 =======
 
-- `alb_id` - `id` of the ALB created.
-- `alb_dns_name` - DNS CNAME of the ALB created.
-- `alb_zone_id` - Route53 `zone_id` of the newly minted ALB.
-- `target_group_arn` - `arn` of the target group. Useful for passing to your Auto Scaling group module.
-- `principle_account_id` - the id of the AWS root user within this region.
+- `id` - `id` of the ALB created
+- `dns_name` - DNS CNAME of the ALB created
+- `zone_id` - Route53 `zone_id` of the newly minted ALB
+- `target_group_arn` - `arn` of the target group. Useful for passing to your Auto Scaling group module
