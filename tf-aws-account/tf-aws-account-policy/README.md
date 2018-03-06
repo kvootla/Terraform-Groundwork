@@ -20,6 +20,8 @@ Usage
 
 ```hcl
 module "aws_iam_account_password_policy" {
+  source                         = "github.com/kvootla/Terraform-Groundwork//tf-aws-account/tf-aws-account-policy"
+
   minimum_password_length        = "${var.minimum_length}"
   require_lowercase_characters   = "${var.require_lowercase}"
   require_uppercase_characters   = "${var.require_uppercase}"
