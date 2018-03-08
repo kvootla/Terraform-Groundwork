@@ -13,12 +13,12 @@ Usage
 
 ```hcl
 module "ami_snapshot" {
-  source = "github.com/kvootla/Terraform-Groundwork//tf-aws-snapshot"
+  source 	     = "github.com/kvootla/Terraform-Groundwork//tf-aws-snapshot"
 
   source_instance_id = "${var.source_instance_id}"
-  environment        = "test"
-  organization       = "mhc"
-  application        = "enroll"
+  application        = "${var.application}"
+  environment        = "${var.environment}"
+  organization       = "${var.organization}"
 }
 
 ```
