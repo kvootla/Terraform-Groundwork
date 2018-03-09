@@ -12,7 +12,7 @@ Usage
 -----
 
 ```hcl
-resource "data_source" "main" {
+resource "data_source" {
     ecs        = "${data.aws_ami.ecs.id}"
     centos7    = "${data.aws_ami.centos7.id}"
     ubuntu1604 = "${data.aws_ami.ubuntu1604.id}"
