@@ -30,6 +30,7 @@ Usage
 ```hcl
 module "alb" {
   source              = "github.com/kvootla/Terraform-Groundwork//tf_aws_alb"
+
   name                = "alb-${var.organization}-${var.environment}-${var.application}"
   subnets             = ["${var.subnet_group}"]
   security_groups     = ["${var.security_group_id}"]
