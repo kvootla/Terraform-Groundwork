@@ -26,13 +26,13 @@ Usage
 module "vpn" {
   source       = "github.com/kvootla/Terraform-Groundwork//tf-aws-vpn"
 
-  vpc_id         = "${var.vpc_id}"
-  vpn_gateway_id = "${aws_vpn_gateway.main.id}"
+  vpc_id              = "${var.vpc_id}"
+  vpn_gateway_id      = "${aws_vpn_gateway.main.id}"
   customer_gateway_id = "${var.customer_gateway_id}"
   type                = "ipsec.1"
 
-  organization = "dchbx"
-  environment  = "prod"
+  Organization        = "${var.organization}"
+  Environment         = "${var.environment}"
 }
 ```
 
