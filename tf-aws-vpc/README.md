@@ -21,8 +21,8 @@ module "vpc" {
   source       = "github.com/kvootla/Terraform-Groundwork//tf-aws-vpc"
   cidr         = "10.0.0.0/16"
   
-  organization = "dchbx"
-  environment  = "prod"
+  Organization        = "${var.organization}"
+  Environment         = "${var.environment}"
 }
 ```
 
