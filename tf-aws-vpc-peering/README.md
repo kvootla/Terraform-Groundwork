@@ -14,13 +14,12 @@ Usage
 
 ```hcl
 module "vpc_peering" {
-  source = "github.com/kvootla/Terraform-Groundwork//tf-aws-vpc-peering"
+  source       = "github.com/kvootla/Terraform-Groundwork//tf-aws-vpc-peering"
 
   requester_id = "${var.requester_id}"
   accepter_id  = "${var.accepter_id}"
-
-  environment  = "prod"
-  organization = "mhc"
+  Organization = "${var.organization}"
+  Environment  = "${var.environment}"
 }
 ```
 
