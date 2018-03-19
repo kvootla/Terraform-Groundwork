@@ -21,13 +21,13 @@ Usage
 
 ```hcl
 module "vpc_dhcp" {
-  source               = "github.com/kvootla/Terraform-Groundwork//tf-aws-vpc-dhcp"
+  source       = "github.com/kvootla/Terraform-Groundwork//tf-aws-vpc-dhcp"
 
-  domain_name = "dchbx.org"
+  domain_name  = "${var.domain_name}g"
   vpc_id       = "${var.vpc_id}"
  
-  organization = "dchbx"
-  environment  = "prod"
+  Organization = "${var.organization}"
+  Environment  = "${var.environment}"
 }
 ```
 
