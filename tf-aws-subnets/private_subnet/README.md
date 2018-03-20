@@ -19,15 +19,14 @@ Usage
 -----
 
 ```hcl
-module "public_subnet" {
-  source = "github.com/dchbx/infrastructure_modules//aws/subnets/private_subnet"
-
-  vpc_id = "vpc-12345678"
-  cidrs  = {"us-east-1a = "10.2.1.0/24"}
-  public_subnet_id = "subnet-12345678"
-
-  organization       = "dchbx"
-  environment        = "dchbx"
+module "private_subnet" {
+  source       = "github.com/kvootla/Terraform-Groundwork//tf-aws-subnets/private_subnet"
+ 
+  vpc_id       = "${var.vpc_id}"
+  cidrs        = "${var.cidrs}"
+  subnet_id    = "${var.subnet_id}"
+  Organization = "${var.organization}"
+  Environment  = "${var.environment}"
 }
 ```
 
