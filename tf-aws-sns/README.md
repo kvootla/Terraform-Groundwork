@@ -17,6 +17,7 @@ Usage
 module "sns_topic" {
  source = "github.com/kvootla/Terraform-Groundwork//tf-aws-sns"
 
+ name = "${var.name}"
 }
 ```
 
