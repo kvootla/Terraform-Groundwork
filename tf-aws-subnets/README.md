@@ -17,13 +17,13 @@ Usage
 
 ```hcl
 module "subnet" {
-  source = "github.com/dchbx/infrastructure_modules.git//aws/subnets"
+  source       = "github.com/dchbx/infrastructure_modules.git//aws/subnets"
 
   vpc_id       = "${var.vpc_id}"
   cidrs        = {"us-east-1a = "172.0.0.0/24"}
 
-  organization = "dchbx"
-  environment  = "dchbx"
+  Organization = "${var.organization}"
+  Environment  = "${var.environment}"
 }
 ```
 
