@@ -20,14 +20,13 @@ Usage
 
 ```hcl
 module "public_subnet" {
-  source = "github.com/dchbx/infrastructure_modules//aws/subnets/public_subnet"
-
-  vpc_id = "vpc-12345678"
-  cidrs  = {"us-east-1a = "10.2.1.0/24"}
-  igw_id = "igw-12345678"
-
-  organization       = "dchbx"
-  environment        = "dchbx"
+  source       = "github.com/kvootla/Terraform-Groundwork//tf-aws-subnets/public_subnet"
+  
+  vpc_id       = "${var.vpc_id}"
+  cidrs        = "${var.cidrs}"
+  subnet_id    = "${var.subnet_id}"
+  Organization = "${var.organization}"
+  Environment  = "${var.environment}"
 }
 ```
 
@@ -36,4 +35,3 @@ Outputs
 
 - `subnet_ids` - List of subnet ids
 - `route_table_ids` - List of route table ids
-
