@@ -23,9 +23,9 @@ module "aws_sqs_queue" {
   max_message_size = "${var.max_message_size}"
   redrive_policy   = "${var.redrive_policy}"
 
-  application = "enroll"
-  environment  = "prod"
-  organization = "mhc"
+  application      = "${var.application}"
+  Organization     = "${var.organization}"
+  Environment      = "${var.environment}"
 }
 ```
 
