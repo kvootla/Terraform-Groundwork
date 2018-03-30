@@ -15,7 +15,7 @@ Usage
 module "aws_iam_saml_provider" {
 source = "github.com/kvootla/Terraform-Groundwork//tf-aws-saml"
 
- role_name              = "myprovider"
+ role_name              = "${var.role_name}"
  provider_metadata_file = "${file("saml-metadata.xml")}"
 }
 ```
