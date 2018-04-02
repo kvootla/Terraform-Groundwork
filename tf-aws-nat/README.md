@@ -14,10 +14,10 @@ Usage
 
 ```hcl
 module "nat_gateway" {
-  source    = "github.com/kvootla/Terraform-Groundwork//tf-aws-nat"
+  source        = "github.com/kvootla/Terraform-Groundwork//tf-aws-nat"
   
-  subnet_id = "${var.subnet_id}"
-  allocation_id = "${var.a;;ocation_id}"
+  subnet_id     = "${var.subnet_id}"
+  allocation_id = "${var.allocation_id}"
 }
 ```
 
