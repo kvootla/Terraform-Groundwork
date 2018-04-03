@@ -18,9 +18,9 @@ module "cloudtrail" {
   source = "github.com/kvootla/Terraform-Groundwork//tf-aws-cloudtrail"
 
   bucket_name  = "${var.bucket_name}"
-  application  = "enroll"
-  environment  = "prod"
-  organization = "mhc"
+  application  = "${var.application}"
+  organization = "${var.organization}"
+  environment  = "${var.environment}"
 }
 ```
 
