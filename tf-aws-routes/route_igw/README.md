@@ -19,9 +19,8 @@ module "route_igw" {
   subnet_id   = "${var.subnet_id}"
   igw_id      = "${var.igw_id}"
 
-  environment  = "test"
-  organization = "mhc"
-
+  Organization = "${var.organization}"
+  Environment  = "${var.environment}"
 }
 ```
 
