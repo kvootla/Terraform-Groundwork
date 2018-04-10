@@ -19,7 +19,7 @@ Usage
 ```hcl
 module "vpc" {
   source       = "github.com/kvootla/Terraform-Groundwork//tf-aws-vpc"
-  cidr         = "10.0.0.0/16"
+  cidr         = "${var.cidr}"
   
   Organization        = "${var.organization}"
   Environment         = "${var.environment}"
