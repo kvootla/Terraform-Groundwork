@@ -37,7 +37,6 @@ variable "environment" {
   default = "Unknown"
 }
 
-
 /**
  * Application Load Balancer
  */
@@ -95,7 +94,6 @@ resource "aws_s3_bucket" "access_logs_bucket" {
     Environment = "${var.environment}"
   }
 }
-
 
 /**
  * Outputs

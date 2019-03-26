@@ -3,12 +3,12 @@
  */
 variable "ssh_key_name_prefix" {
   description = "Key name prefix for ssh rsa public key"
-  default = "terraform-"
+  default     = "terraform-"
 }
 
 variable "ssh_public_key_path" {
   description = "Path to ssh rsa public key"
-  default = "~/.ssh/id_rsa.pub"
+  default     = "~/.ssh/id_rsa.pub"
 }
 
 variable "iam_role_name" {
@@ -39,21 +39,21 @@ variable "iam_role_policy_arn" {
  * role-policy
  */
 module "key-pair-default" {
-    source          = "Smartbrood/key-pair/aws"
-    key_name_prefix = "${var.ssh_key_name_prefix}"
-    public_key_path = "${var.ssh_public_key_path}"
+  source          = "Smartbrood/key-pair/aws"
+  key_name_prefix = "${var.ssh_key_name_prefix}"
+  public_key_path = "${var.ssh_public_key_path}"
 }
 
 module "ec2_iam_role_default" {
-   source      = "Smartbrood/ec2-iam-role/aws"
+  source = "Smartbrood/ec2-iam-role/aws"
 
-   name        = "${var.iam_role_name}"
-   policy_arn  = "${var.iam_role_policy_arn}"
+  name       = "${var.iam_role_name}"
+  policy_arn = "${var.iam_role_policy_arn}"
 
-   path        = "${var.iam_role_path}"
-   description = "${var.iam_role_description}"
+  path        = "${var.iam_role_path}"
+  description = "${var.iam_role_description}"
 
-   force_detach_policies = "${var.iam_role_force_detach_policies}"
+  force_detach_policies = "${var.iam_role_force_detach_policies}"
 }
 
 /*
@@ -69,4 +69,3 @@ output "iam_instance_profile" {
   description = "Default IAM instance profile for EC2"
   value       = "${module.ec2_iam_role_default.profile_name}"
 }
-

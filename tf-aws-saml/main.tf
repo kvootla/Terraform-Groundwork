@@ -1,26 +1,28 @@
 /**
  * Inputs
  */
- 
-data "aws_caller_identity" "current" { }
+
+data "aws_caller_identity" "current" {}
 
 variable "role_name" {
   description = "The name of the Role"
-  default = "Delegate-Saml-Admin"
+  default     = "Delegate-Saml-Admin"
 }
+
 variable "role_policies" {
   description = "The policies attached to the role"
-  default = ["arn:aws:iam::aws:policy/AdministratorAccess"]
-  type = "list"
+  default     = ["arn:aws:iam::aws:policy/AdministratorAccess"]
+  type        = "list"
 }
 
 variable "provider_name" {
   description = "The name of the provider."
-  default = "default-saml-provider"
+  default     = "default-saml-provider"
 }
+
 variable "provider_metadata_file" {
   description = "The path to of the metadatafile"
-  default =""
+  default     = ""
 }
 
 /**
@@ -33,8 +35,9 @@ resource "aws_iam_saml_provider" "saml" {
 }
 
 resource "aws_iam_role" "DelegateUser" {
-    name = "${var.role_name}"
-    assume_role_policy = <<EOF
+  name = "${var.role_name}"
+
+  assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -54,21 +57,23 @@ resource "aws_iam_role" "DelegateUser" {
 }
 EOF
 }
+
 resource "aws_iam_role_policy_attachment" "DelegateUser_Attachment" {
-    role = "${aws_iam_role.DelegateUser.name}"
-    policy_arn = "${element(var.role_policies, count.index)}"
-    count = "${length(var.role_policies)}"
+  role       = "${aws_iam_role.DelegateUser.name}"
+  policy_arn = "${element(var.role_policies, count.index)}"
+  count      = "${length(var.role_policies)}"
 }
 
 /**
  * Outputs
  */
 
- output "role"{
+output "role" {
   description = "ARN of the Role"
-  value = "${aws_iam_role.DelegateUser.id}"
+  value       = "${aws_iam_role.DelegateUser.id}"
 }
-output "saml_provider"{
+
+output "saml_provider" {
   description = "ARN of the SAML Provider"
-  value = "${aws_iam_saml_provider.saml.id}"
+  value       = "${aws_iam_saml_provider.saml.id}"
 }

@@ -47,7 +47,6 @@ variable "reuse_history" {
   default     = 24
 }
 
-
 /**
  * iam account password policy
  */

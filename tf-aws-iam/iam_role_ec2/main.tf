@@ -72,13 +72,13 @@ resource "aws_iam_role_policy_attachment" "main" {
  */
 
 output "arn" {
-  value       = "${aws_iam_role.main.arn}"
+  value = "${aws_iam_role.main.arn}"
 }
 
 output "unique_id" {
-  value       = "${aws_iam_role.main.unique_id}"
+  value = "${aws_iam_role.main.unique_id}"
 }
 
 output "name" {
-  value       = "${aws_iam_instance_profile.main.name}"
+  value = "${aws_iam_instance_profile.main.name}"
 }
