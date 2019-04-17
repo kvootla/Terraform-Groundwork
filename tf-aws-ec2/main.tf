@@ -2,18 +2,22 @@
 * Inputs
 */
 
+variable "ami_id" {
+  description = "AMI to serve as base of server build"
+}
+
 variable "instance_type" {
   default     = "t2.micro"
   description = "Instance type, see a list at: https://aws.amazon.com/ec2/instance-types/"
 }
 
-variable "ami_id" {
-  description = "AMI to serve as base of server build"
-}
-
 variable "security_groups" {
   description = "list of security group IDs"
   type        = "list"
+}
+
+variable "key_name" {
+  description = "The SSH key pair, key name"
 }
 
 variable "subnet_id" {
@@ -25,8 +29,13 @@ variable "private_ip" {
   default     = ""
 }
 
-variable "key_name" {
-  description = "The SSH key pair, key name"
+variable "public_ip" {
+  description = "Public IP address"
+  default     = "false"
+}
+
+variable "user_data" {
+  description = "User data for the instances"
 }
 
 variable "root_block_volume_size" {
@@ -38,53 +47,43 @@ variable "root_block_volume_type" {
   default     = "gp2"
 }
 
-variable "user_data" {
-  description = "User data for the instances"
-}
-
 variable "root_block_delete_on_termination" {
   description = "Delete root block on instance termination"
   default     = "true"
 }
 
-variable "disable_api_termination" {
-  description = "enables EC2 Instance Termination Protection"
-  default     = "true"
-}
-
 variable "environment" {
-  description = "Environment tag for the instance, e.g prod"
+  description = "Environment tag, e.g prod"
 }
 
 variable "organization" {
-  description = "Organization tag for the instance, e.g. dchbx"
+  description = "Organization tag e.g. dchbx"
 }
 
 variable "application" {
-  description = "Application tag for the instance, e.g. enroll"
+  description = "Application tag e.g. enroll"
 }
 
 /**
-* EC2 Instances
+* Instances
 */
 
 resource "aws_instance" "main" {
-  ami                     = "${var.ami_id}"
-  key_name                = "${var.key_name}"
-  user_data               = "${var.user_data}"
-  subnet_id               = "${var.subnet_id}"
-  private_ip              = "${var.private_ip}"
-  instance_type           = "${var.instance_type}"
-  vpc_security_group_ids  = ["${var.security_groups}"]
-  disable_api_termination = "${var.disable_api_termination}"
-
-  monitoring        = true
-  source_dest_check = true
+  ami                    = "${var.ami_id}"
+  source_dest_check      = true
+  instance_type          = "${var.instance_type}"
+  subnet_id              = "${var.subnet_id}"
+  private_ip             = "${var.private_ip}"
+  public_ip              = "${var.public_ip}"
+  key_name               = "${var.key_name}"
+  vpc_security_group_ids = ["${var.security_groups}"]
+  monitoring             = true
+  user_data              = "${var.user_data}"
 
   root_block_device = {
-    volume_type           = "${var.root_block_volume_type}"
     volume_size           = "${var.root_block_volume_size}"
     delete_on_termination = "${var.root_block_delete_on_termination}"
+    volume_type           = "${var.root_block_volume_type}"
   }
 
   tags {
