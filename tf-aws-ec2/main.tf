@@ -70,15 +70,16 @@ variable "application" {
 
 resource "aws_instance" "main" {
   ami                    = "${var.ami_id}"
-  source_dest_check      = true
   instance_type          = "${var.instance_type}"
   subnet_id              = "${var.subnet_id}"
   private_ip             = "${var.private_ip}"
   public_ip              = "${var.public_ip}"
   key_name               = "${var.key_name}"
   vpc_security_group_ids = ["${var.security_groups}"]
-  monitoring             = true
   user_data              = "${var.user_data}"
+  
+  source_dest_check      = true
+  monitoring             = true
 
   root_block_device = {
     volume_size           = "${var.root_block_volume_size}"
