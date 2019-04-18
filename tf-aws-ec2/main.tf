@@ -29,11 +29,6 @@ variable "private_ip" {
   default     = ""
 }
 
-variable "public_ip" {
-  description = "Public IP address"
-  default     = "false"
-}
-
 variable "user_data" {
   description = "User data for the instances"
 }
@@ -73,7 +68,6 @@ resource "aws_instance" "main" {
   instance_type          = "${var.instance_type}"
   subnet_id              = "${var.subnet_id}"
   private_ip             = "${var.private_ip}"
-  public_ip              = "${var.public_ip}"
   key_name               = "${var.key_name}"
   vpc_security_group_ids = ["${var.security_groups}"]
   user_data              = "${var.user_data}"
