@@ -65,10 +65,12 @@ resource "aws_internet_gateway" "main" {
  * Outputs
  */
 
+// The VPC ID
 output "vpc_id" {
   value = "${aws_vpc.main.id}"
 }
 
+// The Internet Gateway ID
 output "igw_id" {
-  value = "${aws_internet_gateway.main.*.id}"
+  value = ["${aws_internet_gateway.main.*.id}"]
 }
