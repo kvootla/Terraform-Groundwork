@@ -2,21 +2,21 @@
  * Inputs
  */
 
-variable "vpc_id" {
-  description = "The VPC ID."
+variable "cidrs" {
+  type        = "map"
+  description = "A map with key being the availability zone and value the CIDR range."
 }
 
-variable "map_public_ip_on_launch" {
-  default = false
+variable "vpc_id" {
+  description = "The VPC ID."
 }
 
 variable "igw_id" {
   description = "The Internet Gateway ID."
 }
 
-variable "cidrs" {
-  type        = "map"
-  description = "A map with key being the availability zone and value the CIDR range."
+variable "map_public_ip_on_launch" {
+  default = false
 }
 
 variable "subnet_type" {
@@ -24,13 +24,8 @@ variable "subnet_type" {
   default     = ""
 }
 
-variable "environment" {
-  description = "Environment tag for the instance, e.g prod"
-}
-
-variable "organization" {
-  description = "Organization tag for the instance, e.g. dchbx"
-}
+variable "organization" {}
+variable "environment" {}
 
 /**
 * Templates for tags
@@ -115,6 +110,14 @@ resource "aws_route" "igw" {
 
 output "subnet_ids" {
   value = ["${aws_subnet.main.*.id}"]
+}
+
+output "subnet_id_map" {
+  value = "${zipmap(aws_subnet.main.*.cidr_block, aws_subnet.main.*.id)}"
+}
+
+output "subnet_az_map" {
+  value = "${zipmap(aws_subnet.main.*.availability_zone, aws_subnet.main.*.id)}"
 }
 
 output "route_table_id" {
