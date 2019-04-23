@@ -2,13 +2,13 @@
  * Inputs
  */
 
-variable "vpc_id" {
-  description = "The VPC ID."
-}
-
 variable "cidrs" {
   type        = "map"
   description = "A map with key being the availability zone and value the CIDR range."
+}
+
+variable "vpc_id" {
+  description = "The VPC ID."
 }
 
 variable "subnet_type" {
@@ -16,13 +16,8 @@ variable "subnet_type" {
   default     = ""
 }
 
-variable "environment" {
-  description = "Environment tag for the instance, e.g prod"
-}
-
-variable "organization" {
-  description = "Organization tag for the instance, e.g. dchbx"
-}
+variable "organization" {}
+variable "environment" {}
 
 /**
 * Templates for tags
@@ -96,7 +91,7 @@ output "subnet_ids" {
 }
 
 output "subnet_id_map" {
-  value = "${zipmap(aws_subnet.main.*.id, aws_subnet.main.*.cidr_block)}"
+  value = "${zipmap(aws_subnet.main.*.cidr_block, aws_subnet.main.*.id)}"
 }
 
 output "subnet_az_map" {
