@@ -47,6 +47,11 @@ variable "root_block_delete_on_termination" {
   default     = "true"
 }
 
+variable "disable_api_termination" {
+  description = "enables EC2 Instance Termination Protection"
+  default     = "true"
+}
+
 variable "environment" {
   description = "Environment tag, e.g prod"
 }
@@ -71,7 +76,8 @@ resource "aws_instance" "main" {
   key_name               = "${var.key_name}"
   vpc_security_group_ids = ["${var.security_groups}"]
   user_data              = "${var.user_data}"
-  
+  disable_api_termination = "${var.disable_api_termination}" 
+ 
   source_dest_check      = true
   monitoring             = true
 
