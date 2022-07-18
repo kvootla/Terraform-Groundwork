@@ -26,11 +26,3 @@ resource "aws_vpc_endpoint" "s3" {
   service_name    = "${var.service_name}"
   route_table_ids = ["${var.route_table_ids}"]
 }
-
-/**
- * Outputs
- */
-
-output "endpoint_id" {
-  value = "${aws_vpc_endpoint.s3.id}"
-}

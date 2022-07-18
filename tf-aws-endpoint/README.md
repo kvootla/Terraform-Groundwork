@@ -25,4 +25,4 @@ module "ec2_instance" {
 Outputs
 =======
 
-- `endpoint_id` - ID of the specific VPC Endpoint to retrieve
+- `endpoint_id` - ID of the specific VPC Endpoint to retrieve.
